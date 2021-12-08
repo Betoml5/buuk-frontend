@@ -1,13 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Home from "../screens/Home";
-import Icon from "react-native-vector-icons/FontAwesome5";
+
 import Favorites from "../screens/Favorites";
 import { Button, Image, Pressable, StyleSheet, Text, View } from "react-native";
-import Search from "../components/Header";
+import Search from "../components/Search";
 import Library from "../screens/Library";
 import Discover from "../screens/Discover";
 import Buuk from "../screens/Buuk";
+import Account from "../screens/Account";
+import AccountHeader from "../components/AccountHeader";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +18,6 @@ export default function Navigator() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: () => <Search />,
         tabBarStyle: styles.container,
 
         tabBarActiveTintColor: "#fff",
@@ -28,7 +29,7 @@ export default function Navigator() {
         name="Home"
         options={{
           tabBarLabel: "Inicio",
-
+          header: () => <Search />,
           tabBarIcon: () => renderHome(),
           headerShown: true,
         }}
@@ -38,6 +39,7 @@ export default function Navigator() {
         component={Library}
         name="Library"
         options={{
+          headerShown: false,
           tabBarLabel: "Libreria",
           tabBarIcon: () => renderBooks(),
         }}
@@ -61,9 +63,11 @@ export default function Navigator() {
         }}
       />
       <Tab.Screen
-        component={Discover}
+        component={Account}
         name="Account"
         options={{
+          header: () => <AccountHeader />,
+          // headerShown: false,
           tabBarLabel: "Cuenta",
           tabBarIcon: () => renderAccount(),
         }}

@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 import React, { useState } from "react";
@@ -15,6 +15,14 @@ const fetchFonts = () => {
 export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  const navTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: "#1A1736",
+    },
+  };
+
   if (!dataLoaded) {
     return (
       <AppLoading
@@ -26,7 +34,7 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       <Navigator />
     </NavigationContainer>
   );
