@@ -1,28 +1,48 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function Header() {
   return (
     <SafeAreaView style={styles.header}>
-      <TextInput placeholder="Buscar libro..." style={styles.input} />
+      <View style={styles.header_container}>
+        <Icon name="search" size={18} style={styles.icon} />
+        <TextInput
+          placeholder="Titulos, autores o temas"
+          style={styles.input}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#C3B091",
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    backgroundColor: "#242143",
+
     padding: 8,
     paddingBottom: 16,
+    height: 100,
+  },
+  header_container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    position: "relative",
+  },
+  icon: {
+    backgroundColor: "#fff",
+    padding: 10.4,
+    borderTopLeftRadius: 999,
+    borderBottomLeftRadius: 999,
   },
   input: {
     padding: 6,
-
-    borderRadius: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    width: "80%",
+    backgroundColor: "#fff",
+    borderTopRightRadius: 999,
+    borderBottomRightRadius: 999,
   },
 });
