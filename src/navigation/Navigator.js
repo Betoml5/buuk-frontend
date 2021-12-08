@@ -3,55 +3,82 @@ import React from "react";
 import Home from "../screens/Home";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Favorites from "../screens/Favorites";
-import { Button, Image, Pressable, Text } from "react-native";
+import { Button, Image, Pressable, Text, View } from "react-native";
 import Search from "../components/Header";
 import Library from "../screens/Library";
+import Discover from "../screens/Discover";
+import Buuk from "../screens/Buuk";
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigator() {
   return (
-    <>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          header: () => <Search />,
-          tabBarStyle: {
-            backgroundColor: "#252242",
-          },
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        header: () => <Search />,
+        tabBarStyle: {
+          backgroundColor: "#252242",
+        },
+
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#DDDCDE",
+      }}
+    >
+      <Tab.Screen
+        component={Home}
+        name="Home"
+        options={{
+          tabBarLabel: "Inicio",
+
+          tabBarIcon: () => renderHome(),
+          headerShown: true,
         }}
-      >
-        <Tab.Screen
-          component={Home}
-          name="Home"
-          options={{
-            tabBarLabel: "Inicio",
-            tabBarIcon: () => renderHome(),
-            headerShown: true,
-          }}
-        />
+      />
 
-        <Tab.Screen
-          component={Library}
-          name="Buuk"
-          options={{
-            tabBarLabel: "",
-            tabBarIcon: () => renderBuuk(),
-          }}
-        />
+      <Tab.Screen
+        component={Library}
+        name="Library"
+        options={{
+          tabBarLabel: "Libreria",
+          tabBarIcon: () => renderBooks(),
+        }}
+      />
 
-        <Tab.Screen
-          component={Library}
-          name="Library"
-          options={{
-            tabBarLabel: "Libreria",
-            tabBarIcon: () => renderBooks(),
-          }}
-        />
-      </Tab.Navigator>
-    </>
+      <Tab.Screen
+        component={Buuk}
+        name="Buuk"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: () => renderBuuk(),
+        }}
+      />
+
+      <Tab.Screen
+        component={Discover}
+        name="Discover"
+        options={{
+          tabBarLabel: "Descubre",
+          tabBarIcon: () => renderDiscover(),
+        }}
+      />
+      <Tab.Screen
+        component={Discover}
+        name="Account"
+        options={{
+          tabBarLabel: "Cuenta",
+          tabBarIcon: () => renderAccount(),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
+const renderBuuk = () => (
+  <Image
+    source={require("../assets/buuk.png")}
+    style={{ width: 70, height: 70 }}
+  />
+);
 
 const renderHome = () => (
   <Image
@@ -67,9 +94,16 @@ const renderBooks = () => (
   />
 );
 
-const renderBuuk = () => (
+const renderDiscover = () => (
   <Image
-    source={require("../assets/buukicon.png")}
-    style={{ width: 50, height: 50, marginBottom: 10 }}
+    source={require("../assets/discover.png")}
+    style={{ width: 25, height: 25 }}
+  />
+);
+
+const renderAccount = () => (
+  <Image
+    source={require("../assets/account.png")}
+    style={{ width: 25, height: 25 }}
   />
 );
