@@ -3,7 +3,7 @@ import React from "react";
 import Home from "../screens/Home";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Favorites from "../screens/Favorites";
-import { Button, Image, Pressable, Text, View } from "react-native";
+import { Button, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Search from "../components/Header";
 import Library from "../screens/Library";
 import Discover from "../screens/Discover";
@@ -17,9 +17,7 @@ export default function Navigator() {
       initialRouteName="Home"
       screenOptions={{
         header: () => <Search />,
-        tabBarStyle: {
-          backgroundColor: "#252242",
-        },
+        tabBarStyle: styles.container,
 
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#DDDCDE",
@@ -107,3 +105,10 @@ const renderAccount = () => (
     style={{ width: 25, height: 25 }}
   />
 );
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#1A1736",
+    borderTopWidth: 0,
+  },
+});

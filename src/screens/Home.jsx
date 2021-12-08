@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 
 export default function Home() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.news_title}>Noticias</Text>
-      <ScrollView style={styles.news} horizontal={true}>
+    <ScrollView style={styles.container}>
+      <Text style={styles.section_title}>Noticias</Text>
+      <ScrollView style={styles.section} horizontal={true}>
         <View>
           <Image
             source={require("../assets/notice.png")}
@@ -40,22 +40,95 @@ export default function Home() {
           />
         </View>
       </ScrollView>
-    </View>
+      <Text style={styles.section_title}>Tendencia</Text>
+      <ScrollView style={styles.section} horizontal={true}>
+        <View>
+          <Image
+            source={require("../assets/book-cover.jpg")}
+            style={{
+              width: 150,
+              height: 250,
+              borderRadius: 8,
+              marginRight: 10,
+            }}
+          />
+        </View>
+        <View>
+          <Image
+            source={require("../assets/book-cover.jpg")}
+            style={{
+              width: 150,
+              height: 250,
+              borderRadius: 8,
+              marginRight: 10,
+            }}
+          />
+        </View>
+        <View>
+          <Image
+            source={require("../assets/book-cover.jpg")}
+            style={{
+              width: 150,
+              height: 250,
+              borderRadius: 8,
+              marginRight: 10,
+            }}
+          />
+        </View>
+      </ScrollView>
+      <ScrollView style={styles.section} horizontal={true}>
+        <View>
+          <Image
+            source={require("../assets/book-cover.jpg")}
+            style={{
+              width: 150,
+              height: 250,
+              borderRadius: 8,
+              marginRight: 10,
+            }}
+          />
+        </View>
+        <View>
+          <Image
+            source={require("../assets/book-cover.jpg")}
+            style={{
+              width: 150,
+              height: 250,
+              borderRadius: 8,
+              marginRight: 10,
+            }}
+          />
+        </View>
+        <View>
+          <Image
+            source={require("../assets/book-cover.jpg")}
+            style={{
+              width: 150,
+              height: 250,
+              borderRadius: 8,
+              marginRight: 10,
+            }}
+          />
+        </View>
+      </ScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    height: "100%",
+
     backgroundColor: "#1A1736",
   },
-  news: {
+  section: {
     flexDirection: "row",
   },
-  news_title: {
+  section_title: {
     color: "#fff",
-    fontSize: 28,
+    marginTop: 10,
+
+    fontSize: 24,
     fontFamily: "poppins-semi",
   },
 });
