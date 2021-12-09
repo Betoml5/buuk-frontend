@@ -40,9 +40,20 @@ export default function Navigator() {
         component={Library}
         name="Library"
         options={{
-          headerShown: false,
-          tabBarLabel: "Libreria",
           tabBarIcon: () => renderBooks(),
+          headerTitleStyle: {
+            color: "#fff",
+            fontFamily: "poppins-semi",
+          },
+          headerShadowVisible: false,
+          headerTitle: "Biblioteca",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#242143",
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            height: 100,
+          },
         }}
       />
 
@@ -59,16 +70,14 @@ export default function Navigator() {
         component={Discover}
         name="Discover"
         options={{
-          headerShadowVisible: false,
-          headerTitle: "Descubre",
-
           tabBarIcon: () => renderDiscover(),
           headerTitleStyle: {
             color: "#fff",
             fontFamily: "poppins-semi",
           },
+          headerShadowVisible: false,
+          headerTitle: "Descubre",
           headerTitleAlign: "center",
-
           headerStyle: {
             backgroundColor: "#242143",
             borderBottomLeftRadius: 24,
