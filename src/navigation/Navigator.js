@@ -59,17 +59,31 @@ export default function Navigator() {
         component={Discover}
         name="Discover"
         options={{
-          tabBarLabel: "Descubre",
+          headerShadowVisible: false,
+          headerTitle: "Descubre",
+
           tabBarIcon: () => renderDiscover(),
+          headerTitleStyle: {
+            color: "#fff",
+            fontFamily: "poppins-semi",
+          },
+          headerTitleAlign: "center",
+
+          headerStyle: {
+            backgroundColor: "#242143",
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            height: 100,
+          },
         }}
       />
       <Tab.Screen
         component={AccountNavigation}
         name="AccountNavigation"
         options={{
-          header: () => <AccountHeader />,
           tabBarLabel: "Cuenta",
           tabBarIcon: () => renderAccount(),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
