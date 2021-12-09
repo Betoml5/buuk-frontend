@@ -1,13 +1,20 @@
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 export default function AccountHeader() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.icons}>
           <View>
-            <Icon name="arrow-left" size={25} color="#fff" />
+            <Icon
+              name="arrow-left"
+              size={25}
+              color="#fff"
+              onPress={() => navigation.goBack()}
+            />
           </View>
           <View>
             <Icon name="cog" size={25} color="#fff" />

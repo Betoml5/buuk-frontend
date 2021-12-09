@@ -10,6 +10,7 @@ import Discover from "../screens/Discover";
 import Buuk from "../screens/Buuk";
 import Account from "../screens/Account";
 import AccountHeader from "../components/AccountHeader";
+import AccountNavigation from "./AccountNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -63,11 +64,10 @@ export default function Navigator() {
         }}
       />
       <Tab.Screen
-        component={Account}
-        name="Account"
+        component={AccountNavigation}
+        name="AccountNavigation"
         options={{
           header: () => <AccountHeader />,
-          // headerShown: false,
           tabBarLabel: "Cuenta",
           tabBarIcon: () => renderAccount(),
         }}
