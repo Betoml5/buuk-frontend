@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-
     backgroundColor: "#1A1736",
   },
   section: {

@@ -29,6 +29,125 @@ export default function Library() {
             <Text style={styles.number_books_text}>Libros leidos este mes</Text>
           </View>
         </View>
+
+        <View style={styles.containerTimeline}>
+          <View style={styles.timelineItem}>
+            {/* Fecha de arriba */}
+            <View style={styles.datetime}>
+              <Text style={styles.date}>08</Text>
+              <Text style={styles.day}>Ayer</Text>
+            </View>
+
+            <View style={styles.booksContainer}>
+              <View style={styles.booksWrapper}>
+                <View style={styles.bookInfo}>
+                  <Image
+                    source={require("../assets/book-cover-1.jpg")}
+                    style={styles.book}
+                  />
+                  <View style={styles.bookDescription}>
+                    <Text style={styles.bookName}>
+                      Beautiful world where are you
+                    </Text>
+                    <Text style={styles.bookGender}>Ficción</Text>
+                  </View>
+                </View>
+                <View style={styles.numberPagesContainer}>
+                  <Image
+                    source={require("../assets/pagesWhite.png")}
+                    style={styles.bookPagesIcon}
+                  />
+                  <Text style={styles.numberPagesDay}>24</Text>
+                </View>
+              </View>
+              <View style={styles.booksWrapper}>
+                <View style={styles.bookInfo}>
+                  <Image
+                    source={require("../assets/book-cover-1.jpg")}
+                    style={styles.book}
+                  />
+                  <View style={styles.bookDescription}>
+                    <Text style={styles.bookName}>
+                      Beautiful world where are you
+                    </Text>
+                    <Text style={styles.bookGender}>Ficción</Text>
+                  </View>
+                </View>
+                <View style={styles.numberPagesContainer}>
+                  <Image
+                    source={require("../assets/pagesWhite.png")}
+                    style={styles.bookPagesIcon}
+                  />
+                  <Text style={styles.numberPagesDay}>24</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.timelineItem}>
+            {/* Fecha de arriba */}
+            <View style={styles.datetime}>
+              <Text style={styles.date}>09</Text>
+              <Text style={styles.day}>Hoy</Text>
+            </View>
+
+            <View style={styles.booksContainer}>
+              <View style={styles.booksWrapper}>
+                <View style={styles.bookInfo}>
+                  <Image
+                    source={require("../assets/book-cover.jpg")}
+                    style={styles.book}
+                  />
+                  <View style={styles.bookDescription}>
+                    <Text style={styles.bookName}>
+                      Beautiful world where are you
+                    </Text>
+                    <Text style={styles.bookGender}>Ficción</Text>
+                  </View>
+                </View>
+                <View style={styles.numberPagesContainer}>
+                  <Image
+                    source={require("../assets/pagesWhite.png")}
+                    style={styles.bookPagesIcon}
+                  />
+                  <Text style={styles.numberPagesDay}>12</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.timelineItem}>
+            {/* Fecha de arriba */}
+            <View style={styles.datetime}>
+              <Text style={styles.date}>09</Text>
+              <Text style={styles.day}>Hoy</Text>
+            </View>
+
+            <View style={styles.booksContainer}>
+              <View style={styles.booksWrapper}>
+                <View style={styles.bookInfo}>
+                  <Image
+                    source={require("../assets/book-cover.jpg")}
+                    style={styles.book}
+                  />
+                  <View style={styles.bookDescription}>
+                    <Text style={styles.bookName}>
+                      Beautiful world where are you
+                    </Text>
+                    <Text style={styles.bookGender}>Ficción</Text>
+                  </View>
+                </View>
+                <View style={styles.numberPagesContainer}>
+                  <Image
+                    source={require("../assets/pagesWhite.png")}
+                    style={styles.bookPagesIcon}
+                  />
+                  <Text style={styles.numberPagesDay}>12</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -86,5 +205,85 @@ const styles = StyleSheet.create({
   },
   goals_container: {
     flexDirection: "row",
+  },
+  containerTimeline: {
+    padding: 20,
+    borderRadius: 8,
+    marginTop: 26,
+    backgroundColor: "#322F4C",
+  },
+  timelineItem: {
+    marginTop: 10,
+  },
+  datetime: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  date: {
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    fontSize: 12,
+    fontFamily: "poppins-semi",
+  },
+  day: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    marginLeft: 12,
+  },
+  booksContainer: {
+    borderLeftWidth: 2,
+    borderColor: "#3F3D58",
+    marginLeft: 18,
+    marginTop: 10,
+  },
+  book: {
+    width: 63,
+    height: 100,
+    borderRadius: 12,
+    marginLeft: 20,
+  },
+
+  bookInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  bookDescription: {
+    marginLeft: 10,
+    width: "50%",
+  },
+  bookName: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+  },
+  bookGender: {
+    color: "#888797",
+    fontFamily: "poppins-light",
+  },
+  booksWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  numberPagesContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  bookPagesIcon: {
+    width: 20,
+    height: 20,
+  },
+  numberPagesDay: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    marginLeft: 10,
+    fontSize: 12,
   },
 });

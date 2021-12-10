@@ -41,6 +41,7 @@ export default function Navigator() {
         name="Library"
         options={{
           tabBarIcon: () => renderBooks(),
+          tabBarLabel: "Biblioteca",
           headerTitleStyle: {
             color: "#fff",
             fontFamily: "poppins-semi",
@@ -75,6 +76,7 @@ export default function Navigator() {
             color: "#fff",
             fontFamily: "poppins-semi",
           },
+          tabBarLabel: "Descubre",
           headerShadowVisible: false,
           headerTitle: "Descubre",
           headerTitleAlign: "center",
