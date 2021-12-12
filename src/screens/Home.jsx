@@ -1,7 +1,36 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  FlatList,
+} from "react-native";
+import { getBestSellers } from "../services/Book";
 
 export default function Home() {
+  const [bestSellers, setBestSellers] = useState([]);
+
+  const getData = async () => {
+    const data = await getBestSellers();
+    setBestSellers(data);
+  };
+
+  useEffect(() => {
+    getData();
+
+    return () => setBestSellers([]);
+  }, []);
+
+  if (bestSellers.length === 0) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -42,40 +71,40 @@ export default function Home() {
           </View>
         </ScrollView>
         <Text style={styles.section_title}>Tendencia</Text>
+
         <ScrollView style={styles.section} horizontal={true}>
-          <View>
-            <Image
-              source={require("../assets/book-cover.jpg")}
-              style={{
-                width: 150,
-                height: 250,
-                borderRadius: 8,
-                marginRight: 10,
-              }}
-            />
-          </View>
-          <View>
-            <Image
-              source={require("../assets/book-cover.jpg")}
-              style={{
-                width: 150,
-                height: 250,
-                borderRadius: 8,
-                marginRight: 10,
-              }}
-            />
-          </View>
-          <View>
-            <Image
-              source={require("../assets/book-cover.jpg")}
-              style={{
-                width: 150,
-                height: 250,
-                borderRadius: 8,
-                marginRight: 10,
-              }}
-            />
-          </View>
+          {bestSellers.map((item) => {
+            if (item?.thumbnail_url !== undefined) {
+              let thumb = item?.thumbnail_url?.split("-");
+              let newStr = "";
+              if (thumb !== undefined) {
+                newStr = thumb[1]?.replace("S", "L");
+              }
+              newStr = thumb[0] + "-" + newStr;
+              item.thumbnail_url = newStr;
+            }
+
+            if (item?.thumbnail_url === undefined) {
+              return (
+                <View style={styles.bookNoCover}>
+                  <Text>Libro sin portada</Text>
+                </View>
+              );
+            }
+            return (
+              <View>
+                <Image
+                  source={{ uri: item?.thumbnail_url }}
+                  style={{
+                    width: 150,
+                    height: 250,
+                    borderRadius: 8,
+                    marginRight: 10,
+                  }}
+                />
+              </View>
+            );
+          })}
         </ScrollView>
 
         <Text style={styles.section_title}>Autores del momento</Text>
@@ -156,5 +185,16 @@ const styles = StyleSheet.create({
 
     fontSize: 24,
     fontFamily: "poppins-semi",
+  },
+  bookNoCover: {
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    width: 150,
+    height: 250,
+    backgroundColor: "#FFf",
+    marginRight: 10,
+    borderRadius: 8,
   },
 });

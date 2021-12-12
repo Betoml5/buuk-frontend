@@ -1,1 +1,1 @@
-import Constants from "expo-constants";
+import { Constants } from "expo-constants";
