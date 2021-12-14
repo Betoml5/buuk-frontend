@@ -4,7 +4,6 @@ export const getBestSellers = async () => {
   try {
     const response = await fetch(`${API}/best`);
     const { body } = await response.json();
-
     return body[0]?.books;
   } catch (error) {
     console.log(error);

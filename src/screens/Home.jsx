@@ -16,11 +16,11 @@ export default function Home() {
   const [authorsNews, setAuthorsNews] = useState([]);
 
   const getData = async () => {
-    // const bestSellersResponse = await getBestSellers();
-    // const booksNewsResponse = await getBooksNews();
+    const booksNewsResponse = await getBooksNews();
+    const bestSellersResponse = await getBestSellers();
     const authorsNewsResponse = await getAuthorsNews();
-    // setBestSellers(bestSellersResponse);
-    // setBooksNews(booksNewsResponse);
+    setBooksNews(booksNewsResponse);
+    setBestSellers(bestSellersResponse);
     setAuthorsNews(authorsNewsResponse);
   };
 
@@ -43,7 +43,7 @@ export default function Home() {
       <ScrollView>
         <Text style={styles.greating}>Hola, Beto ¿Que vas a leer hoy?</Text>
 
-        {/* <FlatList
+        <FlatList
           renderItem={({ item }) => (
             <Image
               key={item._id}
@@ -61,11 +61,11 @@ export default function Home() {
           data={booksNews}
           keyExtractor={(item) => item._id}
           nestedScrollEnabled
-        /> */}
+        />
 
         <Text style={styles.section_title}>Tendencia</Text>
 
-        {/* <FlatList
+        <FlatList
           renderItem={({ item }) => (
             <Image
               key={item.primary_isbn10}
@@ -83,7 +83,7 @@ export default function Home() {
           data={bestSellers}
           keyExtractor={(item) => item.primary_isbn10}
           nestedScrollEnabled
-        /> */}
+        />
 
         <Text style={styles.section_title}>Autores del momento</Text>
         <FlatList
