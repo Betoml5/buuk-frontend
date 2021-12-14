@@ -40,9 +40,21 @@ export default function Navigator() {
         component={Library}
         name="Library"
         options={{
-          headerShown: false,
-          tabBarLabel: "Libreria",
           tabBarIcon: () => renderBooks(),
+          tabBarLabel: "Biblioteca",
+          headerTitleStyle: {
+            color: "#fff",
+            fontFamily: "poppins-semi",
+          },
+          headerShadowVisible: false,
+          headerTitle: "Biblioteca",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#242143",
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            height: 100,
+          },
         }}
       />
 
@@ -59,17 +71,30 @@ export default function Navigator() {
         component={Discover}
         name="Discover"
         options={{
-          tabBarLabel: "Descubre",
           tabBarIcon: () => renderDiscover(),
+          headerTitleStyle: {
+            color: "#fff",
+            fontFamily: "poppins-semi",
+          },
+          tabBarLabel: "Descubre",
+          headerShadowVisible: false,
+          headerTitle: "Descubre",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#242143",
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            height: 100,
+          },
         }}
       />
       <Tab.Screen
         component={AccountNavigation}
         name="AccountNavigation"
         options={{
-          header: () => <AccountHeader />,
           tabBarLabel: "Cuenta",
           tabBarIcon: () => renderAccount(),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

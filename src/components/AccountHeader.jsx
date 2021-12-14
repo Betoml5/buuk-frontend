@@ -17,7 +17,12 @@ export default function AccountHeader() {
             />
           </View>
           <View>
-            <Icon name="cog" size={25} color="#fff" />
+            <Icon
+              name="cog"
+              size={25}
+              color="#fff"
+              onPress={() => navigation.navigate("Settings")}
+            />
           </View>
         </View>
         <View style={styles.user_information}>
