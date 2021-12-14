@@ -1,11 +1,41 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Modal,
+  Pressable,
+  Alert,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function Library() {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Pressable onPress={() => setModalVisible(!modalVisible)}>
+                <Image
+                  source={require("../assets/close.png")}
+                  style={styles.closeIcon}
+                />
+              </Pressable>
+              <Text style={styles.modalTitle}>Agregar libro</Text>
+            </View>
+          </View>
+        </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>
 
         <View style={styles.goals_container}>
@@ -29,7 +59,20 @@ export default function Library() {
             <Text style={styles.number_books_text}>Libros leidos este mes</Text>
           </View>
         </View>
-
+        <View style={styles.crud}>
+          <Pressable onPress={() => setModalVisible(true)}>
+            <Image
+              source={require("../assets/add.png")}
+              style={styles.crudIcon}
+            />
+          </Pressable>
+          <View>
+            <Image
+              source={require("../assets/trash.png")}
+              style={styles.crudIcon}
+            />
+          </View>
+        </View>
         <View style={styles.containerTimeline}>
           <View style={styles.timelineItem}>
             {/* Fecha de arriba */}
@@ -209,7 +252,7 @@ const styles = StyleSheet.create({
   containerTimeline: {
     padding: 20,
     borderRadius: 8,
-    marginTop: 26,
+    marginTop: 10,
     backgroundColor: "#322F4C",
   },
   timelineItem: {
@@ -285,5 +328,39 @@ const styles = StyleSheet.create({
     fontFamily: "poppins-semi",
     marginLeft: 10,
     fontSize: 12,
+  },
+  modalContainer: {
+    backgroundColor: "#322F4C",
+    height: "100%",
+    opacity: 0.9,
+    borderRadius: 24,
+    padding: 20,
+    position: "relative",
+  },
+  crud: {
+    flexDirection: "row",
+    backgroundColor: "#322F4C",
+    padding: 20,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  crudIcon: {
+    width: 32,
+    height: 32,
+  },
+  modalTitle: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    fontSize: 20,
+  },
+  closeIcon: {
+    position: "relative",
+    right: 0,
+    width: 32,
+    height: 32,
+  },
+  modalHeader: {
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
   },
 });

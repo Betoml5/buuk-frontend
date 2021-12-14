@@ -1,8 +1,7 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
-import React, { Suspense, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import React, { useState } from "react";
 import Navigator from "./src/navigation/Navigator";
 
 const fetchFonts = () => {
