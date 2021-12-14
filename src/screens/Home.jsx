@@ -6,7 +6,9 @@ import {
   Image,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
+import New from "../components/New";
 import { getBestSellers } from "../services/Book";
 import { getAuthorsNews, getBooksNews } from "../services/News";
 
@@ -27,35 +29,39 @@ export default function Home() {
   useEffect(() => {
     getData();
 
-    return () => setBestSellers([]);
+    return () => {
+      setBestSellers([]);
+      setAuthorsNews([]);
+      setBooksNews([]);
+    };
   }, []);
 
-  // if (bestSellers.length === 0) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
+  if (
+    (booksNews.length === 0) |
+    (bestSellers.length === 0) |
+    (authorsNews.length === 0)
+  ) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#fff"
+        style={{
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      />
+    );
+  }
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.greating}>Hola, Beto ¿Que vas a leer hoy?</Text>
+        {/* <Text style={styles.greating}>Hola, Beto ¿Que vas a leer hoy?</Text> */}
+        <Text style={styles.greating}>Noticias</Text>
 
         <FlatList
-          renderItem={({ item }) => (
-            <Image
-              key={item._id}
-              source={{ uri: item.media }}
-              style={{
-                width: 150,
-                height: 250,
-                borderRadius: 8,
-                marginRight: 10,
-              }}
-            />
-          )}
+          renderItem={({ item }) => <New new={item} />}
           horizontal={true}
           style={styles.section}
           data={booksNews}
@@ -85,23 +91,9 @@ export default function Home() {
           nestedScrollEnabled
         />
 
-        <Text style={styles.section_title}>Autores del momento</Text>
+        <Text style={styles.section_title}>Noticias sobre autores</Text>
         <FlatList
-          renderItem={({ item }) => (
-            <View>
-              <Image
-                key={item._id}
-                source={{ uri: item.media }}
-                style={{
-                  width: 150,
-                  height: 250,
-                  borderRadius: 8,
-                  marginRight: 10,
-                  resizeMode: "cover",
-                }}
-              />
-            </View>
-          )}
+          renderItem={({ item }) => <New new={item} />}
           horizontal={true}
           style={styles.section}
           data={authorsNews}
@@ -133,8 +125,8 @@ const styles = StyleSheet.create({
   section_title: {
     color: "#fff",
     marginTop: 12,
-
-    fontSize: 24,
+    marginBottom: 12,
+    fontSize: 18,
     fontFamily: "poppins-semi",
   },
   bookNoCover: {
