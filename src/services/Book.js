@@ -9,3 +9,14 @@ export const getBestSellers = async () => {
     console.log(error);
   }
 };
+
+export const searchBook = async (title) => {
+  try {
+    const response = await fetch(`${API}/search?title=${title}`);
+    const data = await response.json();
+    return data.body;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
