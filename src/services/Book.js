@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const API = `http://192.168.1.64:3080/api/v1/books`;
 
 export const getBestSellers = async () => {
@@ -12,11 +14,10 @@ export const getBestSellers = async () => {
 
 export const searchBook = async (title) => {
   try {
-    const response = await fetch(`${API}/search?title=${title}`);
-    const data = await response.json();
-    return data.body;
+    const response = await axios.get(`${API}/search?title=${title}`);
+
+    return response.data.body;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

@@ -12,7 +12,6 @@ import {
   FlatList,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Search from "../components/Search";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
@@ -24,12 +23,11 @@ export default function Library() {
     try {
       const books = await searchBook(title);
       // setTitle("");
-      console.log(books);
+
       setSearchesBooks(books);
     } catch (error) {
       setTitle("");
       setSearchesBooks(null);
-      console.log(error);
     }
   };
 
@@ -49,7 +47,7 @@ export default function Library() {
               <Pressable
                 onPress={() => {
                   setModalVisible(!modalVisible);
-                  setSearchesBooks([]);
+                  // setSearchesBooks([]);
                 }}
               >
                 <Image
@@ -60,9 +58,15 @@ export default function Library() {
               <Text style={styles.modalTitle}>Agregar libro</Text>
             </View>
             <View style={styles.searchContainer}>
+              <TextInput
+                placeholder="Titulo del libro"
+                style={styles.inputText}
+                onChangeText={(text) => setTitle(text)}
+                defaultValue={title}
+              />
               <Pressable
                 style={styles.btn}
-                onPress={() => handleSearch(title)}
+                onPressOut={() => handleSearch(title)}
                 disabled={!title}
               >
                 <Text
@@ -76,13 +80,6 @@ export default function Library() {
                   Buscar
                 </Text>
               </Pressable>
-              <TextInput
-                placeholder="Titulo del libro"
-                style={styles.inputText}
-                onChangeText={(text) => setTitle(text)}
-                defaultValue={title}
-              />
-
               <FlatList
                 style={{ marginTop: 20 }}
                 data={searchedBooks}
@@ -465,14 +462,15 @@ const styles = StyleSheet.create({
   },
   inputText: {
     padding: 8,
-    width: "80%",
+    width: "100%",
     backgroundColor: "#fff",
     borderRadius: 6,
     marginTop: 20,
   },
   btn: {
-    padding: 2,
-    width: 100,
+    padding: 16,
+
+    width: "100%",
     borderRadius: 8,
     marginTop: 20,
     backgroundColor: "#242143",
