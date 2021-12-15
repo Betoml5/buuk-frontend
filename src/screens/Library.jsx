@@ -9,6 +9,7 @@ import {
   Alert,
   TextInput,
   Button,
+  FlatList,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Search from "../components/Search";
@@ -16,14 +17,14 @@ import { searchBook } from "../services/Book";
 
 export default function Library() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [searchedBooks, setSearchesBooks] = useState({});
+  const [searchedBooks, setSearchesBooks] = useState([]);
   const [title, setTitle] = useState("");
 
   const handleSearch = async (title) => {
     try {
       const books = await searchBook(title);
-      setTitle("");
-
+      // setTitle("");
+      console.log(books);
       setSearchesBooks(books);
     } catch (error) {
       setTitle("");
@@ -40,13 +41,17 @@ export default function Library() {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
             setModalVisible(!modalVisible);
           }}
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
-              <Pressable onPress={() => setModalVisible(!modalVisible)}>
+              <Pressable
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setSearchesBooks([]);
+                }}
+              >
                 <Image
                   source={require("../assets/close.png")}
                   style={styles.closeIcon}
@@ -55,16 +60,10 @@ export default function Library() {
               <Text style={styles.modalTitle}>Agregar libro</Text>
             </View>
             <View style={styles.searchContainer}>
-              <TextInput
-                placeholder="Titulo del libro"
-                style={styles.inputText}
-                onChangeText={(text) => setTitle(text)}
-                defaultValue={title}
-              />
               <Pressable
                 style={styles.btn}
                 onPress={() => handleSearch(title)}
-                disabled={title == ""}
+                disabled={!title}
               >
                 <Text
                   style={{
@@ -77,45 +76,50 @@ export default function Library() {
                   Buscar
                 </Text>
               </Pressable>
-              {searchedBooks && (
-                <>
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontFamily: "poppins-semi",
-                      fontSize: 20,
-                      marginTop: 20,
-                      marginBottom: 20,
-                    }}
-                  >
-                    Encontrado:{" "}
-                  </Text>
-                  <View>
+              <TextInput
+                placeholder="Titulo del libro"
+                style={styles.inputText}
+                onChangeText={(text) => setTitle(text)}
+                defaultValue={title}
+              />
+
+              <FlatList
+                style={{ marginTop: 20 }}
+                data={searchedBooks}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View key={item.id} style={{ marginRight: 12 }}>
                     <Image
-                      source={{ uri: searchedBooks?.cover }}
+                      source={{ uri: item.cover }}
                       style={{
                         width: 150,
-                        height: 200,
-                        borderRadius: 2,
-                        resizeMode: "contain",
+                        height: 230,
+                        borderRadius: 8,
+                        resizeMode: "cover",
                       }}
                     />
-                    <Pressable style={styles.btn}>
+                    <Pressable
+                      style={{
+                        marginTop: 10,
+                        backgroundColor: "#242143",
+                        padding: 8,
+                        borderRadius: 8,
+                      }}
+                    >
                       <Text
                         style={{
+                          textAlign: "center",
                           color: "#fff",
                           fontFamily: "poppins-semi",
-                          fontSize: 8,
-                          padding: 4,
-                          textAlign: "center",
                         }}
                       >
                         Agregar a biblioteca
                       </Text>
                     </Pressable>
                   </View>
-                </>
-              )}
+                )}
+                horizontal={true}
+              />
             </View>
           </View>
         </Modal>
@@ -419,7 +423,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#322F4C",
     height: "100%",
     opacity: 0.9,
-    borderRadius: 24,
+
     padding: 20,
     position: "relative",
   },
@@ -474,5 +478,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#242143",
     justifyContent: "center",
     alignItems: "center",
+  },
+  searchContainer: {
+    flexDirection: "column",
   },
 });
