@@ -1,9 +1,18 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Home from "../screens/Home";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import Favorites from "../screens/Favorites";
-import { Button, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Search from "../components/Search";
 import Library from "../screens/Library";
 import Discover from "../screens/Discover";
@@ -11,6 +20,7 @@ import Buuk from "../screens/Buuk";
 import Account from "../screens/Account";
 import AccountHeader from "../components/AccountHeader";
 import AccountNavigation from "./AccountNavigation";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +40,23 @@ export default function Navigator() {
         name="Home"
         options={{
           tabBarLabel: "Inicio",
-          header: () => <Search />,
+          headerStyle: {
+            backgroundColor: "#242143",
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            height: 100,
+          },
+          header: () => (
+            <SafeAreaView style={styles.header}>
+              <View style={[styles.header_container]}>
+                <Icon name="search" size={18} style={styles.icon} />
+                <TextInput
+                  placeholder="Titulos, autores o temas"
+                  style={styles.input}
+                />
+              </View>
+            </SafeAreaView>
+          ),
           tabBarIcon: () => renderHome(),
           headerShown: true,
         }}
@@ -139,5 +165,31 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1A1736",
     borderTopWidth: 0,
+  },
+  header: {
+    backgroundColor: "#242143",
+    padding: 8,
+    paddingBottom: 16,
+    height: 100,
+  },
+  header_container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    position: "relative",
+  },
+  icon: {
+    backgroundColor: "#fff",
+    padding: 10.4,
+    borderTopLeftRadius: 999,
+    borderBottomLeftRadius: 999,
+  },
+  input: {
+    padding: 6,
+    width: "80%",
+    backgroundColor: "#fff",
+    borderTopRightRadius: 999,
+    borderBottomRightRadius: 999,
   },
 });

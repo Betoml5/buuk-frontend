@@ -4,7 +4,7 @@ export const getBooksNews = async () => {
   try {
     const response = await fetch(`${API}/books`);
     const data = await response.json();
-    return data.body;
+    return data.body.articles;
   } catch (error) {
     return error;
   }

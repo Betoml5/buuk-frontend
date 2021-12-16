@@ -3,7 +3,15 @@ import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-export default function Search() {
+export default function Search({ state, setState }) {
+  const onChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+    console.log(state);
+  };
+
   return (
     <SafeAreaView style={styles.header}>
       <View style={styles.header_container}>
@@ -11,6 +19,7 @@ export default function Search() {
         <TextInput
           placeholder="Titulos, autores o temas"
           style={styles.input}
+          onChange={onChange}
         />
       </View>
     </SafeAreaView>
@@ -19,8 +28,6 @@ export default function Search() {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#242143",
-
     padding: 8,
     paddingBottom: 16,
     height: 100,

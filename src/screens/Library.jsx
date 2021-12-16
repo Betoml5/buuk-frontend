@@ -1,11 +1,128 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Modal,
+  Pressable,
+  Alert,
+  TextInput,
+  FlatList,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { searchBook } from "../services/Book";
 
 export default function Library() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [searchedBooks, setSearchesBooks] = useState([]);
+  const [title, setTitle] = useState("");
+
+  const handleSearch = async (title) => {
+    try {
+      const books = await searchBook(title);
+      setTitle("");
+      setSearchesBooks(books);
+    } catch (error) {
+      setTitle("");
+      setSearchesBooks(null);
+    }
+  };
+
+  const handleAddToLibrary = async () => {
+    try {
+    } catch (error) {}
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Pressable
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  // setSearchesBooks([]);
+                }}
+              >
+                <Image
+                  source={require("../assets/close.png")}
+                  style={styles.closeIcon}
+                />
+              </Pressable>
+              <Text style={styles.modalTitle}>Agregar libro</Text>
+            </View>
+            <View style={styles.searchContainer}>
+              <TextInput
+                placeholder="Titulo del libro"
+                style={styles.inputText}
+                onChangeText={(text) => setTitle(text)}
+                defaultValue={title}
+              />
+              <Pressable
+                style={styles.btn}
+                onPressOut={() => handleSearch(title)}
+                disabled={!title}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "#fff",
+                    fontFamily: "poppins-semi",
+                    borderRadius: 8,
+                  }}
+                >
+                  Buscar
+                </Text>
+              </Pressable>
+              <FlatList
+                style={{ marginTop: 20 }}
+                data={searchedBooks}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View key={item.id} style={{ marginRight: 12 }}>
+                    <Image
+                      source={{ uri: item.cover }}
+                      style={{
+                        width: 150,
+                        height: 230,
+                        borderRadius: 8,
+                        resizeMode: "cover",
+                      }}
+                    />
+                    <Pressable
+                      style={{
+                        marginTop: 10,
+                        backgroundColor: "#242143",
+                        padding: 8,
+                        borderRadius: 8,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          color: "#fff",
+                          fontFamily: "poppins-semi",
+                        }}
+                      >
+                        Agregar a biblioteca
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+                horizontal={true}
+              />
+            </View>
+          </View>
+        </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>
 
         <View style={styles.goals_container}>
@@ -29,7 +146,23 @@ export default function Library() {
             <Text style={styles.number_books_text}>Libros leidos este mes</Text>
           </View>
         </View>
-
+        <View style={styles.crud}>
+          <Pressable
+            onPress={() => setModalVisible(true)}
+            style={styles.crudIconContainer}
+          >
+            <Image
+              source={require("../assets/addbook.png")}
+              style={styles.crudIcon}
+            />
+          </Pressable>
+          <View style={styles.crudIconContainer}>
+            <Image
+              source={require("../assets/add.png")}
+              style={styles.crudIcon}
+            />
+          </View>
+        </View>
         <View style={styles.containerTimeline}>
           <View style={styles.timelineItem}>
             {/* Fecha de arriba */}
@@ -209,7 +342,7 @@ const styles = StyleSheet.create({
   containerTimeline: {
     padding: 20,
     borderRadius: 8,
-    marginTop: 26,
+    marginTop: 10,
     backgroundColor: "#322F4C",
   },
   timelineItem: {
@@ -285,5 +418,69 @@ const styles = StyleSheet.create({
     fontFamily: "poppins-semi",
     marginLeft: 10,
     fontSize: 12,
+  },
+  modalContainer: {
+    backgroundColor: "#322F4C",
+    height: "100%",
+    opacity: 0.9,
+
+    padding: 20,
+    position: "relative",
+  },
+  crud: {
+    flexDirection: "row",
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  crudIcon: {
+    width: 30,
+    height: 30,
+
+    alignSelf: "center",
+  },
+  modalTitle: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    fontSize: 20,
+  },
+  closeIcon: {
+    position: "relative",
+    right: 0,
+    width: 32,
+    height: 32,
+  },
+  modalHeader: {
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+  },
+  crudIconContainer: {
+    textAlign: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#322F4C",
+    padding: 20,
+    marginRight: 12,
+    borderRadius: 8,
+  },
+  inputText: {
+    padding: 8,
+    width: "100%",
+    backgroundColor: "#fff",
+    borderRadius: 6,
+    marginTop: 20,
+  },
+  btn: {
+    padding: 16,
+
+    width: "100%",
+    borderRadius: 8,
+    marginTop: 20,
+    backgroundColor: "#242143",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchContainer: {
+    flexDirection: "column",
   },
 });
