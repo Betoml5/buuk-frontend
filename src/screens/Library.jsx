@@ -8,7 +8,6 @@ import {
   Pressable,
   Alert,
   TextInput,
-  Button,
   FlatList,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,13 +21,17 @@ export default function Library() {
   const handleSearch = async (title) => {
     try {
       const books = await searchBook(title);
-      // setTitle("");
-
+      setTitle("");
       setSearchesBooks(books);
     } catch (error) {
       setTitle("");
       setSearchesBooks(null);
     }
+  };
+
+  const handleAddToLibrary = async () => {
+    try {
+    } catch (error) {}
   };
 
   return (
