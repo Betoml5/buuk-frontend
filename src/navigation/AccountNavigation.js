@@ -13,7 +13,7 @@ export default function AccountNavigation() {
   return (
     <Stack.Navigator>
       {
-        isLogged ? <><Stack.Screen
+        !isLogged ? <><Stack.Screen
           name="Account"
           component={Account}
           options={{ title: "Mi cuenta", header: () => <AccountHeader /> }}
