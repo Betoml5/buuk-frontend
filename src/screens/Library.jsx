@@ -9,6 +9,7 @@ import {
   Alert,
   TextInput,
   FlatList,
+  Button,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { searchBook } from "../services/Book";
@@ -67,7 +68,8 @@ export default function Library() {
                 onChangeText={(text) => setTitle(text)}
                 defaultValue={title}
               />
-              <Pressable
+              <Button
+                title="Buscar"
                 style={styles.btn}
                 onPressOut={() => handleSearch(title)}
                 disabled={!title}
@@ -82,7 +84,7 @@ export default function Library() {
                 >
                   Buscar
                 </Text>
-              </Pressable>
+              </Button>
               <FlatList
                 style={{ marginTop: 20 }}
                 data={searchedBooks}

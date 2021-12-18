@@ -2,7 +2,7 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 import React, { useState } from "react";
-import { UserContextProvider } from "./src/context/UserContext";
+import { UserContextProvider } from "./src/context/userContext";
 import Navigator from "./src/navigation/Navigator";
 
 const fetchFonts = () => {

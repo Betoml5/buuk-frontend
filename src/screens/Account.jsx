@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
+import { useUser } from "../hooks/useUser";
 
 export default function Account() {
   return (
