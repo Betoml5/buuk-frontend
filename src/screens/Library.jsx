@@ -10,6 +10,7 @@ import {
   TextInput,
   FlatList,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,13 +19,15 @@ import { searchBook } from "../services/Book";
 export default function Library() {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
 
   const handleSearch = async (title) => {
     try {
+      setLoading(true);
       const books = await searchBook(title);
-      setTitle("");
       setSearchesBooks(books);
+      setLoading(false);
     } catch (error) {
       setTitle("");
       setSearchesBooks(null);
@@ -86,43 +89,53 @@ export default function Library() {
                   Buscar
                 </Text>
               </Pressable>
-              <FlatList
-                style={{ marginTop: 20 }}
-                data={searchedBooks}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <View key={item.id} style={{ marginRight: 12 }}>
-                    <Image
-                      source={{ uri: item.cover }}
-                      style={{
-                        width: 150,
-                        height: 230,
-                        borderRadius: 8,
-                        resizeMode: "cover",
-                      }}
-                    />
-                    <Pressable
-                      style={{
-                        marginTop: 10,
-                        backgroundColor: "#242143",
-                        padding: 8,
-                        borderRadius: 8,
-                      }}
-                    >
-                      <Text
+
+              {loading ? (
+                <ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  style={{ marginTop: 50 }}
+                />
+              ) : (
+                <FlatList
+                  style={{ marginTop: 20 }}
+                  data={searchedBooks}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <View key={item.id} style={{ marginRight: 12 }}>
+                      <Image
+                        source={{ uri: item.cover }}
                         style={{
-                          textAlign: "center",
-                          color: "#fff",
-                          fontFamily: "poppins-semi",
+                          width: 150,
+                          height: 230,
+                          borderRadius: 8,
+                          resizeMode: "cover",
+                        }}
+                      />
+                      <Pressable
+                        style={{
+                          marginTop: 10,
+                          backgroundColor: "#242143",
+                          padding: 8,
+                          borderRadius: 8,
                         }}
                       >
-                        Agregar a biblioteca
-                      </Text>
-                    </Pressable>
-                  </View>
-                )}
-                horizontal={true}
-              />
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            color: "#fff",
+                            fontFamily: "poppins-light",
+                            fontSize: 12,
+                          }}
+                        >
+                          Agregar a biblioteca
+                        </Text>
+                      </Pressable>
+                    </View>
+                  )}
+                  horizontal={true}
+                />
+              )}
             </View>
           </SafeAreaView>
         </Modal>
@@ -365,6 +378,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     fontSize: 12,
     fontFamily: "poppins-semi",
+    overflow: "hidden",
   },
   day: {
     color: "#fff",

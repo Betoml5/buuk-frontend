@@ -3,22 +3,16 @@ import React from "react";
 import Home from "../screens/Home";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-import Favorites from "../screens/Favorites";
+
 import {
-  Button,
   Image,
-  Pressable,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from "react-native";
-import Search from "../components/Search";
 import Library from "../screens/Library";
 import Discover from "../screens/Discover";
 import Buuk from "../screens/Buuk";
-import Account from "../screens/Account";
-import AccountHeader from "../components/AccountHeader";
 import AccountNavigation from "./AccountNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -179,12 +173,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     position: "relative",
+
   },
   icon: {
     backgroundColor: "#fff",
     padding: 10.4,
     borderTopLeftRadius: 999,
     borderBottomLeftRadius: 999,
+    overflow: "hidden"
   },
   input: {
     padding: 6,
@@ -192,5 +188,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopRightRadius: 999,
     borderBottomRightRadius: 999,
+    overflow: "hidden"
   },
 });
