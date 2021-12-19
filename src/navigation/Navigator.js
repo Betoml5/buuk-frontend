@@ -30,7 +30,7 @@ export default function Navigator() {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: styles.container,
-
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#DDDCDE",
       }}
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1A1736",
     borderTopWidth: 0,
+    paddingBottom: 6
   },
   header: {
     backgroundColor: "#242143",

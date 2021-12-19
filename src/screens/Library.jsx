@@ -12,6 +12,7 @@ import {
   Button,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
@@ -46,7 +47,7 @@ export default function Library() {
             setModalVisible(!modalVisible);
           }}
         >
-          <View style={styles.modalContainer}>
+          <SafeAreaView style={styles.modalContainer}>
             <View style={styles.modalHeader}>
               <Pressable
                 onPress={() => {
@@ -68,10 +69,10 @@ export default function Library() {
                 onChangeText={(text) => setTitle(text)}
                 defaultValue={title}
               />
-              <Button
+              <Pressable
                 title="Buscar"
                 style={styles.btn}
-                onPressOut={() => handleSearch(title)}
+                onPress={() => handleSearch(title)}
                 disabled={!title}
               >
                 <Text
@@ -84,7 +85,7 @@ export default function Library() {
                 >
                   Buscar
                 </Text>
-              </Button>
+              </Pressable>
               <FlatList
                 style={{ marginTop: 20 }}
                 data={searchedBooks}
@@ -123,7 +124,7 @@ export default function Library() {
                 horizontal={true}
               />
             </View>
-          </View>
+          </SafeAreaView>
         </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>
 

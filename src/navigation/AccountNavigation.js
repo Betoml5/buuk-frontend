@@ -6,6 +6,7 @@ import Settings from "../screens/Settings";
 import AccountHeader from "../components/AccountHeader";
 import { useUser } from "../hooks/useUser";
 import Signin from "../components/Signin";
+import Signup from "../components/Signup";
 const Stack = createStackNavigator();
 
 export default function AccountNavigation() {
@@ -30,7 +31,12 @@ export default function AccountNavigation() {
             }}
           /></> :
           <>
-            <Stack.Screen name="Login" component={Signin} />
+            <Stack.Screen name="Signin" component={Signin} options={{
+              headerShown: false,
+            }} />
+            <Stack.Screen name="Signup" component={Signup} options={{
+              headerShown: false,
+            }} />
           </>
       }
     </Stack.Navigator>
