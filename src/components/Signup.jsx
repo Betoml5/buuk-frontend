@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#fff",
-    marginTop: 10,
+    marginTop: 6,
     padding: 8,
     width: "100%",
     borderRadius: 4,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     fontFamily: "poppins-light",
   },
   label: {
-    marginTop: 12,
+    marginTop: 4,
     fontSize: 14,
     color: "#fff",
     fontFamily: "poppins-semi",

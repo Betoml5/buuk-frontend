@@ -29,7 +29,7 @@ export default function Signin() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>¡Hola de nuevo!</Text>
+      <Text style={styles.title}>¡Hola!</Text>
       <Text style={styles.subtitle}>Bienvenido de vuelta, te extrañamos</Text>
 
       <Image source={require("../assets/buuk.png")} style={styles.image} />

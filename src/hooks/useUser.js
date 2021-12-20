@@ -5,7 +5,7 @@ export function useUser() {
     const { jwt, setJwt } = useContext(Context)
     const [state, setState] = useState({ loading: false, error: false });
 
-    const signup = () => { };
+    const signup = (email, password) => { };
     const login = () => { };
     const logout = () => { };
     const profile = () => { };
