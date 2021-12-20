@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Pressable,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -97,6 +98,18 @@ export default function Signin() {
         >
           Este campo es obligatorio
         </Text>
+      )}
+      {isLoading && (
+        <ActivityIndicator
+          size="large"
+          color="#fff"
+          style={{
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "10%",
+          }}
+        />
       )}
       <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.btnText}>Iniciar sesion</Text>

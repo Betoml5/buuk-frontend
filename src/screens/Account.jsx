@@ -10,11 +10,9 @@ import {
 import { useUser } from "../hooks/useUser";
 
 export default function Account() {
-  const { logout, isLogged } = useUser();
-  const handleLogout = () => {
-    console.log("logout");
-    logout();
-  };
+  const { logout } = useUser();
+  const handleLogout = async () => await logout();
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.logoutBtn} onPress={handleLogout}>
