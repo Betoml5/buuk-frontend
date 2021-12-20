@@ -60,16 +60,18 @@ export default function Signup() {
         />
         {errors.username && (
           <Text
-            style={{ color: "#fff", fontFamily: "poppins-semi", fontSize: 18 }}
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
           >
             Este campo es obligatorio
           </Text>
         )}
-        <Text
-          style={{ color: "#fff", fontFamily: "poppins-semi", fontSize: 18 }}
-        >
-          Este campo es obligatorio
-        </Text>
 
         <Text style={styles.label}>Email</Text>
         <Controller
@@ -88,6 +90,20 @@ export default function Signup() {
           )}
           name="email"
         />
+        {errors.email && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Este campo es obligatorio
+          </Text>
+        )}
         <Text style={styles.label}>Contraseña</Text>
         <Controller
           control={control}
@@ -106,12 +122,20 @@ export default function Signup() {
           )}
           name="password"
         />
-
-        {/* {hasError && (
-          <Text style={{ color: "#fff" }}>
-            Hubo un error al intentar registrarte, intentalo mas tarde
+        {errors.password && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Este campo es obligatorio
           </Text>
-        )} */}
+        )}
         {isLoading && (
           <ActivityIndicator
             size="large"

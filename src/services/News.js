@@ -1,4 +1,4 @@
-const API = `http://192.168.1.71:3080/api/v1/news`;
+const API = `http://192.168.1.68:3080/api/v1/news`;
 
 export const getBooksNews = async () => {
   try {
