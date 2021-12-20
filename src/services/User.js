@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Alert } from "react-native";
 
 const API = `http://192.168.1.71:3080/api/v1/users`;
 
@@ -6,7 +7,7 @@ const API = `http://192.168.1.71:3080/api/v1/users`;
 export const signup = async (user) => {
     try {
         const response = await axios.post(`${API}/create`, user);
-        return response.data;
+        return response;
     } catch (error) {
         return error;
     }
@@ -14,7 +15,7 @@ export const signup = async (user) => {
 export const signin = async (user) => {
     try {
         const response = await axios.post(`${API}/login`, user);
-        return response.data
+        return response
     } catch (error) {
         return error;
     }

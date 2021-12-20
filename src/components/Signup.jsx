@@ -1,6 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Controller, useController, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import { Controller, useForm } from "react-hook-form";
+import { useUser } from "../hooks/useUser";
 import {
   View,
   Text,
@@ -11,9 +12,12 @@ import {
   Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView } from "react-native-gesture-handler";
+import { ActivityIndicator } from "react-native-web";
 
 export default function Signup() {
   const navigation = useNavigation();
+  const { register, isLoading, hasError } = useUser();
 
   const {
     control,
@@ -27,82 +31,120 @@ export default function Signup() {
     },
   });
 
-  const onSubmit = (data) => Alert.alert(JSON.stringify(data));
+  const onSubmit = async (data) => await register(data);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>¡Hola!</Text>
-      <Text style={styles.subtitle}>Bienvenido a buuk</Text>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>¡Hola!</Text>
+        <Text style={styles.subtitle}>Bienvenido a buuk</Text>
 
-      <Image source={require("../assets/buuk.png")} style={styles.image} />
+        <Image source={require("../assets/buuk.png")} style={styles.image} />
 
-      <Text style={styles.label}>Nombre de usuario</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Nombre de usuario"
-          />
-        )}
-        name="username"
-      />
-      <Text style={styles.label}>Email</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Correo electronico"
-          />
-        )}
-        name="email"
-      />
-      <Text style={styles.label}>Contraseña</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Contraseña"
-          />
-        )}
-        name="password"
-      />
-      <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.btnText}>Registrarse</Text>
-      </Pressable>
-
-      <View style={styles.signupContainer}>
-        <Text style={styles.signinText}>
-          ¿Ya tienes cuenta?{" "}
+        <Text style={styles.label}>Nombre de usuario</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Nombre de usuario"
+            />
+          )}
+          name="username"
+        />
+        {errors.username && (
           <Text
-            style={styles.signinLink}
-            onPress={() => navigation.navigate("Signin")}
+            style={{ color: "#fff", fontFamily: "poppins-semi", fontSize: 18 }}
           >
-            Inicia sesión
+            Este campo es obligatorio
           </Text>
+        )}
+        <Text
+          style={{ color: "#fff", fontFamily: "poppins-semi", fontSize: 18 }}
+        >
+          Este campo es obligatorio
         </Text>
-      </View>
-    </SafeAreaView>
+
+        <Text style={styles.label}>Email</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Correo electronico"
+            />
+          )}
+          name="email"
+        />
+        <Text style={styles.label}>Contraseña</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Contraseña"
+              secureTextEntry
+            />
+          )}
+          name="password"
+        />
+
+        {/* {hasError && (
+          <Text style={{ color: "#fff" }}>
+            Hubo un error al intentar registrarte, intentalo mas tarde
+          </Text>
+        )} */}
+        {isLoading && (
+          <ActivityIndicator
+            size="large"
+            color="#fff"
+            style={{
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          />
+        )}
+        <Pressable
+          style={styles.btn}
+          onPress={handleSubmit(onSubmit)}
+          android_disableSound={false}
+        >
+          <Text style={styles.btnText}>Registrarse</Text>
+        </Pressable>
+
+        <View style={styles.signupContainer}>
+          <Text style={styles.signinText}>
+            ¿Ya tienes cuenta?{" "}
+            <Text
+              style={styles.signinLink}
+              onPress={() => navigation.navigate("Signin")}
+            >
+              Inicia sesión
+            </Text>
+          </Text>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
