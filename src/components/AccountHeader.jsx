@@ -1,10 +1,28 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
 export default function AccountHeader() {
+  const [userFetched, setUserFetched] = useState({});
+
+  const { logout, user, profile } = useUser();
   const navigation = useNavigation();
+  const handleLogout = async () => logout();
+  console.log(user?.id);
+
+  const getData = async () => {
+    try {
+      const response = await profile(user?.id);
+      setUserFetched(response);
+      console.log("response from header", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, [user.id]);
 
   return (
     <View style={styles.container}>
@@ -32,7 +50,7 @@ export default function AccountHeader() {
             source={require("../assets/person1.jpg")}
             style={styles.user_image}
           />
-          <Text style={styles.user_name}>Andrea Rodriguez</Text>
+          <Text style={styles.user_name}>{userFetched.username}</Text>
         </View>
         <View style={styles.social}>
           <Icon name="facebook-square" size={35} color="#fff" />
@@ -40,6 +58,9 @@ export default function AccountHeader() {
           <Icon name="discord" size={35} color="#fff" />
           <Icon name="instagram-square" size={35} color="#fff" />
         </View>
+        <Pressable style={styles.logoutBtn} onPress={handleLogout}>
+          <Text style={styles.logoutText}>Cerrar sesion</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -56,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#242143",
     padding: 24,
 
-    height: 350,
+    height: 400,
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
   },
@@ -82,5 +103,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+  },
+  logoutBtn: {
+    backgroundColor: "#242143",
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 8,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  logoutText: {
+    color: "#fff",
+    fontFamily: "poppins-light",
   },
 });

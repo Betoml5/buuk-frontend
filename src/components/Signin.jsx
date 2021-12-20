@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useController, useForm } from "react-hook-form";
 import {
   View,
   Text,
   TextInput,
-  Alert,
   StyleSheet,
   Pressable,
   Image,
@@ -13,10 +12,11 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useUser } from "../hooks/useUser";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function Signin() {
   const navigation = useNavigation();
-  const { login, hasError, isLoading } = useUser();
+  const { login, hasError, isLoading, user } = useUser();
   const {
     control,
     handleSubmit,
@@ -31,102 +31,105 @@ export default function Signin() {
   const onSubmit = async (data) => await login(data);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>¡Hola!</Text>
-      <Text style={styles.subtitle}>Bienvenido de vuelta, te extrañamos</Text>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>¡Hola!</Text>
+        <Text style={styles.subtitle}>Bienvenido de vuelta, te extrañamos</Text>
 
-      <Image source={require("../assets/buuk.png")} style={styles.image} />
+        <Image source={require("../assets/buuk.png")} style={styles.image} />
 
-      <Text style={styles.label}>Email</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Correo electronico"
-          />
-        )}
-        name="email"
-      />
-      {errors.email && (
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "poppins-light",
-            fontSize: 12,
-            textAlign: "left",
-            alignSelf: "flex-start",
-            marginTop: 10,
+        <Text style={styles.label}>Email</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
           }}
-        >
-          Este campo es obligatorio
-        </Text>
-      )}
-      <Text style={styles.label}>Contraseña</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Contraseña"
-          />
-        )}
-        name="password"
-      />
-      {errors.password && (
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "poppins-light",
-            fontSize: 12,
-            textAlign: "left",
-            alignSelf: "flex-start",
-            marginTop: 10,
-          }}
-        >
-          Este campo es obligatorio
-        </Text>
-      )}
-      {isLoading && (
-        <ActivityIndicator
-          size="large"
-          color="#fff"
-          style={{
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "10%",
-          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Correo electronico"
+            />
+          )}
+          name="email"
         />
-      )}
-      <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.btnText}>Iniciar sesion</Text>
-      </Pressable>
-
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>
-          ¿Eres nuevo en Buuk?{" "}
+        {errors.email && (
           <Text
-            style={styles.signupLink}
-            onPress={() => navigation.navigate("Signup")}
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
           >
-            Registrate
+            Este campo es obligatorio
           </Text>
-        </Text>
-      </View>
-    </SafeAreaView>
+        )}
+        <Text style={styles.label}>Contraseña</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Contraseña"
+              secureTextEntry
+            />
+          )}
+          name="password"
+        />
+        {errors.password && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Este campo es obligatorio
+          </Text>
+        )}
+        {isLoading && (
+          <ActivityIndicator
+            size="large"
+            color="#fff"
+            style={{
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "10%",
+            }}
+          />
+        )}
+        <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.btnText}>Iniciar sesion</Text>
+        </Pressable>
+
+        <View style={styles.signupContainer}>
+          <Text style={styles.signupText}>
+            ¿Eres nuevo en Buuk?{" "}
+            <Text
+              style={styles.signupLink}
+              onPress={() => navigation.navigate("Signup")}
+            >
+              Registrate
+            </Text>
+          </Text>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 

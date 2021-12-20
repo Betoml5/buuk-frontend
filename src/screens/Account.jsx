@@ -1,23 +1,9 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Pressable,
-} from "react-native";
-import { useUser } from "../hooks/useUser";
+import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 
 export default function Account() {
-  const { logout } = useUser();
-  const handleLogout = async () => await logout();
-
   return (
     <View style={styles.container}>
-      <Pressable style={styles.logoutBtn} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Cerrar sesion</Text>
-      </Pressable>
       <ScrollView>
         <Text style={styles.reading_title}>Leyendo</Text>
         <ScrollView horizontal={true}>
@@ -73,17 +59,5 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 8,
     marginRight: 10,
-  },
-  logoutBtn: {
-    backgroundColor: "#242143",
-    marginTop: 40,
-    padding: 8,
-    borderRadius: 8,
-    alignSelf: "center",
-    shadowRadius: 10,
-  },
-  logoutText: {
-    color: "#fff",
-    fontFamily: "poppins-light",
   },
 });

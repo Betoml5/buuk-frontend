@@ -1,6 +1,6 @@
 import Context from "../context/userContext"
 import { useContext, useState } from "react"
-import { signin, signup } from "../services/User";
+import { findOne, signin, signup } from "../services/User";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigation } from "@react-navigation/native";
 
@@ -48,7 +48,14 @@ export function useUser() {
         await AsyncStorage.removeItem("jwt")
         navigation.navigate("AccountNavigation", { screen: "Signin" })
     };
-    const profile = () => { };
+    const profile = async (id) => {
+        try {
+            const response = await findOne(id);
+            return response.body;
+        } catch (error) {
+            return error;
+        }
+    };
 
     const reading = async () => { };
     const timeline = async () => { };

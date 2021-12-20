@@ -19,6 +19,15 @@ export const signin = async (user) => {
     }
 };
 
+export const findOne = async (id) => {
+    try {
+        const response = await axios.get(`${API}/user/${id}`);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 
 export const addToLibrary = async (id, workId) => { };
 export const removeFromLibrary = async (id, workId) => { };
