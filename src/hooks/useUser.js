@@ -1,11 +1,15 @@
 import Context from "../context/userContext"
 import { useContext, useState } from "react"
-import { signup } from "../services/User";
-import { Alert } from "react-native";
+import { signin, signup } from "../services/User";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useNavigation } from "@react-navigation/native";
+
 
 export function useUser() {
-    const { jwt, setJwt } = useContext(Context)
+    const { jwt, setJwt, user, setUser } = useContext(Context)
     const [state, setState] = useState({ loading: false, error: false });
+
+    const navigation = useNavigation();
 
     const register = async (user) => {
         try {
@@ -20,12 +24,30 @@ export function useUser() {
     };
     const login = async (user) => {
         try {
+            setState({ loading: true, error: false });
+            const response = await signin(user);
+            setJwt(response.token);
+            setUser(response.body);
+            await AsyncStorage.setItem("user", JSON.stringify(response.body));
+            await AsyncStorage.setItem("jwt", response.token)
+            navigation.navigate("AccountNavigation", { screen: "Account" })
+            console.log("response", response)
+            setState({ loading: false, error: false })
 
         } catch (error) {
-
+            await AsyncStorage.removeItem("jwt");
+            await AsyncStorage.removeItem("user");
+            setState({ loading: false, error: true })
+            console.log(error)
         }
     };
-    const logout = () => { };
+    const logout = async () => {
+        setJwt(null);
+        setUser(null);
+        await AsyncStorage.removeItem("user")
+        await AsyncStorage.removeItem("jwt")
+        navigation.navigate("AccountNavigation", { screen: "Signin" })
+    };
     const profile = () => { };
 
     const reading = async () => { };
@@ -42,7 +64,9 @@ export function useUser() {
         logout,
         profile,
         reading,
-        timeline
+        timeline,
+        user,
+
     }
 
 

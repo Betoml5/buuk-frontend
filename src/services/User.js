@@ -13,7 +13,7 @@ export const signup = async (user) => {
 export const signin = async (user) => {
     try {
         const response = await axios.post(`${API}/login`, user);
-        return response
+        return response.data.body;
     } catch (error) {
         return error;
     }

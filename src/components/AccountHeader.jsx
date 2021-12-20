@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { useUser } from "../hooks/useUser";
 export default function AccountHeader() {
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

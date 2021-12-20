@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
-import { ActivityIndicator } from "react-native-web";
+import { ActivityIndicator } from "react-native";
 
 export default function Signup() {
   const navigation = useNavigation();
@@ -144,10 +144,25 @@ export default function Signup() {
               alignContent: "center",
               alignItems: "center",
               justifyContent: "center",
-              height: "100%",
+              height: "10%",
             }}
           />
         )}
+        {hasError && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Hubo un error, intentalo mas tarde
+          </Text>
+        )}
+
         <Pressable
           style={styles.btn}
           onPress={handleSubmit(onSubmit)}

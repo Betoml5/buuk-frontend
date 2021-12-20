@@ -11,9 +11,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { useUser } from "../hooks/useUser";
 
 export default function Signin() {
   const navigation = useNavigation();
+  const { login, hasError, isLoading } = useUser();
   const {
     control,
     handleSubmit,
@@ -25,7 +27,7 @@ export default function Signin() {
     },
   });
 
-  const onSubmit = (data) => Alert.alert(JSON.stringify(data));
+  const onSubmit = async (data) => await login(data);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,6 +53,20 @@ export default function Signin() {
         )}
         name="email"
       />
+      {errors.email && (
+        <Text
+          style={{
+            color: "#fff",
+            fontFamily: "poppins-light",
+            fontSize: 12,
+            textAlign: "left",
+            alignSelf: "flex-start",
+            marginTop: 10,
+          }}
+        >
+          Este campo es obligatorio
+        </Text>
+      )}
       <Text style={styles.label}>Contraseña</Text>
       <Controller
         control={control}
@@ -68,6 +84,20 @@ export default function Signin() {
         )}
         name="password"
       />
+      {errors.password && (
+        <Text
+          style={{
+            color: "#fff",
+            fontFamily: "poppins-light",
+            fontSize: 12,
+            textAlign: "left",
+            alignSelf: "flex-start",
+            marginTop: 10,
+          }}
+        >
+          Este campo es obligatorio
+        </Text>
+      )}
       <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.btnText}>Iniciar sesion</Text>
       </Pressable>

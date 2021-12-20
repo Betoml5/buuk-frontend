@@ -14,22 +14,24 @@ export default function AccountNavigation() {
   return (
     <Stack.Navigator>
       {
-        !isLogged ? <><Stack.Screen
-          name="Account"
-          component={Account}
-          options={{ title: "Mi cuenta", header: () => <AccountHeader /> }}
-        />
-          <Stack.Screen
-            name="Settings"
-            component={Settings}
-            options={{
-              title: "Configuracion",
-              headerShadowVisible: false,
-              headerTintColor: "#fff",
-              headerTitleStyle: { color: "#fff" },
-              headerStyle: { backgroundColor: "#1A1736" },
-            }}
-          /></> :
+        isLogged ?
+          <>
+            <Stack.Screen
+              name="Account"
+              component={Account}
+              options={{ title: "Mi cuenta", header: () => <AccountHeader /> }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                title: "Configuracion",
+                headerShadowVisible: false,
+                headerTintColor: "#fff",
+                headerTitleStyle: { color: "#fff" },
+                headerStyle: { backgroundColor: "#1A1736" },
+              }}
+            /></> :
           <>
             <Stack.Screen name="Signin" component={Signin} options={{
               headerShown: false,
