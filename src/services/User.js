@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = `http://192.168.1.68:3080/api/v1/users`;
+const API = `http://192.168.1.117:3080/api/v1/users`;
 
 
 export const signup = async (user) => {
@@ -29,7 +29,16 @@ export const findOne = async (id) => {
 }
 
 
-export const addToLibrary = async (id, workId) => { };
-export const removeFromLibrary = async (id, workId) => { };
+export const addToLibrary = async (id, bookId) => {
+    try {
+        const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+export const removeFromLibrary = async (id, workId) => {
+
+};
 export const addObjetive = async () => { };
 

@@ -9,20 +9,18 @@ export default function AccountHeader() {
   const { logout, user, profile } = useUser();
   const navigation = useNavigation();
   const handleLogout = async () => logout();
-  console.log(user?.id);
 
   const getData = async () => {
     try {
       const response = await profile(user?.id);
       setUserFetched(response);
-      console.log("response from header", response);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     getData();
-  }, [user.id]);
+  }, [user?.id]);
 
   return (
     <View style={styles.container}>
@@ -50,7 +48,7 @@ export default function AccountHeader() {
             source={require("../assets/person1.jpg")}
             style={styles.user_image}
           />
-          <Text style={styles.user_name}>{userFetched.username}</Text>
+          <Text style={styles.user_name}>{userFetched?.username}</Text>
         </View>
         <View style={styles.social}>
           <Icon name="facebook-square" size={35} color="#fff" />
