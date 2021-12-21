@@ -18,11 +18,12 @@ import { searchBook } from "../services/Book";
 
 export default function Library() {
   const navigation = useNavigation();
-  const { isLogged } = useUser();
+  const { addToLibrary, removeFromLibrary, user, profile } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+  const [userFetched, setUserFetched] = useState({});
 
   const handleSearch = async (title) => {
     try {
@@ -36,10 +37,40 @@ export default function Library() {
     }
   };
 
-  const handleAddToLibrary = async () => {
+  const handleAddToLibrary = async (id, bookId) => {
     try {
-    } catch (error) {}
+      const newUser = await addToLibrary(id, bookId);
+      setUserFetched(newUser);
+    } catch (error) {
+      return error;
+    }
   };
+
+  const handleRemoveFromLibrary = async (id, bookId) => {
+    try {
+      const newUser = await removeFromLibrary(id, bookId);
+      setUserFetched(newUser);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const response = await profile(user?.id);
+      console.log(response.body);
+      setUserFetched(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // userFetched?.library.map((item) => console.log(item));
+  console.log(userFetched);
 
   return (
     <View style={styles.container}>
@@ -114,25 +145,55 @@ export default function Library() {
                           resizeMode: "cover",
                         }}
                       />
-                      <Pressable
-                        style={{
-                          marginTop: 10,
-                          backgroundColor: "#242143",
-                          padding: 8,
-                          borderRadius: 8,
-                        }}
-                      >
-                        <Text
+                      {userFetched?.library?.find(
+                        (book) => book === item.work_id
+                      ) ? (
+                        <Pressable
                           style={{
-                            textAlign: "center",
-                            color: "#fff",
-                            fontFamily: "poppins-light",
-                            fontSize: 12,
+                            marginTop: 10,
+                            backgroundColor: "#242143",
+                            padding: 8,
+                            borderRadius: 8,
                           }}
+                          onPress={() =>
+                            handleRemoveFromLibrary(user?.id, item?.work_id)
+                          }
                         >
-                          Agregar a biblioteca
-                        </Text>
-                      </Pressable>
+                          <Text
+                            style={{
+                              textAlign: "center",
+                              color: "#fff",
+                              fontFamily: "poppins-light",
+                              fontSize: 12,
+                            }}
+                          >
+                            Remover de la biblioteca
+                          </Text>
+                        </Pressable>
+                      ) : (
+                        <Pressable
+                          style={{
+                            marginTop: 10,
+                            backgroundColor: "#242143",
+                            padding: 8,
+                            borderRadius: 8,
+                          }}
+                          onPress={() =>
+                            handleAddToLibrary(user?.id, item?.work_id)
+                          }
+                        >
+                          <Text
+                            style={{
+                              textAlign: "center",
+                              color: "#fff",
+                              fontFamily: "poppins-light",
+                              fontSize: 12,
+                            }}
+                          >
+                            Agregar a la biblioteca
+                          </Text>
+                        </Pressable>
+                      )}
                     </View>
                   )}
                   horizontal={true}

@@ -1,6 +1,6 @@
 import Context from "../context/userContext"
 import { useContext, useState } from "react"
-import { addToLibraryAPI, findOne, signin, signup } from "../services/User";
+import { addToLibraryAPI, findOne, removeFromLibraryAPI, signin, signup } from "../services/User";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigation } from "@react-navigation/native";
 
@@ -60,6 +60,16 @@ export function useUser() {
     const addToLibrary = async (id, bookId) => {
         try {
             const response = await addToLibraryAPI(id, bookId);
+            console.log("response", response.body)
+            return response.body;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    const removeFromLibrary = async (id, bookId) => {
+        try {
+            const response = await removeFromLibraryAPI(id, bookId);
             return response.body;
         } catch (error) {
             return error;
@@ -82,6 +92,7 @@ export function useUser() {
         reading,
         timeline,
         addToLibrary,
+        removeFromLibrary,
         user,
 
     }

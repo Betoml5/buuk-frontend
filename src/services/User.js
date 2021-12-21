@@ -32,14 +32,18 @@ export const findOne = async (id) => {
 export const addToLibraryAPI = async (id, bookId) => {
     try {
         const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
-        console.log(response)
         return response.data;
     } catch (error) {
         return error;
     }
 };
-export const removeFromLibrary = async (id, workId) => {
-
+export const removeFromLibraryAPI = async (id, bookId) => {
+    try {
+        const response = await axios.delete(`${API}/library/${id}?bookId=${bookId}`);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
 };
 export const addObjetive = async () => { };
 
