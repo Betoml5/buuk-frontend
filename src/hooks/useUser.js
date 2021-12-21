@@ -30,7 +30,7 @@ export function useUser() {
             setUser(response.body);
             await AsyncStorage.setItem("user", JSON.stringify(response.body));
             await AsyncStorage.setItem("jwt", response.token)
-            navigation.navigate("AccountNavigation", { screen: "Account" })
+            navigation.navigate("LibraryNavigation", { screen: "Library" })
             console.log("response", response)
             setState({ loading: false, error: false })
 
