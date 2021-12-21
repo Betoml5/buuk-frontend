@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -6,17 +7,18 @@ import {
   Image,
   Modal,
   Pressable,
-  Alert,
   TextInput,
   FlatList,
-  Button,
   ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
+  const navigation = useNavigation();
+  const { isLogged } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);

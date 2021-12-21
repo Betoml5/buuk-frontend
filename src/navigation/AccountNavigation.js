@@ -31,7 +31,9 @@ export default function AccountNavigation() {
                 headerTitleStyle: { color: "#fff" },
                 headerStyle: { backgroundColor: "#1A1736" },
               }}
-            /></> :
+            />
+          </>
+          :
           <>
             <Stack.Screen name="Signin" component={Signin} options={{
               headerShown: false,

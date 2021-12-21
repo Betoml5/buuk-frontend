@@ -1,6 +1,6 @@
 import Context from "../context/userContext"
 import { useContext, useState } from "react"
-import { findOne, signin, signup } from "../services/User";
+import { addToLibraryAPI, findOne, signin, signup } from "../services/User";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigation } from "@react-navigation/native";
 
@@ -57,6 +57,15 @@ export function useUser() {
         }
     };
 
+    const addToLibrary = async (id, bookId) => {
+        try {
+            const response = await addToLibraryAPI(id, bookId);
+            return response.body;
+        } catch (error) {
+            return error;
+        }
+    }
+
     const reading = async () => { };
     const timeline = async () => { };
 
@@ -72,6 +81,7 @@ export function useUser() {
         profile,
         reading,
         timeline,
+        addToLibrary,
         user,
 
     }

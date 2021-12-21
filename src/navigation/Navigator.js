@@ -15,6 +15,7 @@ import Discover from "../screens/Discover";
 import Buuk from "../screens/Buuk";
 import AccountNavigation from "./AccountNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LibraryNavigation from "./LibraryNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -57,24 +58,11 @@ export default function Navigator() {
       />
 
       <Tab.Screen
-        component={Library}
-        name="Library"
+        component={LibraryNavigation}
+        name="LibraryNavigation"
         options={{
-          tabBarIcon: () => renderBooks(),
+          headerShown: false, tabBarIcon: () => renderBooks(),
           tabBarLabel: "Biblioteca",
-          headerTitleStyle: {
-            color: "#fff",
-            fontFamily: "poppins-semi",
-          },
-          headerShadowVisible: false,
-          headerTitle: "Biblioteca",
-          headerTitleAlign: "center",
-          headerStyle: {
-            backgroundColor: "#242143",
-            borderBottomLeftRadius: 24,
-            borderBottomRightRadius: 24,
-            height: 100,
-          },
         }}
       />
 
