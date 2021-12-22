@@ -10,6 +10,9 @@ export function UserContextProvider({ children }) {
     const [jwt, setJwt] = useState(() => AsyncStorage.getItem("jwt"));
     const [timeline, setTimeline] = useState(() => AsyncStorage.getItem("timeline"))
     const [user, setUser] = useState(() => AsyncStorage.getItem("user"))
+    const [userFetched, setUserFetched] = useState(null);
+
+
 
 
     return (
@@ -19,7 +22,9 @@ export function UserContextProvider({ children }) {
             timeline,
             setTimeline,
             user,
-            setUser
+            setUser,
+            userFetched,
+            setUserFetched
         }}>
             {children}
         </Context.Provider>

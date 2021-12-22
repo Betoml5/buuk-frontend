@@ -2,6 +2,7 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 import React, { useState } from "react";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { UserContextProvider } from "./src/context/userContext";
 import Navigator from "./src/navigation/Navigator";
 
@@ -35,10 +36,12 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer theme={navTheme}>
-      <UserContextProvider>
-        <Navigator />
-      </UserContextProvider>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer theme={navTheme}>
+        <UserContextProvider>
+          <Navigator />
+        </UserContextProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

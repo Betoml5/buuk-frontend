@@ -21,6 +21,7 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigator() {
   return (
+
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
@@ -28,6 +29,7 @@ export default function Navigator() {
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#DDDCDE",
+
       }}
     >
       <Tab.Screen
@@ -147,7 +149,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1A1736",
     borderTopWidth: 0,
-    paddingBottom: 6
   },
   header: {
     backgroundColor: "#242143",

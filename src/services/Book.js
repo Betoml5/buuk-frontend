@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = `http://192.168.1.117:3080/api/v1/books`;
+const API = `http://192.168.1.68:3080/api/v1/books`;
 
 export const getBestSellers = async () => {
   try {
@@ -14,7 +14,6 @@ export const getBestSellers = async () => {
 export const searchBook = async (title) => {
   try {
     const response = await axios.get(`${API}/search?title=${title}`);
-
     return response.data.body;
   } catch (error) {
     throw error;

@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
 export default function AccountHeader() {
@@ -20,10 +21,12 @@ export default function AccountHeader() {
   };
   useEffect(() => {
     getData();
-  }, [user?.id]);
+
+    return () => setUserFetched({});
+  }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.icons}>
           <View>
@@ -48,7 +51,7 @@ export default function AccountHeader() {
             source={require("../assets/person1.jpg")}
             style={styles.user_image}
           />
-          <Text style={styles.user_name}>{userFetched?.username}</Text>
+          <Text style={styles.user_name}>{user?.username}</Text>
         </View>
         <View style={styles.social}>
           <Icon name="facebook-square" size={35} color="#fff" />
@@ -60,7 +63,7 @@ export default function AccountHeader() {
           <Text style={styles.logoutText}>Cerrar sesion</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -74,8 +77,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#242143",
     padding: 24,
-
-    height: 400,
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
   },

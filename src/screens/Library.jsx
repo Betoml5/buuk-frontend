@@ -17,13 +17,18 @@ import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
-  const navigation = useNavigation();
-  const { addToLibrary, removeFromLibrary, user, profile } = useUser();
+  const {
+    addToLibrary,
+    removeFromLibrary,
+    user,
+    profile,
+    userFetched,
+    setUserFetched,
+  } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
-  const [userFetched, setUserFetched] = useState({});
 
   const handleSearch = async (title) => {
     try {
@@ -58,7 +63,6 @@ export default function Library() {
   const getData = async () => {
     try {
       const response = await profile(user?.id);
-      console.log(response.body);
       setUserFetched(response);
     } catch (error) {
       console.log(error);
@@ -68,9 +72,6 @@ export default function Library() {
   useEffect(() => {
     getData();
   }, []);
-
-  // userFetched?.library.map((item) => console.log(item));
-  console.log(userFetched);
 
   return (
     <View style={styles.container}>
@@ -88,7 +89,7 @@ export default function Library() {
               <Pressable
                 onPress={() => {
                   setModalVisible(!modalVisible);
-                  // setSearchesBooks([]);
+                  setSearchesBooks([]);
                 }}
               >
                 <Image
@@ -146,7 +147,7 @@ export default function Library() {
                         }}
                       />
                       {userFetched?.library?.find(
-                        (book) => book === item.work_id
+                        (book) => book.id === item.work_id
                       ) ? (
                         <Pressable
                           style={{

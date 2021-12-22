@@ -1,12 +1,12 @@
 import Context from "../context/userContext"
 import { useContext, useState } from "react"
-import { addToLibraryAPI, findOne, removeFromLibraryAPI, signin, signup } from "../services/User";
+import { addToLibraryAPI, findOne, libraryAPI, removeFromLibraryAPI, signin, signup } from "../services/User";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigation } from "@react-navigation/native";
 
 
 export function useUser() {
-    const { jwt, setJwt, user, setUser } = useContext(Context)
+    const { jwt, setJwt, user, setUser, userFetched, setUserFetched } = useContext(Context)
     const [state, setState] = useState({ loading: false, error: false });
 
     const navigation = useNavigation();
@@ -30,8 +30,10 @@ export function useUser() {
             setUser(response.body);
             await AsyncStorage.setItem("user", JSON.stringify(response.body));
             await AsyncStorage.setItem("jwt", response.token)
+            const userResponse = await findOne(response.body.id);
+            setUserFetched(userResponse.body)
+            console.log("USER FETCHED: ", userResponse.body)
             navigation.navigate("LibraryNavigation", { screen: "Library" })
-            console.log("response", response)
             setState({ loading: false, error: false })
 
         } catch (error) {
@@ -60,7 +62,6 @@ export function useUser() {
     const addToLibrary = async (id, bookId) => {
         try {
             const response = await addToLibraryAPI(id, bookId);
-            console.log("response", response.body)
             return response.body;
         } catch (error) {
             return error;
@@ -70,6 +71,15 @@ export function useUser() {
     const removeFromLibrary = async (id, bookId) => {
         try {
             const response = await removeFromLibraryAPI(id, bookId);
+            return response.body;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    const library = async (id) => {
+        try {
+            const response = await libraryAPI(id);
             return response.body;
         } catch (error) {
             return error;
@@ -93,6 +103,9 @@ export function useUser() {
         timeline,
         addToLibrary,
         removeFromLibrary,
+        library,
+        userFetched,
+        setUserFetched,
         user,
 
     }
