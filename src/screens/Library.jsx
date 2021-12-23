@@ -17,14 +17,7 @@ import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
-  const {
-    addToLibrary,
-    removeFromLibrary,
-    user,
-    profile,
-    userFetched,
-    setUserFetched,
-  } = useUser();
+  const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +38,7 @@ export default function Library() {
   const handleAddToLibrary = async (id, bookId) => {
     try {
       const newUser = await addToLibrary(id, bookId);
-      setUserFetched(newUser);
+      setUser(newUser);
     } catch (error) {
       return error;
     }
@@ -54,24 +47,11 @@ export default function Library() {
   const handleRemoveFromLibrary = async (id, bookId) => {
     try {
       const newUser = await removeFromLibrary(id, bookId);
-      setUserFetched(newUser);
+      setUser(newUser);
     } catch (error) {
       return error;
     }
   };
-
-  const getData = async () => {
-    try {
-      const response = await profile(user?.id);
-      setUserFetched(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -146,7 +126,7 @@ export default function Library() {
                           resizeMode: "cover",
                         }}
                       />
-                      {userFetched?.library?.find(
+                      {user?.library?.find(
                         (book) => book.id === item.work_id
                       ) ? (
                         <Pressable
@@ -157,7 +137,7 @@ export default function Library() {
                             borderRadius: 8,
                           }}
                           onPress={() =>
-                            handleRemoveFromLibrary(user?.id, item?.work_id)
+                            handleRemoveFromLibrary(user?._id, item?.work_id)
                           }
                         >
                           <Text
@@ -180,7 +160,7 @@ export default function Library() {
                             borderRadius: 8,
                           }}
                           onPress={() =>
-                            handleAddToLibrary(user?.id, item?.work_id)
+                            handleAddToLibrary(user?._id, item?.work_id)
                           }
                         >
                           <Text

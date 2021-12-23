@@ -7,24 +7,15 @@ export default Context;
 
 export function UserContextProvider({ children }) {
 
-    const [jwt, setJwt] = useState(() => AsyncStorage.getItem("jwt"));
-    const [timeline, setTimeline] = useState(() => AsyncStorage.getItem("timeline"))
-    const [user, setUser] = useState(() => AsyncStorage.getItem("user"))
-    const [userFetched, setUserFetched] = useState(null);
-
-
-
+    const [jwt, setJwt] = useState(async () => await AsyncStorage.getItem("jwt"));
+    const [user, setUser] = useState(async () => await AsyncStorage.getItem("user"))
 
     return (
         <Context.Provider value={{
             jwt,
             setJwt,
-            timeline,
-            setTimeline,
             user,
-            setUser,
-            userFetched,
-            setUserFetched
+            setUser
         }}>
             {children}
         </Context.Provider>

@@ -28,7 +28,6 @@ export const findOne = async (id) => {
     }
 }
 
-
 export const addToLibraryAPI = async (id, bookId) => {
     try {
         const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
@@ -48,13 +47,14 @@ export const removeFromLibraryAPI = async (id, bookId) => {
     }
 };
 
-export const libraryAPI = async (id) => {
+export const addItemToTimelineAPI = async (id, item) => {
     try {
-        const response = await axios.get(`${API}/user/library/${id}`);
+        const response = await axios.patch(`${API}/timeline/${id}`, item);
         return response.data;
     } catch (error) {
         return error;
     }
 }
+
 export const addObjetive = async () => { };
 

@@ -1,29 +1,15 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
-export default function AccountHeader() {
-  const [userFetched, setUserFetched] = useState({});
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
-  const { logout, user, profile } = useUser();
+export default function AccountHeader() {
+  const { logout, user } = useUser();
   const navigation = useNavigation();
   const handleLogout = async () => logout();
-
-  const getData = async () => {
-    try {
-      const response = await profile(user?.id);
-      setUserFetched(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getData();
-
-    return () => setUserFetched({});
-  }, []);
 
   return (
     <ScrollView style={styles.container}>
