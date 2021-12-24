@@ -48,9 +48,11 @@ export const removeFromLibraryAPI = async (id, bookId) => {
 
 export const addItemToTimelineAPI = async (id, item) => {
     try {
-        const response = await axios.patch(`${API}/timeline/${id}`, item);
+        const response = await axios.patch(`${API}/timeline/${id}`, { item: item });
+        console.log(response)
         return response.data;
     } catch (error) {
+        console.log(error)
         return error;
     }
 }
