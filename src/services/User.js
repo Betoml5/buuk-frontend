@@ -31,7 +31,6 @@ export const findOne = async (id) => {
 export const addToLibraryAPI = async (id, bookId) => {
     try {
         const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
-        console.log(response.data)
         return response.data;
     } catch (error) {
         console.log(error)

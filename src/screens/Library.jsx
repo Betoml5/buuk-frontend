@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,13 +18,15 @@ import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
-  const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
+  const { addToLibrary, removeFromLibrary, addItemToTimeline, user, setUser } =
+    useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [timelineModal, setTimelineModal] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
 
+  const navigatior = useNavigation();
   const handleSearch = async (title) => {
     try {
       setLoading(true);
@@ -52,6 +55,11 @@ export default function Library() {
     } catch (error) {
       return error;
     }
+  };
+
+  const handleAddPages = async () => {
+    try {
+    } catch (error) {}
   };
 
   return (
@@ -189,52 +197,99 @@ export default function Library() {
           transparent={true}
           visible={timelineModal}
           onRequestClose={() => {
-            setTimelineModal(!timelineModal);
+            setTimelineModal(false);
           }}
         >
           <SafeAreaView style={styles.modalContainer}>
-            <View style={styles.modalHeader}>
-              <Pressable
-                onPress={() => {
-                  setTimelineModal(!timelineModal);
-                }}
-              >
-                <Image
-                  source={require("../assets/close.png")}
-                  style={styles.closeIcon}
-                />
-              </Pressable>
-              <Text style={styles.modalTitle}>Agregar al hilo</Text>
-            </View>
-            <View style={styles.searchContainer}>
-              {loading ? (
-                <ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  style={{ marginTop: 50 }}
-                />
-              ) : (
-                <FlatList
-                  style={{ marginTop: 20 }}
-                  data={user.library}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item }) => (
-                    <View key={item.id} style={{ marginRight: 12 }}>
-                      <Image
-                        source={{ uri: item.cover }}
-                        style={{
-                          width: 150,
-                          height: 230,
-                          borderRadius: 8,
-                          resizeMode: "cover",
-                        }}
-                      />
-                    </View>
-                  )}
-                  horizontal={true}
-                />
-              )}
-            </View>
+            <ScrollView>
+              <View style={styles.modalHeader}>
+                <Pressable
+                  onPress={() => {
+                    setTimelineModal(true);
+                  }}
+                >
+                  <Image
+                    source={require("../assets/close.png")}
+                    style={styles.closeIcon}
+                  />
+                </Pressable>
+                <Text style={styles.modalTitle}>Agregar al hilo</Text>
+              </View>
+              <View style={styles.searchContainer}>
+                {loading ? (
+                  <ActivityIndicator
+                    size="large"
+                    color="#fff"
+                    style={{ marginTop: 50 }}
+                  />
+                ) : (
+                  <FlatList
+                    style={{ marginTop: 20 }}
+                    data={user?.library}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => (
+                      <View key={item.id} style={{ marginRight: 12 }}>
+                        <Image
+                          source={{ uri: item.cover }}
+                          style={{
+                            width: 150,
+                            height: 230,
+                            borderRadius: 8,
+                            resizeMode: "cover",
+                          }}
+                        />
+                        <Pressable
+                          style={styles.btn}
+                          onPress={() => {
+                            setTimelineModal(false);
+                            navigatior.navigate("LibraryNavigation", {
+                              screen: "TimelineForm",
+                              params: { book: item },
+                            });
+                          }}
+                        >
+                          <Text
+                            style={{
+                              textAlign: "center",
+                              color: "#fff",
+                              fontFamily: "poppins-light",
+                              fontSize: 12,
+                            }}
+                          >
+                            Agregar
+                          </Text>
+                        </Pressable>
+                        <View
+                          style={{
+                            position: "absolute",
+                            backgroundColor: "#fff",
+                            padding: 20,
+                            flexDirection: "row",
+                          }}
+                        >
+                          <Pressable>
+                            <Text style={{ fontSize: 24 }}>+</Text>
+                          </Pressable>
+                          <Text
+                            style={{
+                              marginRight: 20,
+                              marginLeft: 20,
+                              fontSize: 24,
+                            }}
+                          >
+                            {item?.numberPages}
+                          </Text>
+                          <Pressable>
+                            <Text style={{ fontSize: 24 }}>-</Text>
+                          </Pressable>
+                        </View>
+                      </View>
+                    )}
+                    horizontal={true}
+                  />
+                )}
+              </View>
+            </ScrollView>
           </SafeAreaView>
         </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>

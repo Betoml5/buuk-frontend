@@ -5,6 +5,7 @@ import Signup from "../components/Signup";
 import { useUser } from "../hooks/useUser";
 import Library from "../screens/Library";
 import { Image } from 'react-native';
+import TimelineForm from '../components/TimelineForm';
 
 
 
@@ -33,6 +34,26 @@ export default function LibraryNavigation() {
                                 height: 100,
                             },
                         }} />
+
+                        <Stack.Screen
+                            name="TimelineForm"
+                            component={TimelineForm}
+                            options={{
+                                headerTitleStyle: {
+                                    color: "#fff",
+                                    fontFamily: "poppins-semi",
+                                },
+                                headerShadowVisible: false,
+                                headerTitle: "Timeline",
+                                headerTitleAlign: "center",
+                                headerStyle: {
+                                    backgroundColor: "#242143",
+                                    borderBottomLeftRadius: 24,
+                                    borderBottomRightRadius: 24,
+                                    height: 100,
+                                },
+                            }}
+                        />
 
                     </> :
                     <>
