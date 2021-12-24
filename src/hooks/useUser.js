@@ -108,7 +108,6 @@ export function useUser() {
         }
     }
 
-    const reading = async () => { };
 
 
 
@@ -120,7 +119,6 @@ export function useUser() {
         login,
         logout,
         profile,
-        reading,
         addToLibrary,
         removeFromLibrary,
         addItemToTimeline,

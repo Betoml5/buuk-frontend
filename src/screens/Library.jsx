@@ -19,6 +19,7 @@ import { searchBook } from "../services/Book";
 export default function Library() {
   const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
+  const [timelineModal, setTimelineModal] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -183,6 +184,59 @@ export default function Library() {
             </View>
           </SafeAreaView>
         </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={timelineModal}
+          onRequestClose={() => {
+            setTimelineModal(!timelineModal);
+          }}
+        >
+          <SafeAreaView style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Pressable
+                onPress={() => {
+                  setTimelineModal(!timelineModal);
+                }}
+              >
+                <Image
+                  source={require("../assets/close.png")}
+                  style={styles.closeIcon}
+                />
+              </Pressable>
+              <Text style={styles.modalTitle}>Agregar al hilo</Text>
+            </View>
+            <View style={styles.searchContainer}>
+              {loading ? (
+                <ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  style={{ marginTop: 50 }}
+                />
+              ) : (
+                <FlatList
+                  style={{ marginTop: 20 }}
+                  data={user.library}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <View key={item.id} style={{ marginRight: 12 }}>
+                      <Image
+                        source={{ uri: item.cover }}
+                        style={{
+                          width: 150,
+                          height: 230,
+                          borderRadius: 8,
+                          resizeMode: "cover",
+                        }}
+                      />
+                    </View>
+                  )}
+                  horizontal={true}
+                />
+              )}
+            </View>
+          </SafeAreaView>
+        </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>
 
         <View style={styles.goals_container}>
@@ -216,12 +270,15 @@ export default function Library() {
               style={styles.crudIcon}
             />
           </Pressable>
-          <View style={styles.crudIconContainer}>
+          <Pressable
+            style={styles.crudIconContainer}
+            onPress={() => setTimelineModal(true)}
+          >
             <Image
               source={require("../assets/add.png")}
               style={styles.crudIcon}
             />
-          </View>
+          </Pressable>
         </View>
         <View style={styles.containerTimeline}>
           <View style={styles.timelineItem}>
@@ -416,7 +473,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-
     padding: 12,
     borderRadius: 8,
     backgroundColor: "#fff",
@@ -484,7 +540,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#322F4C",
     height: "100%",
     opacity: 0.9,
-
     padding: 20,
     position: "relative",
   },
@@ -533,7 +588,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     padding: 16,
-
     width: "100%",
     borderRadius: 8,
     marginTop: 20,
