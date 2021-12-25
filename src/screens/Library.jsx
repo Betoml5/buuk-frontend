@@ -10,7 +10,6 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,8 +17,7 @@ import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
-  const { addToLibrary, removeFromLibrary, addItemToTimeline, user, setUser } =
-    useUser();
+  const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [timelineModal, setTimelineModal] = useState(false);
   const [searchedBooks, setSearchesBooks] = useState([]);
@@ -205,7 +203,7 @@ export default function Library() {
               <View style={styles.modalHeader}>
                 <Pressable
                   onPress={() => {
-                    setTimelineModal(true);
+                    setTimelineModal(false);
                   }}
                 >
                   <Image
@@ -259,30 +257,6 @@ export default function Library() {
                             Agregar
                           </Text>
                         </Pressable>
-                        <View
-                          style={{
-                            position: "absolute",
-                            backgroundColor: "#fff",
-                            padding: 20,
-                            flexDirection: "row",
-                          }}
-                        >
-                          <Pressable>
-                            <Text style={{ fontSize: 24 }}>+</Text>
-                          </Pressable>
-                          <Text
-                            style={{
-                              marginRight: 20,
-                              marginLeft: 20,
-                              fontSize: 24,
-                            }}
-                          >
-                            {item?.numberPages}
-                          </Text>
-                          <Pressable>
-                            <Text style={{ fontSize: 24 }}>-</Text>
-                          </Pressable>
-                        </View>
                       </View>
                     )}
                     horizontal={true}
@@ -300,7 +274,7 @@ export default function Library() {
               source={require("../assets/pages.png")}
               style={{ width: 50, height: 50 }}
             />
-            <Text style={styles.number_pages}>324</Text>
+            <Text style={styles.number_pages}>{user?.pagescount}</Text>
             <Text style={styles.number_pages_text}>
               Paginas leidas este mes
             </Text>
@@ -311,7 +285,7 @@ export default function Library() {
               source={require("../assets/bookreads.png")}
               style={{ width: 50, height: 50, padding: 0, margin: 0 }}
             />
-            <Text style={styles.number_books}>34</Text>
+            <Text style={styles.number_books}>{user?.library.length}</Text>
             <Text style={styles.number_books_text}>Libros leidos este mes</Text>
           </View>
         </View>
@@ -335,124 +309,67 @@ export default function Library() {
             />
           </Pressable>
         </View>
-        <View style={styles.containerTimeline}>
-          <View style={styles.timelineItem}>
-            {/* Fecha de arriba */}
-            <View style={styles.datetime}>
-              <Text style={styles.date}>08</Text>
-              <Text style={styles.day}>Ayer</Text>
-            </View>
+        {user?.timeline.length > 0 ? (
+          <View style={styles.containerTimeline}>
+            <FlatList
+              nestedScrollEnabled
+              data={user.timeline}
+              keyExtractor={(item, index) => index}
+              renderItem={({ item, index }) => (
+                <View style={styles.timelineItem} key={index}>
+                  {/* Fecha de arriba */}
+                  <View style={styles.datetime}>
+                    <Text style={styles.date}>{item.date}</Text>
+                    <Text style={styles.day}>{item.fulldate}</Text>
+                  </View>
 
-            <View style={styles.booksContainer}>
-              <View style={styles.booksWrapper}>
-                <View style={styles.bookInfo}>
-                  <Image
-                    source={require("../assets/book-cover-1.jpg")}
-                    style={styles.book}
-                  />
-                  <View style={styles.bookDescription}>
-                    <Text style={styles.bookName}>
-                      Beautiful world where are you
-                    </Text>
-                    <Text style={styles.bookGender}>Ficción</Text>
+                  <View style={styles.booksContainer}>
+                    <View style={styles.booksWrapper}>
+                      <View style={styles.bookInfo}>
+                        <Image
+                          source={{ uri: item.book.cover }}
+                          style={styles.book}
+                        />
+                        <View style={styles.bookDescription}>
+                          <Text style={styles.bookName}>{item.book.title}</Text>
+                          <Text style={styles.bookGender}>Ficción</Text>
+                        </View>
+                      </View>
+                      <View style={styles.numberPagesContainer}>
+                        <Image
+                          source={require("../assets/pagesWhite.png")}
+                          style={styles.bookPagesIcon}
+                        />
+                        <Text style={styles.numberPagesDay}>
+                          {item.book.numberPages}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
-                <View style={styles.numberPagesContainer}>
-                  <Image
-                    source={require("../assets/pagesWhite.png")}
-                    style={styles.bookPagesIcon}
-                  />
-                  <Text style={styles.numberPagesDay}>24</Text>
-                </View>
-              </View>
-              <View style={styles.booksWrapper}>
-                <View style={styles.bookInfo}>
-                  <Image
-                    source={require("../assets/book-cover-1.jpg")}
-                    style={styles.book}
-                  />
-                  <View style={styles.bookDescription}>
-                    <Text style={styles.bookName}>
-                      Beautiful world where are you
-                    </Text>
-                    <Text style={styles.bookGender}>Ficción</Text>
-                  </View>
-                </View>
-                <View style={styles.numberPagesContainer}>
-                  <Image
-                    source={require("../assets/pagesWhite.png")}
-                    style={styles.bookPagesIcon}
-                  />
-                  <Text style={styles.numberPagesDay}>24</Text>
-                </View>
-              </View>
-            </View>
+              )}
+            />
           </View>
-
-          <View style={styles.timelineItem}>
-            {/* Fecha de arriba */}
-            <View style={styles.datetime}>
-              <Text style={styles.date}>09</Text>
-              <Text style={styles.day}>Hoy</Text>
-            </View>
-
-            <View style={styles.booksContainer}>
-              <View style={styles.booksWrapper}>
-                <View style={styles.bookInfo}>
-                  <Image
-                    source={require("../assets/book-cover.jpg")}
-                    style={styles.book}
-                  />
-                  <View style={styles.bookDescription}>
-                    <Text style={styles.bookName}>
-                      Beautiful world where are you
-                    </Text>
-                    <Text style={styles.bookGender}>Ficción</Text>
-                  </View>
-                </View>
-                <View style={styles.numberPagesContainer}>
-                  <Image
-                    source={require("../assets/pagesWhite.png")}
-                    style={styles.bookPagesIcon}
-                  />
-                  <Text style={styles.numberPagesDay}>12</Text>
-                </View>
-              </View>
-            </View>
+        ) : (
+          <View style={styles.containerTimeline}>
+            <Text
+              style={{
+                fontFamily: "poppins-semi",
+                color: "#fff",
+                lineHeight: 26,
+                textAlign: "center",
+              }}
+            >
+              Aún no tienes ningun avance{" "}
+              <Text
+                onPress={() => setTimelineModal(true)}
+                style={{ color: "#1963d1" }}
+              >
+                agrega uno
+              </Text>
+            </Text>
           </View>
-
-          <View style={styles.timelineItem}>
-            {/* Fecha de arriba */}
-            <View style={styles.datetime}>
-              <Text style={styles.date}>09</Text>
-              <Text style={styles.day}>Hoy</Text>
-            </View>
-
-            <View style={styles.booksContainer}>
-              <View style={styles.booksWrapper}>
-                <View style={styles.bookInfo}>
-                  <Image
-                    source={require("../assets/book-cover.jpg")}
-                    style={styles.book}
-                  />
-                  <View style={styles.bookDescription}>
-                    <Text style={styles.bookName}>
-                      Beautiful world where are you
-                    </Text>
-                    <Text style={styles.bookGender}>Ficción</Text>
-                  </View>
-                </View>
-                <View style={styles.numberPagesContainer}>
-                  <Image
-                    source={require("../assets/pagesWhite.png")}
-                    style={styles.bookPagesIcon}
-                  />
-                  <Text style={styles.numberPagesDay}>12</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -560,11 +477,12 @@ const styles = StyleSheet.create({
 
   bookDescription: {
     marginLeft: 10,
-    width: "50%",
+    width: "45%",
   },
   bookName: {
     color: "#fff",
     fontFamily: "poppins-semi",
+    fontSize: 12,
   },
   bookGender: {
     color: "#888797",
@@ -588,7 +506,7 @@ const styles = StyleSheet.create({
   numberPagesDay: {
     color: "#fff",
     fontFamily: "poppins-semi",
-    marginLeft: 10,
+    marginLeft: 4,
     fontSize: 12,
   },
   modalContainer: {

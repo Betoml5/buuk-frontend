@@ -23,7 +23,6 @@ export default function TimelineForm({
     };
     try {
       const response = await addItemToTimeline(id, item);
-      console.log(response);
       setUser(response);
     } catch (error) {
       console.log(error);

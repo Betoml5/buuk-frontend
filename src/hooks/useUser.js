@@ -101,6 +101,7 @@ export function useUser() {
             setState({ loading: true, error: true });
             const response = await addItemToTimelineAPI(id, item);
             setState({ loading: false, error: false });
+            navigation.navigate("LibraryNavigation", { screen: "Library" });
             return response.body;
         } catch (error) {
             setState({ loading: false, error: true });
