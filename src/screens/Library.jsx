@@ -317,7 +317,6 @@ export default function Library() {
               keyExtractor={(item, index) => index}
               renderItem={({ item, index }) => (
                 <View style={styles.timelineItem} key={index}>
-                  {/* Fecha de arriba */}
                   <View style={styles.datetime}>
                     <Text style={styles.date}>{item.date}</Text>
                     <Text style={styles.day}>{item.fulldate}</Text>
