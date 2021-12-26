@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = `http://192.168.1.68:3080/api/v1/books`;
+const API = `http://192.168.43.253:3080/api/v1/books`;
 
 export const getBestSellers = async () => {
   try {

@@ -199,75 +199,72 @@ export default function Library() {
           }}
         >
           <SafeAreaView style={styles.modalContainer}>
-            <ScrollView>
-              <View style={styles.modalHeader}>
-                <Pressable
-                  onPress={() => {
-                    setTimelineModal(false);
-                  }}
-                >
-                  <Image
-                    source={require("../assets/close.png")}
-                    style={styles.closeIcon}
-                  />
-                </Pressable>
-                <Text style={styles.modalTitle}>Agregar al hilo</Text>
-              </View>
-              <View style={styles.searchContainer}>
-                {loading ? (
-                  <ActivityIndicator
-                    size="large"
-                    color="#fff"
-                    style={{ marginTop: 50 }}
-                  />
-                ) : (
-                  <FlatList
-                    style={{ marginTop: 20 }}
-                    data={user?.library}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item, index }) => (
-                      <View key={item.id} style={{ marginRight: 12 }}>
-                        <Image
-                          source={{ uri: item.cover }}
+            <View style={styles.modalHeader}>
+              <Pressable
+                onPress={() => {
+                  setTimelineModal(false);
+                }}
+              >
+                <Image
+                  source={require("../assets/close.png")}
+                  style={styles.closeIcon}
+                />
+              </Pressable>
+              <Text style={styles.modalTitle}>Agregar al hilo</Text>
+            </View>
+            <View style={styles.searchContainer}>
+              {loading ? (
+                <ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  style={{ marginTop: 50 }}
+                />
+              ) : (
+                <FlatList
+                  style={{ marginTop: 20 }}
+                  data={user?.library}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item, index }) => (
+                    <View key={item.id} style={{ marginRight: 12 }}>
+                      <Image
+                        source={{ uri: item.cover }}
+                        style={{
+                          width: 150,
+                          height: 230,
+                          borderRadius: 8,
+                          resizeMode: "cover",
+                        }}
+                      />
+                      <Pressable
+                        style={styles.btn}
+                        onPress={() => {
+                          setTimelineModal(false);
+                          navigatior.navigate("LibraryNavigation", {
+                            screen: "TimelineForm",
+                            params: { book: item },
+                          });
+                        }}
+                      >
+                        <Text
                           style={{
-                            width: 150,
-                            height: 230,
-                            borderRadius: 8,
-                            resizeMode: "cover",
-                          }}
-                        />
-                        <Pressable
-                          style={styles.btn}
-                          onPress={() => {
-                            setTimelineModal(false);
-                            navigatior.navigate("LibraryNavigation", {
-                              screen: "TimelineForm",
-                              params: { book: item },
-                            });
+                            textAlign: "center",
+                            color: "#fff",
+                            fontFamily: "poppins-light",
+                            fontSize: 12,
                           }}
                         >
-                          <Text
-                            style={{
-                              textAlign: "center",
-                              color: "#fff",
-                              fontFamily: "poppins-light",
-                              fontSize: 12,
-                            }}
-                          >
-                            Agregar
-                          </Text>
-                        </Pressable>
-                      </View>
-                    )}
-                    horizontal={true}
-                  />
-                )}
-              </View>
-            </ScrollView>
+                          Agregar
+                        </Text>
+                      </Pressable>
+                    </View>
+                  )}
+                  horizontal={true}
+                />
+              )}
+            </View>
           </SafeAreaView>
         </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>
-
         <View style={styles.goals_container}>
           <View style={styles.pages}>
             <Image
@@ -285,7 +282,7 @@ export default function Library() {
               source={require("../assets/bookreads.png")}
               style={{ width: 50, height: 50, padding: 0, margin: 0 }}
             />
-            <Text style={styles.number_books}>{user?.library.length}</Text>
+            <Text style={styles.number_books}>{user?.library?.length}</Text>
             <Text style={styles.number_books_text}>Libros leidos este mes</Text>
           </View>
         </View>
@@ -309,12 +306,14 @@ export default function Library() {
             />
           </Pressable>
         </View>
-        {user?.timeline.length > 0 ? (
+        {user?.timeline?.length > 0 ? (
           <View style={styles.containerTimeline}>
             <FlatList
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
               nestedScrollEnabled
-              data={user.timeline}
-              keyExtractor={(item, index) => index}
+              data={user?.timeline}
+              keyExtractor={(item, index) => `key-${index}`}
               renderItem={({ item, index }) => (
                 <View style={styles.timelineItem} key={index}>
                   <View style={styles.datetime}>
@@ -360,12 +359,21 @@ export default function Library() {
               }}
             >
               Aún no tienes ningun avance{" "}
-              <Text
+              <Pressable
                 onPress={() => setTimelineModal(true)}
-                style={{ color: "#1963d1" }}
+                style={styles.btn}
               >
-                agrega uno
-              </Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontFamily: "poppins-semi",
+                    textAlign: "center",
+                  }}
+                >
+                  {" "}
+                  Agregar
+                </Text>
+              </Pressable>
             </Text>
           </View>
         )}

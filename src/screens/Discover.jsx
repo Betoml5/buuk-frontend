@@ -1,10 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
+import Genders from "../components/Genders";
 
 export default function Discover() {
-  return (
-    <View>
-      <Text>Discover</Text>
-    </View>
-  );
+  return <Genders />;
 }

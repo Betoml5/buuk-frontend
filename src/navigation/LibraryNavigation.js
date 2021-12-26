@@ -43,6 +43,8 @@ export default function LibraryNavigation() {
                                     color: "#fff",
                                     fontFamily: "poppins-semi",
                                 },
+                                headerTitleStyle: { color: "#fff" },
+                                headerTintColor: "#fff",
                                 headerShadowVisible: false,
                                 headerTitle: "Timeline",
                                 headerTitleAlign: "center",
