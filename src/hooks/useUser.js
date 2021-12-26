@@ -116,6 +116,7 @@ export function useUser() {
         isLogged: Boolean(jwt),
         isLoading: state.loading,
         hasError: state.error,
+        setState,
         register,
         login,
         logout,

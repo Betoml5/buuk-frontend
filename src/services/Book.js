@@ -19,3 +19,12 @@ export const searchBook = async (title) => {
     throw error;
   }
 };
+
+export const searchBooksBySubjectAPI = async (subject) => {
+  try {
+    const response = await axios.get(`${API}/search/subject?q=${subject}`);
+    return response.data.body;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -11,7 +11,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
@@ -55,14 +55,9 @@ export default function Library() {
     }
   };
 
-  const handleAddPages = async () => {
-    try {
-    } catch (error) {}
-  };
-
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Modal
           animationType="slide"
           transparent={true}
