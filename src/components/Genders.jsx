@@ -1,25 +1,47 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import { FlatList } from "react-native";
 import { genders } from "../../genders";
+import { useBook } from "../hooks/useBook";
 
-export default function Genders() {
+export default function Genders({ setBooks }) {
+  const { searchBooksBySubject } = useBook();
+
+  const onPress = async (subject) => {
+    try {
+      const response = await searchBooksBySubject(subject);
+      setBooks(response);
+      console.log(subject);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <FlatList
-          key={"#"}
           data={genders}
           keyExtractor={(item) => item.id}
           numColumns={Math.ceil(genders.length / 2)}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <View style={styles.item}>
+            <Pressable
+              style={styles.item}
+              onPress={() => onPress(item.name)}
+              key={"#"}
+            >
               <View style={styles.imageContainer}>
                 <Image source={item.image} style={{ width: 14, height: 14 }} />
               </View>
               <Text style={styles.itemText}>{item.name}</Text>
-            </View>
+            </Pressable>
           )}
         />
       </ScrollView>
@@ -28,9 +50,7 @@ export default function Genders() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 10,
-  },
+  container: {},
   item: {
     backgroundColor: "#F0F0F0",
     padding: 10,
