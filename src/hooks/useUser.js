@@ -50,7 +50,7 @@ export function useUser() {
   );
 
   const logout = useCallback(
-    async (user) => {
+    async () => {
       try {
         setJwt(null);
         setUser(null);
