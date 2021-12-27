@@ -3,7 +3,7 @@ import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 import React, { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { UserContextProvider } from "./src/context/userContext";
+import { UserContextProvider } from "./src/context/UserContext";
 import Navigator from "./src/navigation/Navigator";
 
 const fetchFonts = () => {
