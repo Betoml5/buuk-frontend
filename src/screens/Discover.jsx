@@ -10,12 +10,9 @@ import {
 } from "react-native";
 import Genders from "../components/Genders";
 import { useBook } from "../hooks/useBook";
-import { useUser } from "../hooks/useUser";
 
 export default function Discover() {
   const { searchBooksBySubject } = useBook();
-  const { isLoading } = useUser();
-
   const [books, setBooks] = useState([]);
   const [fictionBooks, setFictionBooks] = useState([]);
   const [romanceBooks, setRomanceBooks] = useState([]);
