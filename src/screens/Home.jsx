@@ -37,9 +37,9 @@ export default function Home() {
   }, []);
 
   if (
-    (booksNews.length === 0) |
-    (bestSellers.length === 0) |
-    (authorsNews.length === 0)
+    (booksNews?.length === 0) |
+    (bestSellers?.length === 0) |
+    (authorsNews?.length === 0)
   ) {
     return (
       <ActivityIndicator

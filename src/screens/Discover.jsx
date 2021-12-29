@@ -15,6 +15,7 @@ import { useUser } from "../hooks/useUser";
 export default function Discover() {
   const { searchBooksBySubject } = useBook();
   const { isLoading } = useUser();
+
   const [books, setBooks] = useState([]);
   const [fictionBooks, setFictionBooks] = useState([]);
   const [romanceBooks, setRomanceBooks] = useState([]);
@@ -22,7 +23,7 @@ export default function Discover() {
 
   const getData = async () => {
     try {
-      const fictionResponse = await searchBooksBySubject("ficcion");
+      const fictionResponse = await searchBooksBySubject("fiction");
       const romanceResponse = await searchBooksBySubject("romance");
       const businessResponse = await searchBooksBySubject("education");
       setFictionBooks(fictionResponse);
@@ -37,32 +38,41 @@ export default function Discover() {
     getData();
   }, []);
 
+  if (
+    fictionBooks?.length === 0 &&
+    romanceBooks?.length === 0 &&
+    businessBooks?.length === 0
+  )
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#fff"
+        style={{
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "10%",
+        }}
+      />
+    );
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled>
       <Genders setBooks={setBooks} />
-      {isLoading && (
-        <ActivityIndicator
-          size="large"
-          color="#fff"
-          style={{
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "10%",
-          }}
-        />
-      )}
+
       {books.length > 0 && (
-        <FlatList
-          horizontal={true}
-          data={books}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View key={item.key} style={styles.bookContainer}>
-              <Image source={{ uri: item.cover }} style={styles.bookImage} />
-            </View>
-          )}
-        />
+        <>
+          <Text style={styles.title}>Busqueda</Text>
+          <FlatList
+            horizontal={true}
+            data={books}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View key={item.key} style={styles.bookContainer}>
+                <Image source={{ uri: item.cover }} style={styles.bookImage} />
+              </View>
+            )}
+          />
+        </>
       )}
       <Text style={styles.title}>Ficción</Text>
       <FlatList

@@ -10,6 +10,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Context from "../context/UserContext";
+import { Alert } from "react-native";
 
 export function useUser() {
   const { jwt, setJwt, user, setUser } = useContext(Context);
@@ -41,6 +42,7 @@ export function useUser() {
         navigation.navigate("LibraryNavigation", { screen: "Library" });
         setState({ loading: false, error: false });
       } catch (error) {
+        Alert.alert("Credenciales incorrectas", "Email o contraseña incorrecta")
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
         setState({ loading: false, error: true });

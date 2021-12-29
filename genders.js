@@ -2,22 +2,22 @@ export const genders = [
     {
         id: 1,
         image: require("./src/assets/atom.png"),
-        name: "Ciencia"
+        name: "Science"
     },
     {
         id: 2,
         image: require("./src/assets/self-improvement.png"),
-        name: "Auto ayuda"
+        name: "Self Grow"
     },
     {
         id: 3,
         image: require("./src/assets/history.png"),
-        name: "Historia",
+        name: "History",
     },
     {
         id: 4,
         image: require("./src/assets/science-fiction.png"),
-        name: "Ciencia ficcion",
+        name: "Sciencie Fiction",
     },
     {
         id: 5,
@@ -27,11 +27,11 @@ export const genders = [
     {
         id: 6,
         image: require("./src/assets/adventure.png"),
-        name: "Aventura"
+        name: "Adventure"
     },
     {
         id: 7,
         image: require("./src/assets/graduation-cap.png"),
-        name: "Educacion"
+        name: "Education"
     }
 ]

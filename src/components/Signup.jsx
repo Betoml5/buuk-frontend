@@ -6,7 +6,6 @@ import {
   View,
   Text,
   TextInput,
-  Alert,
   StyleSheet,
   Pressable,
   Image,

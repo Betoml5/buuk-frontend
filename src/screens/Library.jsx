@@ -57,7 +57,7 @@ export default function Library() {
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
         <Modal
           animationType="slide"
           transparent={true}
@@ -216,10 +216,11 @@ export default function Library() {
                 />
               ) : (
                 <FlatList
+                  showsHorizontalScrollIndicator={false}
                   style={{ marginTop: 20 }}
                   data={user?.library}
                   keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => (
+                  renderItem={({ item }) => (
                     <View key={item.id} style={{ marginRight: 12 }}>
                       <Image
                         source={{ uri: item.cover }}
