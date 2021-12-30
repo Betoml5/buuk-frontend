@@ -18,7 +18,6 @@ export default function Genders({ setBooks }) {
     try {
       const response = await searchBooksBySubject(subject);
       setBooks(response);
-      console.log(subject);
     } catch (error) {
       console.log(error);
     }
