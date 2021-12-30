@@ -114,6 +114,7 @@ export default function Library() {
                 />
               ) : (
                 <FlatList
+                  nestedScrollEnabled
                   style={{ marginTop: 20 }}
                   data={searchedBooks}
                   keyExtractor={(item) => item.id}
@@ -345,31 +346,30 @@ export default function Library() {
             />
           </View>
         ) : (
-          <View style={styles.containerTimeline}>
+          <View
+            style={{
+              backgroundColor: "#322F4C",
+              marginTop: 20,
+              borderRadius: 8,
+              padding: 20,
+            }}
+          >
+            <Text style={styles.title}>
+              Hey, aun no tienes ningun item en el timeline
+            </Text>
             <Text
-              style={{
-                fontFamily: "poppins-semi",
-                color: "#fff",
-                lineHeight: 26,
-                textAlign: "center",
-              }}
+              onPress={() => setTimelineModal(true)}
+              style={[
+                {
+                  color: "#fff",
+                  fontFamily: "poppins-semi",
+                  fontSize: 18,
+                  textAlign: "center",
+                },
+                styles.btn,
+              ]}
             >
-              Aún no tienes ningun avance{" "}
-              <Pressable
-                onPress={() => setTimelineModal(true)}
-                style={styles.btn}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontFamily: "poppins-semi",
-                    textAlign: "center",
-                  }}
-                >
-                  {" "}
-                  Agregar
-                </Text>
-              </Pressable>
+              Agregar
             </Text>
           </View>
         )}
