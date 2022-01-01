@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 export default function Book(props) {
+  console.log(props);
   if (props.image) {
     return (
       <View>
@@ -12,10 +13,17 @@ export default function Book(props) {
 
   return (
     <View style={styles.noCover}>
-      <Image
-        source={require("../assets/noimage.jpg")}
-        style={{ resizeMode: "contain", width: 130, height: 190 }}
-      />
+      <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+        {props.info.title}
+      </Text>
+      <View style={styles.description}>
+        {props.info?.authors?.map((author, index) => (
+          <Text key={`#-${author}`} style={styles.descriptionText}>
+            {author}
+          </Text>
+        ))}
+        <Text style={styles.descriptionText}>Pag. {props.info.pageCount}</Text>
+      </View>
     </View>
   );
 }
@@ -24,6 +32,14 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 150,
   },
+  description: {
+    height: "75%",
+    justifyContent: "flex-end",
+  },
+  descriptionText: {
+    color: "#fff",
+    fontFamily: "poppins-light",
+  },
   image: {
     resizeMode: "contain",
     borderRadius: 4,
@@ -31,15 +47,20 @@ const styles = StyleSheet.create({
     height: 190,
   },
   title: {
-    color: "#000",
+    color: "#fff",
+    fontFamily: "poppins-semi",
   },
+
   noCover: {
     width: 150,
     height: 190,
-    padding: 8,
     borderRadius: 8,
-    backgroundColor: "#Fff",
-    resizeMode: "cover",
-    marginRight: 8,
+    padding: 8,
+    backgroundColor: "#F47340",
+    shadowColor: "#000",
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 10,
   },
 });

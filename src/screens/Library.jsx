@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import Book from "../components/Book";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../hooks/useUser";
@@ -120,7 +121,8 @@ export default function Library() {
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => (
                     <View key={item.id} style={{ marginRight: 12 }}>
-                      <Image
+                      <Book image={item.images?.thumbnail} info={item} />
+                      {/* <Image
                         source={{ uri: item.cover }}
                         style={{
                           width: 150,
@@ -128,7 +130,7 @@ export default function Library() {
                           borderRadius: 8,
                           resizeMode: "cover",
                         }}
-                      />
+                      /> */}
                       {user?.library?.find(
                         (book) => book.id === item.work_id
                       ) ? (
