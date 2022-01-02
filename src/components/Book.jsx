@@ -13,7 +13,7 @@ export default function Book(props) {
   return (
     <View style={styles.noCover}>
       <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-        {props.info.title}
+        {props?.info?.title}
       </Text>
       <View style={styles.description}>
         {props.info?.authors?.map((author, index) => (
@@ -21,7 +21,13 @@ export default function Book(props) {
             {author}
           </Text>
         ))}
-        <Text style={styles.descriptionText}>Pag. {props.info.pageCount}</Text>
+        {props.info.pageCount ? (
+          <Text style={styles.descriptionText}>
+            Pag. {props?.info?.pageCount}
+          </Text>
+        ) : (
+          <Text style={styles.descriptionText}>Informacion no disponible</Text>
+        )}
       </View>
     </View>
   );

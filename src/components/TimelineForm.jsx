@@ -14,7 +14,7 @@ export default function TimelineForm({
     const item = {
       book: {
         title: book.title,
-        cover: book.cover,
+        cover: book.images.thumbnail,
         numberPages: counter,
       },
       date: new Date().getDate(),
