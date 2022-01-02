@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
@@ -10,7 +9,6 @@ export default function TimelineForm({
 }) {
   const { addItemToTimeline, setUser, user } = useUser();
   const [counter, setCounter] = useState(0);
-  console.log(user);
 
   const onPress = async (id) => {
     const item = {
@@ -33,7 +31,10 @@ export default function TimelineForm({
     <View style={styles.container}>
       <View style={styles.bookContainer}>
         <Text style={styles.bookTitle}>{book.title}</Text>
-        <Image source={{ uri: book.cover }} style={styles.bookImage} />
+        <Image
+          source={{ uri: book.images.thumbnail }}
+          style={styles.bookImage}
+        />
       </View>
       <View style={styles.counter}>
         <Pressable onPress={() => setCounter(counter + 1)}>

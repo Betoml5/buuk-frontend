@@ -25,7 +25,7 @@ export default function Library() {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
 
-  const navigatior = useNavigation();
+  const navigation = useNavigation();
   const handleSearch = async (title) => {
     try {
       setLoading(true);
@@ -119,21 +119,11 @@ export default function Library() {
                   style={{ marginTop: 20 }}
                   data={searchedBooks}
                   keyExtractor={(item) => item.id}
-                  renderItem={({ item }) => (
+                  renderItem={({ item, index }) => (
                     <View key={item.id} style={{ marginRight: 12 }}>
                       <Book image={item.images?.thumbnail} info={item} />
-                      {/* <Image
-                        source={{ uri: item.cover }}
-                        style={{
-                          width: 150,
-                          height: 230,
-                          borderRadius: 8,
-                          resizeMode: "cover",
-                        }}
-                      /> */}
-                      {user?.library?.find(
-                        (book) => book.id === item.work_id
-                      ) ? (
+
+                      {user?.library?.find((book) => book.id === item.id) ? (
                         <Pressable
                           style={{
                             marginTop: 10,
@@ -142,7 +132,7 @@ export default function Library() {
                             borderRadius: 8,
                           }}
                           onPress={() =>
-                            handleRemoveFromLibrary(user?._id, item?.work_id)
+                            handleRemoveFromLibrary(user?._id, item?.id)
                           }
                         >
                           <Text
@@ -165,7 +155,7 @@ export default function Library() {
                             borderRadius: 8,
                           }}
                           onPress={() =>
-                            handleAddToLibrary(user?._id, item?.work_id)
+                            handleAddToLibrary(user?._id, item?.id)
                           }
                         >
                           <Text
@@ -225,20 +215,12 @@ export default function Library() {
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => (
                     <View key={item.id} style={{ marginRight: 12 }}>
-                      <Image
-                        source={{ uri: item.cover }}
-                        style={{
-                          width: 150,
-                          height: 230,
-                          borderRadius: 8,
-                          resizeMode: "cover",
-                        }}
-                      />
+                      <Book image={item.images.thumbnail} info={item} />
                       <Pressable
                         style={styles.btn}
                         onPress={() => {
                           setTimelineModal(false);
-                          navigatior.navigate("LibraryNavigation", {
+                          navigation.navigate("LibraryNavigation", {
                             screen: "TimelineForm",
                             params: { book: item },
                           });

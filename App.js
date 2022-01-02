@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { UserContextProvider } from "./src/context/UserContext";
 import Navigator from "./src/navigation/Navigator";
+import { initAxiosInterceptors } from "./src/services/auth/auth-helpers";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -34,7 +35,7 @@ export default function App() {
       />
     );
   }
-
+  // initAxiosInterceptors();
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={navTheme}>
