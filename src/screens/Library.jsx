@@ -58,7 +58,10 @@ export default function Library() {
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+      >
         <Modal
           animationType="slide"
           transparent={true}
@@ -292,7 +295,7 @@ export default function Library() {
             <FlatList
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
-              nestedScrollEnabled
+              nestedScrollEnabled={true}
               data={user?.timeline}
               keyExtractor={(item, index) => `key-${index}`}
               renderItem={({ item, index }) => (
