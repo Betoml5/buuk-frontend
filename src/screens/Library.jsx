@@ -201,12 +201,10 @@ export default function Library() {
               <Text style={styles.modalTitle}>Agregar al hilo</Text>
             </View>
             <View style={styles.searchContainer}>
-              {loading ? (
-                <ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  style={{ marginTop: 50 }}
-                />
+              {user?.library === 0 ? (
+                <View>
+                  <Text>Aun no tienes nada en la biblioteca</Text>
+                </View>
               ) : (
                 <FlatList
                   showsHorizontalScrollIndicator={false}
