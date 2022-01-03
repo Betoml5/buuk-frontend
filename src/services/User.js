@@ -27,6 +27,15 @@ export const findOne = async (id) => {
   }
 };
 
+export const updateAPI = async (id, user) => {
+  try {
+    const response = await axios.put(`${API}/update/${id}`, { user: user });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const addToLibraryAPI = async (id, bookId) => {
   try {
     const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);

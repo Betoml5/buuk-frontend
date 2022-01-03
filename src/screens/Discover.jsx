@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  View,
   ActivityIndicator,
 } from "react-native";
 import Book from "../components/Book";
@@ -34,6 +32,12 @@ export default function Discover() {
 
   useEffect(() => {
     getData();
+
+    return () => {
+      setFictionBooks([]);
+      setRomanceBooks([]);
+      setBusinessBooks([]);
+    };
   }, []);
 
   if (

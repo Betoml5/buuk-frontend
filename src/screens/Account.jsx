@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { FlatList } from "react-native";
 import { useUser } from "../hooks/useUser";
@@ -8,6 +8,7 @@ import Book from "../components/Book";
 export default function Account() {
   const { user } = useUser();
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <ScrollView>

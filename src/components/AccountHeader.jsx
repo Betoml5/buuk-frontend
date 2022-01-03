@@ -1,16 +1,59 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, Pressable, LogBox } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
 import { useUser } from "../hooks/useUser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import * as ImagePicker from "expo-image-picker";
+import storage from "../services/firebase/index";
+LogBox.ignoreLogs(["Setting a timer"]);
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
 
 export default function AccountHeader() {
-  const { logout, user } = useUser();
+  const { logout, user, update, setUser } = useUser();
   const navigation = useNavigation();
   const handleLogout = async () => logout();
+  const [image, setImage] = useState(null);
+  const [view, setView] = useState(false);
+  const [progress, setProgress] = useState(0);
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+  const handleUpload = async (uri, imageName) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const storageRef = ref(storage, `images/${imageName}`);
+      const uploadTask = uploadBytesResumable(storageRef, blob);
+      const url = await getDownloadURL(uploadTask.snapshot.ref);
+      const progressData =
+        (uploadTask.snapshot.bytesTransferred /
+          uploadTask.snapshot.totalBytes) *
+        100;
+      setProgress(progressData);
+      setUser({
+        ...user,
+        image: url,
+      });
+      update(user?._id, user).then(() => {
+        setView(false);
+        setImage(null);
+        setProgress(0);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -33,21 +76,56 @@ export default function AccountHeader() {
           </View>
         </View>
         <View style={styles.user_information}>
-          <Image
-            source={require("../assets/person1.jpg")}
-            style={styles.user_image}
-          />
+          {image ? (
+            <Image source={{ uri: image }} style={styles.user_image} />
+          ) : (
+            <Image source={{ uri: user?.image }} style={styles.user_image} />
+          )}
           <Text style={styles.user_name}>{user?.username}</Text>
+
+          {view && (
+            <View style={{ flexDirection: "row" }}>
+              <Pressable
+                onPress={pickImage}
+                style={[styles.logoutBtn, { marginRight: 10 }]}
+              >
+                <Text style={styles.logoutText}>Escoger imagen</Text>
+              </Pressable>
+              <Pressable
+                disabled={!image}
+                style={!image ? styles.btnDisabled : styles.logoutBtn}
+                onPress={() => {
+                  handleUpload(image, "test-image-2");
+                }}
+              >
+                <Text style={styles.logoutText}>Subir imagen</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
-        <View style={styles.social}>
-          <Icon name="facebook-square" size={35} color="#fff" />
-          <Icon name="twitter-square" size={35} color="#fff" />
-          <Icon name="discord" size={35} color="#fff" />
-          <Icon name="instagram-square" size={35} color="#fff" />
+        {progress > 0 && (
+          <View
+            style={{
+              width: progress,
+              height: 10,
+              borderRadius: 999,
+              backgroundColor: "#242143",
+            }}
+          ></View>
+        )}
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          {!view && (
+            <Pressable
+              style={[styles.logoutBtn, { marginRight: 10 }]}
+              onPress={() => setView(true)}
+            >
+              <Text style={styles.logoutText}>Cambiar imagen</Text>
+            </Pressable>
+          )}
+          <Pressable style={styles.logoutBtn} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Cerrar sesion</Text>
+          </Pressable>
         </View>
-        <Pressable style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutText}>Cerrar sesion</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );
@@ -91,6 +169,22 @@ const styles = StyleSheet.create({
   },
   logoutBtn: {
     backgroundColor: "#242143",
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 8,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  btnDisabled: {
+    backgroundColor: "#322F4C",
     marginTop: 12,
     padding: 12,
     borderRadius: 8,

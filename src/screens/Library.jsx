@@ -58,10 +58,7 @@ export default function Library() {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true}
-      >
+      <ScrollView>
         <Modal
           animationType="slide"
           transparent={true}
@@ -204,12 +201,10 @@ export default function Library() {
               <Text style={styles.modalTitle}>Agregar al hilo</Text>
             </View>
             <View style={styles.searchContainer}>
-              {loading ? (
-                <ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  style={{ marginTop: 50 }}
-                />
+              {user?.library === 0 ? (
+                <View>
+                  <Text>Aun no tienes nada en la biblioteca</Text>
+                </View>
               ) : (
                 <FlatList
                   showsHorizontalScrollIndicator={false}
@@ -292,45 +287,38 @@ export default function Library() {
         </View>
         {user?.timeline?.length > 0 ? (
           <View style={styles.containerTimeline}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              nestedScrollEnabled={true}
-              data={user?.timeline}
-              keyExtractor={(item, index) => `key-${index}`}
-              renderItem={({ item, index }) => (
-                <View style={styles.timelineItem} key={index}>
-                  <View style={styles.datetime}>
-                    <Text style={styles.date}>{item.date}</Text>
-                    <Text style={styles.day}>{item.fulldate}</Text>
-                  </View>
+            {user?.timeline.map((item, index) => (
+              <View style={styles.timelineItem} key={index}>
+                <View style={styles.datetime}>
+                  <Text style={styles.date}>{item.date}</Text>
+                  <Text style={styles.day}>{item.fulldate}</Text>
+                </View>
 
-                  <View style={styles.booksContainer}>
-                    <View style={styles.booksWrapper}>
-                      <View style={styles.bookInfo}>
-                        <Image
-                          source={{ uri: item.book.cover }}
-                          style={styles.book}
-                        />
-                        <View style={styles.bookDescription}>
-                          <Text style={styles.bookName}>{item.book.title}</Text>
-                          <Text style={styles.bookGender}>Ficción</Text>
-                        </View>
+                <View style={styles.booksContainer}>
+                  <View style={styles.booksWrapper}>
+                    <View style={styles.bookInfo}>
+                      <Image
+                        source={{ uri: item.book.cover }}
+                        style={styles.book}
+                      />
+                      <View style={styles.bookDescription}>
+                        <Text style={styles.bookName}>{item.book.title}</Text>
+                        <Text style={styles.bookGender}>Ficción</Text>
                       </View>
-                      <View style={styles.numberPagesContainer}>
-                        <Image
-                          source={require("../assets/pagesWhite.png")}
-                          style={styles.bookPagesIcon}
-                        />
-                        <Text style={styles.numberPagesDay}>
-                          {item.book.numberPages}
-                        </Text>
-                      </View>
+                    </View>
+                    <View style={styles.numberPagesContainer}>
+                      <Image
+                        source={require("../assets/pagesWhite.png")}
+                        style={styles.bookPagesIcon}
+                      />
+                      <Text style={styles.numberPagesDay}>
+                        {item.book.numberPages}
+                      </Text>
                     </View>
                   </View>
                 </View>
-              )}
-            />
+              </View>
+            ))}
           </View>
         ) : (
           <View

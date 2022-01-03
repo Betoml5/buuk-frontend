@@ -16,12 +16,12 @@ export default function Book(props) {
         {props?.info?.title}
       </Text>
       <View style={styles.description}>
-        {props.info?.authors?.map((author, index) => (
+        {props?.info?.authors?.map((author, index) => (
           <Text key={`#-${author}`} style={styles.descriptionText}>
             {author}
           </Text>
         ))}
-        {props.info.pageCount ? (
+        {props?.info?.pageCount ? (
           <Text style={styles.descriptionText}>
             Pag. {props?.info?.pageCount}
           </Text>
