@@ -1,13 +1,27 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Pressable,
+  Button,
+  Image,
+  LogBox,
+} from "react-native";
 import { FlatList } from "react-native";
 import { useUser } from "../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
 import Book from "../components/Book";
+import { uploadImage } from "../services/firebase/upload-image";
+import * as ImagePicker from "expo-image-picker";
+import storage from "../services/firebase/index";
+LogBox.ignoreLogs(["Setting a timer"]);
 
 export default function Account() {
   const { user } = useUser();
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <ScrollView>

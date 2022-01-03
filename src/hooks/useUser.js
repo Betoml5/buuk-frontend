@@ -6,6 +6,7 @@ import {
   removeFromLibraryAPI,
   signin,
   signup,
+  updateAPI,
 } from "../services/User";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -42,7 +43,10 @@ export function useUser() {
         navigation.navigate("LibraryNavigation", { screen: "Library" });
         setState({ loading: false, error: false });
       } catch (error) {
-        Alert.alert("Credenciales incorrectas", "Email o contraseña incorrecta")
+        Alert.alert(
+          "Credenciales incorrectas",
+          "Email o contraseña incorrecta"
+        );
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
         setState({ loading: false, error: true });
@@ -51,23 +55,20 @@ export function useUser() {
     [setJwt, setUser]
   );
 
-  const logout = useCallback(
-    async () => {
-      try {
-        setJwt(null);
-        setUser(null);
-        setState({ loading: true, error: false });
-        await AsyncStorage.removeItem("user");
-        await AsyncStorage.removeItem("jwt");
-        setState({ loading: false, error: false });
-        navigation.navigate("AccountNavigation", { screen: "Signin" });
-      } catch (error) {
-        setState({ loading: false, error: true });
-        throw new Error(error.message);
-      }
-    },
-    [setJwt, setUser]
-  );
+  const logout = useCallback(async () => {
+    try {
+      setJwt(null);
+      setUser(null);
+      setState({ loading: true, error: false });
+      await AsyncStorage.removeItem("user");
+      await AsyncStorage.removeItem("jwt");
+      setState({ loading: false, error: false });
+      navigation.navigate("AccountNavigation", { screen: "Signin" });
+    } catch (error) {
+      setState({ loading: false, error: true });
+      throw new Error(error.message);
+    }
+  }, [setJwt, setUser]);
 
   const profile = useCallback(async () => {
     try {
@@ -116,6 +117,18 @@ export function useUser() {
     }
   };
 
+  const update = async (id, user) => {
+    try {
+      setState({ loading: true, error: true });
+      const response = await updateAPI(id, user);
+      setState({ loading: false, error: false });
+      return response.body;
+    } catch (error) {
+      setState({ loading: false, error: true });
+      return error;
+    }
+  };
+
   return {
     isLogged: Boolean(jwt),
     isLoading: state.loading,
@@ -130,5 +143,6 @@ export function useUser() {
     addItemToTimeline,
     user,
     setUser,
+    update,
   };
 }
