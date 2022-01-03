@@ -201,7 +201,7 @@ export default function Library() {
               <Text style={styles.modalTitle}>Agregar al hilo</Text>
             </View>
             <View style={styles.searchContainer}>
-              {user?.library === 0 ? (
+              {user?.library?.length === 0 ? (
                 <View>
                   <Text>Aun no tienes nada en la biblioteca</Text>
                 </View>

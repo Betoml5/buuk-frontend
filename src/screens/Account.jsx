@@ -6,8 +6,17 @@ import { useNavigation } from "@react-navigation/native";
 import Book from "../components/Book";
 
 export default function Account() {
-  const { user } = useUser();
+  const { user, setUser, removeFromLibrary } = useUser();
   const navigation = useNavigation();
+
+  const handleRemoveFromLibrary = async (id, bookId) => {
+    try {
+      const response = await removeFromLibrary(id, bookId);
+      setUser(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -18,7 +27,15 @@ export default function Account() {
 
             <FlatList
               renderItem={({ item }) => (
-                <Book image={item.images.thumbnail} info={item} />
+                <View>
+                  <Book image={item.images.thumbnail} info={item} />
+                  <Pressable
+                    style={styles.btn}
+                    onPress={() => handleRemoveFromLibrary(user?._id, item.id)}
+                  >
+                    <Text style={styles.btnText}>Eliminar</Text>
+                  </Pressable>
+                </View>
               )}
               horizontal={true}
               data={user?.library}
@@ -32,7 +49,7 @@ export default function Account() {
             <Pressable
               style={[{ backgroundColor: "#242143" }]}
               onPress={() => {
-                navigation.navigate("AccountNavigation", { screen: "Library" });
+                navigation.navigate("LibraryNavigation", { screen: "Library" });
               }}
             >
               <Text style={styles.notReadingText}>Agregar un libro</Text>
@@ -69,5 +86,18 @@ const styles = StyleSheet.create({
     padding: 8,
     textAlign: "center",
     borderRadius: 8,
+  },
+  btn: {
+    backgroundColor: "#322F4C",
+    padding: 8,
+    borderRadius: 8,
+    marginTop: 10,
+    width: "80%",
+    alignSelf: "center",
+  },
+  btnText: {
+    textAlign: "center",
+    color: "#fff",
+    fontFamily: "poppins-light",
   },
 });
