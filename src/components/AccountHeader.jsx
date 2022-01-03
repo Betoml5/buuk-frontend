@@ -7,6 +7,13 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
 import storage from "../services/firebase/index";
 LogBox.ignoreLogs(["Setting a timer"]);
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
+
 export default function AccountHeader() {
   const { logout, user, update, setUser } = useUser();
   const navigation = useNavigation();
@@ -26,12 +33,14 @@ export default function AccountHeader() {
     try {
       const response = await fetch(uri);
       const blob = await response.blob();
-      const ref = storage.ref().child("/images/" + imageName);
-      const snapshot = await ref.put(blob);
+      const storageRef = ref(storage, `images/${imageName}`);
+      const uploadTask = uploadBytesResumable(storageRef, blob);
+      const url = await getDownloadURL(uploadTask.snapshot.ref);
       const progressData =
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        (uploadTask.snapshot.bytesTransferred /
+          uploadTask.snapshot.totalBytes) *
+        100;
       setProgress(progressData);
-      const url = await ref.getDownloadURL();
       setUser({
         ...user,
         image: url,
