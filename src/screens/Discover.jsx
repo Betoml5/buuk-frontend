@@ -34,6 +34,12 @@ export default function Discover() {
 
   useEffect(() => {
     getData();
+
+    return () => {
+      setFictionBooks([]);
+      setRomanceBooks([]);
+      setBusinessBooks([]);
+    };
   }, []);
 
   if (

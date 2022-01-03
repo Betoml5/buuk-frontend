@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-  Button,
-  LogBox,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, LogBox } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
 import { useUser } from "../hooks/useUser";
@@ -40,7 +32,6 @@ export default function AccountHeader() {
         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       setProgress(progressData);
       const url = await ref.getDownloadURL();
-
       setUser({
         ...user,
         image: url,
@@ -50,7 +41,9 @@ export default function AccountHeader() {
         setImage(null);
         setProgress(0);
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <ScrollView style={styles.container}>
@@ -80,11 +73,7 @@ export default function AccountHeader() {
             <Image source={{ uri: user?.image }} style={styles.user_image} />
           )}
           <Text style={styles.user_name}>{user?.username}</Text>
-          {!view && (
-            <Pressable style={styles.logoutBtn} onPress={() => setView(true)}>
-              <Text style={styles.logoutText}>Cambiar imagen</Text>
-            </Pressable>
-          )}
+
           {view && (
             <View style={{ flexDirection: "row" }}>
               <Pressable
@@ -115,15 +104,19 @@ export default function AccountHeader() {
             }}
           ></View>
         )}
-        <View style={styles.social}>
-          <Icon name="facebook-square" size={35} color="#fff" />
-          <Icon name="twitter-square" size={35} color="#fff" />
-          <Icon name="discord" size={35} color="#fff" />
-          <Icon name="instagram-square" size={35} color="#fff" />
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          {!view && (
+            <Pressable
+              style={[styles.logoutBtn, { marginRight: 10 }]}
+              onPress={() => setView(true)}
+            >
+              <Text style={styles.logoutText}>Cambiar imagen</Text>
+            </Pressable>
+          )}
+          <Pressable style={styles.logoutBtn} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Cerrar sesion</Text>
+          </Pressable>
         </View>
-        <Pressable style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutText}>Cerrar sesion</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );
