@@ -1,35 +1,52 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 
 export default function Book(props) {
+  const navigation = useNavigation();
+
   if (props.image) {
     return (
-      <View>
-        <Image source={{ uri: props.image }} style={styles.image} />
-      </View>
+      <Pressable
+        onLongPress={() => {
+          navigation.navigate("LibraryNavigation", {
+            screen: "BookDetail",
+            params: { book: props.info },
+          });
+        }}
+        delayLongPress={2000}
+      >
+        <View>
+          <Image source={{ uri: props.image }} style={styles.image} />
+        </View>
+      </Pressable>
     );
   }
 
   return (
-    <View style={styles.noCover}>
-      <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-        {props?.info?.title}
-      </Text>
-      <View style={styles.description}>
-        {props?.info?.authors?.map((author, index) => (
-          <Text key={`#-${author}`} style={styles.descriptionText}>
-            {author}
-          </Text>
-        ))}
-        {props?.info?.pageCount ? (
-          <Text style={styles.descriptionText}>
-            Pag. {props?.info?.pageCount}
-          </Text>
-        ) : (
-          <Text style={styles.descriptionText}>Informacion no disponible</Text>
-        )}
+    <Pressable onPress={() => console.log("book")}>
+      <View style={styles.noCover}>
+        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+          {props?.info?.title}
+        </Text>
+        <View style={styles.description}>
+          {props?.info?.authors?.map((author, index) => (
+            <Text key={`#-${author}`} style={styles.descriptionText}>
+              {author}
+            </Text>
+          ))}
+          {props?.info?.pageCount ? (
+            <Text style={styles.descriptionText}>
+              Pag. {props?.info?.pageCount}
+            </Text>
+          ) : (
+            <Text style={styles.descriptionText}>
+              Informacion no disponible
+            </Text>
+          )}
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

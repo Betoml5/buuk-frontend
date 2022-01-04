@@ -21,8 +21,8 @@ export default function Library() {
   const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [timelineModal, setTimelineModal] = useState(false);
-  const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchedBooks, setSearchesBooks] = useState([]);
   const [title, setTitle] = useState("");
 
   const navigation = useNavigation();
@@ -154,9 +154,8 @@ export default function Library() {
                             padding: 8,
                             borderRadius: 8,
                           }}
-                          onPress={
-                            () => console.log(item?.id)
-                            // handleAddToLibrary(user?._id, item?.id)
+                          onPress={() =>
+                            handleAddToLibrary(user?._id, item?.id)
                           }
                         >
                           <Text
@@ -268,7 +267,7 @@ export default function Library() {
         </View>
         <View style={styles.crud}>
           <Pressable
-            onPress={() => setModalVisible(true)}
+            onPress={() => setModalVisible(!modalVisible)}
             style={styles.crudIconContainer}
           >
             <Image
@@ -278,7 +277,7 @@ export default function Library() {
           </Pressable>
           <Pressable
             style={styles.crudIconContainer}
-            onPress={() => setTimelineModal(true)}
+            onPress={() => setTimelineModal(!modalVisible)}
           >
             <Image
               source={require("../assets/add.png")}
