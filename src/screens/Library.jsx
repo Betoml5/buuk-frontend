@@ -154,8 +154,9 @@ export default function Library() {
                             padding: 8,
                             borderRadius: 8,
                           }}
-                          onPress={() =>
-                            handleAddToLibrary(user?._id, item?.id)
+                          onPress={
+                            () => console.log(item?.id)
+                            // handleAddToLibrary(user?._id, item?.id)
                           }
                         >
                           <Text

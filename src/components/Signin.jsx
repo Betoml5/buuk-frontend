@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   View,
@@ -8,15 +8,21 @@ import {
   Pressable,
   Image,
   ActivityIndicator,
+  Linking,
 } from "react-native";
+import InAppBrowser from "react-native-inappbrowser-reborn";
+
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { useUser } from "../hooks/useUser";
 import { ScrollView } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import { useUser } from "../hooks/useUser";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Signin() {
   const navigation = useNavigation();
   const { login, hasError, isLoading, user } = useUser();
+  const { authFacebook } = useAuth();
   const {
     control,
     handleSubmit,
@@ -29,7 +35,7 @@ export default function Signin() {
   });
 
   const onSubmit = async (data) => await login(data);
-
+  const onFacebookSubmit = async () => {};
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -116,6 +122,15 @@ export default function Signin() {
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Iniciar sesion</Text>
         </Pressable>
+        <Pressable style={styles.btnFacebook} onPress={onFacebookSubmit}>
+          <Icon
+            name="facebook"
+            size={20}
+            color="#fff"
+            style={{ marginRight: 10 }}
+          />
+          <Text style={styles.btnText}>Continuar con Facebook</Text>
+        </Pressable>
 
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>
@@ -175,7 +190,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#fff",
     fontFamily: "poppins-semi",
-
     fontSize: 16,
   },
   image: {
@@ -191,5 +205,15 @@ const styles = StyleSheet.create({
   signupText: {
     color: "#fff",
     fontFamily: "poppins-semi",
+  },
+  btnFacebook: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4267B2",
+    padding: 8,
+    marginTop: 10,
+    width: "100%",
+    justifyContent: "center",
+    borderRadius: 8,
   },
 });
