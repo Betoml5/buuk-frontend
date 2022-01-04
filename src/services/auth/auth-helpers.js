@@ -27,8 +27,7 @@ export function initAxiosInterceptors() {
 export async function authFacebookAPI() {
   try {
     const response = await Axios.get(`${API}/auth/facebook`);
-    console.log(response.data);
-    console.log(response.request);
+
     return response.data;
   } catch (error) {
     console.log(error);

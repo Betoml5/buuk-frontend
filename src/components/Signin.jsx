@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   View,
@@ -8,21 +8,17 @@ import {
   Pressable,
   Image,
   ActivityIndicator,
-  Linking,
 } from "react-native";
-import InAppBrowser from "react-native-inappbrowser-reborn";
+// import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "../hooks/useAuth";
 
 export default function Signin() {
   const navigation = useNavigation();
-  const { login, hasError, isLoading, user } = useUser();
-  const { authFacebook } = useAuth();
+  const { login, hasError, isLoading } = useUser();
   const {
     control,
     handleSubmit,
@@ -35,7 +31,7 @@ export default function Signin() {
   });
 
   const onSubmit = async (data) => await login(data);
-  const onFacebookSubmit = async () => {};
+
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -122,7 +118,7 @@ export default function Signin() {
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Iniciar sesion</Text>
         </Pressable>
-        <Pressable style={styles.btnFacebook} onPress={onFacebookSubmit}>
+        {/* <Pressable style={styles.btnFacebook} onPress={onFacebookSubmit}>
           <Icon
             name="facebook"
             size={20}
@@ -130,7 +126,7 @@ export default function Signin() {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.btnText}>Continuar con Facebook</Text>
-        </Pressable>
+        </Pressable> */}
 
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>
