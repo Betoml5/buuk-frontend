@@ -6,7 +6,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { UserContextProvider } from "./src/context/UserContext";
 import Navigator from "./src/navigation/Navigator";
 import { initAxiosInterceptors } from "./src/services/auth/auth-helpers";
-import { LogBox } from "react-native";
+
 const fetchFonts = () => {
   return Font.loadAsync({
     "poppins-bold": require("./src/assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -17,7 +17,6 @@ const fetchFonts = () => {
 
 export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
-
   const navTheme = {
     ...DefaultTheme,
     colors: {

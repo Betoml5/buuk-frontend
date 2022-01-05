@@ -144,5 +144,6 @@ export function useUser() {
     user,
     setUser,
     update,
+    jwt,
   };
 }

@@ -4,9 +4,10 @@ import { FlatList } from "react-native";
 import { useUser } from "../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
 import Book from "../components/Book";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Account() {
-  const { user, setUser, removeFromLibrary } = useUser();
+  const { user, setUser, removeFromLibrary, isLogged, jwt } = useUser();
   const navigation = useNavigation();
 
   const handleRemoveFromLibrary = async (id, bookId) => {
