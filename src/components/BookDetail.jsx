@@ -10,24 +10,26 @@ export default function BookDetail({
     <View style={styles.container}>
       <Text style={styles.title}>{book.title}</Text>
       <Image source={{ uri: book.images.thumbnail }} style={styles.image} />
-      {book?.authors?.length > 1 ? (
-        <Text style={styles.subtitle}>Autores</Text>
-      ) : (
-        <Text style={styles.subtitle}>Autor</Text>
-      )}
-      {book?.authors?.length > 0 ? (
-        book?.authors?.map((author) => (
-          <Text key={author} style={styles.subtitle}>
-            {author}
-          </Text>
-        ))
-      ) : (
-        <Text style={styles.subtitle}>No hay autores registrados</Text>
-      )}
-      <Text style={styles.subtitle}>Fecha de publicacion</Text>
-      <Text style={styles.subtitle}>{book.publishedDate}</Text>
-      <Text style={styles.subtitle}>Numero de paginas</Text>
-      <Text style={styles.subtitle}>{book.pageCount}</Text>
+      <View style={styles.bookInfoContainer}>
+        {book?.authors?.length > 1 ? (
+          <Text style={styles.dataTitle}>Autores</Text>
+        ) : (
+          <Text style={styles.dataTitle}>Autor</Text>
+        )}
+        {book?.authors?.length > 0 ? (
+          book?.authors?.map((author) => (
+            <Text key={author} style={styles.subtitle}>
+              {author}
+            </Text>
+          ))
+        ) : (
+          <Text style={styles.subtitle}>No hay autores registrados</Text>
+        )}
+        <Text style={styles.dataTitle}>Fecha de publicacion</Text>
+        <Text style={styles.subtitle}>{book.publishedDate}</Text>
+        <Text style={styles.dataTitle}>Numero de paginas</Text>
+        <Text style={styles.subtitle}>{book.pageCount}</Text>
+      </View>
     </View>
   );
 }
@@ -38,6 +40,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#322F4C",
   },
   title: {
+    textAlign: "center",
+    marginBottom: 20,
     color: "#FFf",
     fontFamily: "poppins-semi",
   },
@@ -46,9 +50,17 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: "contain",
   },
+  dataTitle: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+  },
   subtitle: {
     color: "#fff",
     fontFamily: "poppins-light",
-    marginTop: 10,
+  },
+  bookInfoContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
   },
 });

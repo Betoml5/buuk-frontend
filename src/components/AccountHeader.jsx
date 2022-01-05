@@ -41,11 +41,17 @@ export default function AccountHeader() {
           uploadTask.snapshot.totalBytes) *
         100;
       setProgress(progressData);
-      setUser({
+      const userModified = {
         ...user,
         image: url,
-      });
-      update(user?._id, user).then(() => {
+      };
+
+      setView(false);
+      setImage(null);
+      setProgress(0);
+
+      update(user?._id, userModified).then((res) => {
+        setUser(res);
         setView(false);
         setImage(null);
         setProgress(0);

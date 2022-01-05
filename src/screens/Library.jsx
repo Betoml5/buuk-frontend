@@ -302,7 +302,13 @@ export default function Library() {
                         style={styles.book}
                       />
                       <View style={styles.bookDescription}>
-                        <Text style={styles.bookName}>{item.book.title}</Text>
+                        <Text
+                          style={styles.bookName}
+                          numberOfLines={2}
+                          ellipsizeMode="tail"
+                        >
+                          {item.book.title}
+                        </Text>
                         <Text style={styles.bookGender}>Ficción</Text>
                       </View>
                     </View>
@@ -330,7 +336,7 @@ export default function Library() {
             }}
           >
             <Text style={styles.title}>
-              Hey, aun no tienes ningun item en el timeline
+              Hey, aun no tienes ningun libro en el hilo
             </Text>
             <Text
               onPress={() => setTimelineModal(true)}

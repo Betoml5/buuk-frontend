@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
 export default function TimelineForm({
@@ -29,36 +36,38 @@ export default function TimelineForm({
 
   return (
     <View style={styles.container}>
-      <View style={styles.bookContainer}>
-        <Text style={styles.bookTitle}>{book.title}</Text>
-        <Image
-          source={{ uri: book.images.thumbnail }}
-          style={styles.bookImage}
-        />
-      </View>
-      <View style={styles.counter}>
-        <Pressable onPress={() => setCounter(counter + 1)}>
-          <Icon name="plus" size={18} color="#fff" />
-        </Pressable>
-        <Text style={styles.counterText}>{counter}</Text>
-        <Pressable>
-          <Icon
-            name="minus"
-            size={18}
-            color="#fff"
-            onPress={() =>
-              counter < 0 ? setCounter(0) : setCounter(counter - 1)
-            }
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.bookContainer}>
+          <Text style={styles.bookTitle}>{book.title}</Text>
+          <Image
+            source={{ uri: book.images.thumbnail }}
+            style={styles.bookImage}
           />
+        </View>
+        <View style={styles.counter}>
+          <Pressable onPress={() => setCounter(counter + 1)}>
+            <Icon name="plus" size={18} color="#fff" />
+          </Pressable>
+          <Text style={styles.counterText}>{counter}</Text>
+          <Pressable>
+            <Icon
+              name="minus"
+              size={18}
+              color="#fff"
+              onPress={() =>
+                counter < 0 ? setCounter(0) : setCounter(counter - 1)
+              }
+            />
+          </Pressable>
+        </View>
+        <Pressable
+          onPress={() => onPress(user._id)}
+          style={styles.btn}
+          disabled={!counter}
+        >
+          <Text style={styles.btnText}>Agregar al timeline</Text>
         </Pressable>
-      </View>
-      <Pressable
-        onPress={() => onPress(user._id)}
-        style={styles.btn}
-        disabled={!counter}
-      >
-        <Text style={styles.btnText}>Agregar al timeline</Text>
-      </Pressable>
+      </ScrollView>
     </View>
   );
 }
@@ -91,6 +100,7 @@ const styles = StyleSheet.create({
   counter: {
     flexDirection: "row",
     justifyContent: "space-evenly",
+    alignSelf: "center",
     width: "60%",
     alignItems: "center",
     backgroundColor: "#3F3D58",
@@ -104,6 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   btn: {
+    alignSelf: "center",
     backgroundColor: "#3F3D58",
     padding: 12,
     marginTop: 10,

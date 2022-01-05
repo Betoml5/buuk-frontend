@@ -73,6 +73,7 @@ export default function Discover() {
                 key={item.id}
                 image={item.images?.thumbnail}
                 title={item?.title}
+                info={item}
               />
             )}
           />
@@ -88,6 +89,7 @@ export default function Discover() {
             key={item.id}
             image={item.images?.thumbnail}
             title={item?.title}
+            info={item}
           />
         )}
       />
@@ -101,6 +103,7 @@ export default function Discover() {
             key={item.id}
             image={item.images?.thumbnail}
             title={item?.title}
+            info={item}
           />
         )}
       />
@@ -114,6 +117,7 @@ export default function Discover() {
             key={item.id}
             image={item.images?.thumbnail}
             title={item?.title}
+            info={item}
           />
         )}
       />
