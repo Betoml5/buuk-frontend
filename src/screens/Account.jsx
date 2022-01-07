@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { FlatList } from "react-native";
 import { useUser } from "../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
 import Book from "../components/Book";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Account() {
-  const { user, setUser, removeFromLibrary, isLogged, jwt } = useUser();
+  const { user, setUser, removeFromLibrary } = useUser();
   const navigation = useNavigation();
 
   const handleRemoveFromLibrary = async (id, bookId) => {
@@ -15,7 +14,7 @@ export default function Account() {
       const response = await removeFromLibrary(id, bookId);
       setUser(response);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -25,7 +24,6 @@ export default function Account() {
         {user?.library?.length > 0 ? (
           <>
             <Text style={styles.reading_title}>Leyendo</Text>
-
             <FlatList
               renderItem={({ item }) => (
                 <View>

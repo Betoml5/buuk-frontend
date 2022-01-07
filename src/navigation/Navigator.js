@@ -3,13 +3,7 @@ import React from "react";
 import Home from "../screens/Home";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-
-import {
-  Image,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { Image, StyleSheet, TextInput, View } from "react-native";
 import Discover from "../screens/Discover";
 import Buuk from "../screens/Buuk";
 import AccountNavigation from "./AccountNavigation";
@@ -20,15 +14,13 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigator() {
   return (
-
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="LibraryNavigation"
       screenOptions={{
         tabBarStyle: styles.container,
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#DDDCDE",
-
       }}
     >
       <Tab.Screen
@@ -62,7 +54,8 @@ export default function Navigator() {
         component={LibraryNavigation}
         name="LibraryNavigation"
         options={{
-          headerShown: false, tabBarIcon: () => renderBooks(),
+          headerShown: false,
+          tabBarIcon: () => renderBooks(),
           tabBarLabel: "Biblioteca",
         }}
       />
@@ -161,14 +154,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     position: "relative",
-
   },
   icon: {
     backgroundColor: "#fff",
     padding: 10.4,
     borderTopLeftRadius: 999,
     borderBottomLeftRadius: 999,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   input: {
     padding: 6,
@@ -176,6 +168,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopRightRadius: 999,
     borderBottomRightRadius: 999,
-    overflow: "hidden"
+    overflow: "hidden",
   },
 });

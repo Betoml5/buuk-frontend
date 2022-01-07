@@ -285,6 +285,7 @@ export default function Library() {
             />
           </Pressable>
         </View>
+
         {user?.timeline?.length > 0 ? (
           <View style={styles.containerTimeline}>
             {user?.timeline.map((item, index) => (
@@ -298,7 +299,7 @@ export default function Library() {
                   <View style={styles.booksWrapper}>
                     <View style={styles.bookInfo}>
                       <Image
-                        source={{ uri: item.book.cover }}
+                        source={{ uri: item?.book?.cover }}
                         style={styles.book}
                       />
                       <View style={styles.bookDescription}>
@@ -307,7 +308,7 @@ export default function Library() {
                           numberOfLines={2}
                           ellipsizeMode="tail"
                         >
-                          {item.book.title}
+                          {item?.book?.title}
                         </Text>
                         <Text style={styles.bookGender}>Ficción</Text>
                       </View>
@@ -318,7 +319,7 @@ export default function Library() {
                         style={styles.bookPagesIcon}
                       />
                       <Text style={styles.numberPagesDay}>
-                        {item.book.numberPages}
+                        {item?.book?.numberPages}
                       </Text>
                     </View>
                   </View>
