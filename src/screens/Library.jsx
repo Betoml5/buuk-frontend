@@ -370,7 +370,9 @@ export default function Library() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
+    marginTop: 20,
   },
   title: {
     color: "#fff",

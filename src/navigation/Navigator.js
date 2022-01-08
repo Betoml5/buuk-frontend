@@ -27,26 +27,26 @@ export default function Navigator() {
         component={Home}
         name="Home"
         options={{
-          tabBarLabel: "Inicio",
-          headerStyle: {
-            backgroundColor: "#242143",
-            borderBottomLeftRadius: 24,
-            borderBottomRightRadius: 24,
-            height: 100,
-          },
-          header: () => (
-            <SafeAreaView style={styles.header}>
-              <View style={[styles.header_container]}>
-                <Icon name="search" size={18} style={styles.icon} />
-                <TextInput
-                  placeholder="Titulos, autores o temas"
-                  style={styles.input}
-                />
-              </View>
-            </SafeAreaView>
-          ),
+          // tabBarLabel: "Inicio",
+          // headerStyle: {
+          //   backgroundColor: "#242143",
+          //   borderBottomLeftRadius: 24,
+          //   borderBottomRightRadius: 24,
+          //   height: 100,
+          // },
+          // header: () => (
+          //   <SafeAreaView style={styles.header}>
+          //     <View style={[styles.header_container]}>
+          //       <Icon name="search" size={18} style={styles.icon} />
+          //       <TextInput
+          //         placeholder="Titulos, autores o temas"
+          //         style={styles.input}
+          //       />
+          //     </View>
+          //   </SafeAreaView>
+          // ),
           tabBarIcon: () => renderHome(),
-          headerShown: true,
+          headerShown: false,
         }}
       />
 

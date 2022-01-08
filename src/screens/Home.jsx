@@ -56,7 +56,7 @@ export default function Home() {
   }
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* <Text style={styles.greating}>Hola, Beto ¿Que vas a leer hoy?</Text> */}
         <Text style={styles.greating}>Noticias</Text>
 

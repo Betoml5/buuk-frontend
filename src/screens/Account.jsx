@@ -63,7 +63,8 @@ export default function Account() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 
   reading_title: {
