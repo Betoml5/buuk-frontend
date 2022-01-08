@@ -37,9 +37,9 @@ export default function Home() {
   }, []);
 
   if (
-    (booksNews.length === 0) |
-    (bestSellers.length === 0) |
-    (authorsNews.length === 0)
+    (booksNews?.length === 0) |
+    (bestSellers?.length === 0) |
+    (authorsNews?.length === 0)
   ) {
     return (
       <ActivityIndicator
@@ -76,12 +76,7 @@ export default function Home() {
             <Image
               key={item.primary_isbn10}
               source={{ uri: item.book_image }}
-              style={{
-                width: 150,
-                height: 250,
-                borderRadius: 8,
-                marginRight: 10,
-              }}
+              style={styles.bookImage}
             />
           )}
           horizontal={true}
@@ -113,6 +108,12 @@ const styles = StyleSheet.create({
   },
   section: {
     flexDirection: "row",
+  },
+  bookImage: {
+    width: 150,
+    height: 250,
+    borderRadius: 8,
+    marginRight: 10,
   },
   greating: {
     color: "#fff",

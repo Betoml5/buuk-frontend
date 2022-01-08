@@ -3,34 +3,22 @@ import React from "react";
 import Home from "../screens/Home";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-import Favorites from "../screens/Favorites";
-import {
-  Button,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import Search from "../components/Search";
-import Library from "../screens/Library";
+import { Image, StyleSheet, TextInput, View } from "react-native";
 import Discover from "../screens/Discover";
 import Buuk from "../screens/Buuk";
-import Account from "../screens/Account";
-import AccountHeader from "../components/AccountHeader";
 import AccountNavigation from "./AccountNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LibraryNavigation from "./LibraryNavigation";
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="LibraryNavigation"
       screenOptions={{
         tabBarStyle: styles.container,
-
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#DDDCDE",
       }}
@@ -63,24 +51,12 @@ export default function Navigator() {
       />
 
       <Tab.Screen
-        component={Library}
-        name="Library"
+        component={LibraryNavigation}
+        name="LibraryNavigation"
         options={{
+          headerShown: false,
           tabBarIcon: () => renderBooks(),
           tabBarLabel: "Biblioteca",
-          headerTitleStyle: {
-            color: "#fff",
-            fontFamily: "poppins-semi",
-          },
-          headerShadowVisible: false,
-          headerTitle: "Biblioteca",
-          headerTitleAlign: "center",
-          headerStyle: {
-            backgroundColor: "#242143",
-            borderBottomLeftRadius: 24,
-            borderBottomRightRadius: 24,
-            height: 100,
-          },
         }}
       />
 
@@ -184,6 +160,7 @@ const styles = StyleSheet.create({
     padding: 10.4,
     borderTopLeftRadius: 999,
     borderBottomLeftRadius: 999,
+    overflow: "hidden",
   },
   input: {
     padding: 6,
@@ -191,5 +168,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopRightRadius: 999,
     borderBottomRightRadius: 999,
+    overflow: "hidden",
   },
 });
