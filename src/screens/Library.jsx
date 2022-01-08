@@ -58,7 +58,7 @@ export default function Library() {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -295,8 +295,8 @@ export default function Library() {
                   <Text style={styles.day}>{item.fullDate}</Text>
                 </View>
 
-                {item.items.map((item) => (
-                  <View style={styles.booksContainer}>
+                {item?.items?.map((item, index) => (
+                  <View style={styles.booksContainer} key={index}>
                     <View style={styles.booksWrapper}>
                       <View style={styles.bookInfo}>
                         <Image
@@ -311,7 +311,13 @@ export default function Library() {
                           >
                             {item?.book?.title}
                           </Text>
-                          {/* <Text style={styles.bookGender}>Ficción</Text> */}
+                          <Text
+                            style={styles.bookGender}
+                            ellipsizeMode="tail"
+                            numberOfLines={2}
+                          >
+                            {item.book.category}
+                          </Text>
                         </View>
                       </View>
                       <View style={styles.numberPagesContainer}>
@@ -429,10 +435,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   date: {
+    textAlign: "center",
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
     padding: 12,
+    width: 40,
+    height: 40,
     borderRadius: 8,
     backgroundColor: "#fff",
     fontSize: 12,
@@ -473,6 +482,8 @@ const styles = StyleSheet.create({
   bookGender: {
     color: "#888797",
     fontFamily: "poppins-light",
+    fontSize: 12,
+    marginTop: 4,
   },
   booksWrapper: {
     flexDirection: "row",

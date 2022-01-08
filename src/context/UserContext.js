@@ -27,6 +27,11 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     fetchData();
+
+    return () => {
+      setJwt(null);
+      setUser(null);
+    };
   }, []);
 
   return (

@@ -22,6 +22,7 @@ export default function TimelineForm({
       book: {
         title: book.title,
         cover: book.images.thumbnail,
+        category: book.category,
         numberPages: counter,
       },
       date: new Date().getDate(),
