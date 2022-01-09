@@ -11,7 +11,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Context from "../context/UserContext";
-import { Alert } from "react-native";
 
 export function useUser() {
   const { jwt, setJwt, user, setUser } = useContext(Context);
@@ -19,17 +18,20 @@ export function useUser() {
 
   const navigation = useNavigation();
 
-  const register = useCallback(async () => {
-    try {
-      setState({ loading: true, error: false });
-      const response = await signup(user);
-      setState({ loading: false, error: false });
-      return response;
-    } catch (error) {
-      setState({ loading: false, error: true });
-      return error;
-    }
-  }, [navigation]);
+  const register = useCallback(
+    async (user) => {
+      try {
+        setState({ loading: true, error: false });
+        const response = await signup(user);
+        setState({ loading: false, error: false });
+        return response;
+      } catch (error) {
+        setState({ loading: false, error: true });
+        return error;
+      }
+    },
+    [navigation]
+  );
 
   const login = useCallback(
     async (user) => {
@@ -43,10 +45,6 @@ export function useUser() {
         navigation.navigate("LibraryNavigation", { screen: "Library" });
         setState({ loading: false, error: false });
       } catch (error) {
-        Alert.alert(
-          "Credenciales incorrectas",
-          "Email o contraseña incorrecta"
-        );
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
         setState({ loading: false, error: true });
@@ -87,7 +85,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-
       return error;
     }
   };

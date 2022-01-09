@@ -22,6 +22,7 @@ export default function Signup() {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       username: "",
@@ -30,7 +31,10 @@ export default function Signup() {
     },
   });
 
-  const onSubmit = async (data) => await register(data);
+  const onSubmit = async (data) => {
+    await register(data);
+    reset();
+  };
 
   return (
     <ScrollView>
@@ -39,38 +43,6 @@ export default function Signup() {
         <Text style={styles.subtitle}>Bienvenido a buuk</Text>
 
         <Image source={require("../assets/buuk.png")} style={styles.image} />
-
-        <Text style={styles.label}>Nombre de usuario</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Nombre de usuario"
-            />
-          )}
-          name="username"
-        />
-        {errors.username && (
-          <Text
-            style={{
-              color: "#fff",
-              fontFamily: "poppins-light",
-              fontSize: 12,
-              textAlign: "left",
-              alignSelf: "flex-start",
-              marginTop: 10,
-            }}
-          >
-            Este campo es obligatorio
-          </Text>
-        )}
 
         <Text style={styles.label}>Email</Text>
         <Controller
@@ -103,6 +75,38 @@ export default function Signup() {
             Este campo es obligatorio
           </Text>
         )}
+        <Text style={styles.label}>Nombre de usuario</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Nombre de usuario"
+            />
+          )}
+          name="username"
+        />
+        {errors.username && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Este campo es obligatorio
+          </Text>
+        )}
+
         <Text style={styles.label}>Contraseña</Text>
         <Controller
           control={control}

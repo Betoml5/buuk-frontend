@@ -3,8 +3,8 @@ const API = `http://192.168.1.64:3080/api/v1/users`;
 
 export const signup = async (user) => {
   try {
-    const response = await axios.post(`${API}/create`, user);
-    return response;
+    const response = await axios.post(`${API}/create`, { user: user });
+    return response.data.body;
   } catch (error) {
     return error;
   }
@@ -65,5 +65,3 @@ export const addItemToTimelineAPI = async (id, item) => {
     return error;
   }
 };
-
-export const addObjetive = async () => {};
