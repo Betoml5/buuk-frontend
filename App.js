@@ -35,7 +35,7 @@ export default function App() {
     );
   }
 
-  // initAxiosInterceptors();
+  initAxiosInterceptors();
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={navTheme}>

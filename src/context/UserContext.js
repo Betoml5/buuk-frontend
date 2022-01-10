@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { findOne } from "../services/User";
 
 const Context = React.createContext({});
 export default Context;

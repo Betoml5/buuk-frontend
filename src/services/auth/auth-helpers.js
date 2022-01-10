@@ -1,35 +1,27 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Axios from "axios";
 const TOKEN_KEY = "jwt";
-const API = `http://192.168.1.64:3080/api/v1`;
 
-export function setToken(token) {
-  window.localStorage.setItem(TOKEN_KEY, token);
+export async function setToken(token) {
+  await AsyncStorage.setItem(TOKEN_KEY, token);
 }
 
-export function getToken() {
-  return window.localStorage.getItem(TOKEN_KEY);
+export async function getToken() {
+  const storageJwt = await AsyncStorage.getItem(TOKEN_KEY);
+  return storageJwt;
 }
 
-export function deleteToken() {
-  window.localStorage.removeItem(TOKEN_KEY);
+export async function deleteToken() {
+  await AsyncStorage.removeItem(TOKEN_KEY);
 }
 
 export function initAxiosInterceptors() {
-  Axios.interceptors.request.use(function (config) {
-    const token = getToken();
+  console.log("init Axios interceptors");
+  Axios.interceptors.request.use(async function (config) {
+    const token = await getToken();
     if (token) {
       config.headers.Authorization = `bearer ${token}`;
     }
     return config;
   });
-}
-
-export async function authFacebookAPI() {
-  try {
-    const response = await Axios.get(`${API}/auth/facebook`);
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
 }
