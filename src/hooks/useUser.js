@@ -133,10 +133,19 @@ export function useUser() {
     try {
       setState({ loading: true, error: true });
       const response = await updateAPI(id, user);
-      setState({ loading: false, error: false });
-      return response.body;
+      setState({
+        loading: false,
+        error: false,
+        message: "Usuario actualizado correctamente",
+      });
+      setUser(response.body);
+      // return response.body;
     } catch (error) {
-      setState({ loading: false, error: true });
+      setState({
+        loading: false,
+        error: true,
+        message: "Hubo un error, intentalo mas tarde",
+      });
     }
   };
 
