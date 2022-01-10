@@ -11,10 +11,15 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Context from "../context/UserContext";
+import { Alert } from "react-native";
 
 export function useUser() {
   const { jwt, setJwt, user, setUser } = useContext(Context);
-  const [state, setState] = useState({ loading: false, error: false });
+  const [state, setState] = useState({
+    loading: false,
+    error: false,
+    message: "",
+  });
 
   const navigation = useNavigation();
 
@@ -23,11 +28,23 @@ export function useUser() {
       try {
         setState({ loading: true, error: false });
         const response = await signup(user);
-        setState({ loading: false, error: false });
-        return response;
+        if (!response.body) {
+          setState({ loading: false, error: true, message: response });
+          return;
+        }
+        setState({
+          loading: false,
+          error: false,
+          message: "Usuario creado correctamente",
+        });
+        Alert.alert("Registro exitoso", "Usuario registrado correctamente");
+        navigation.navigate("AccountNavigation", { screen: "Signin" });
       } catch (error) {
-        setState({ loading: false, error: true });
-        return error;
+        setState({
+          loading: false,
+          error: true,
+          message: "Hubo un error, intentalo mas tarde",
+        });
       }
     },
     [navigation]
@@ -38,6 +55,10 @@ export function useUser() {
       try {
         setState({ loading: true, error: false });
         const response = await signin(user);
+        if (!response.body) {
+          setState({ loading: false, error: true, message: response });
+          return;
+        }
         await AsyncStorage.setItem("user", JSON.stringify(response.body.user));
         await AsyncStorage.setItem("jwt", response.token);
         setJwt(response.token);
@@ -64,7 +85,6 @@ export function useUser() {
       navigation.navigate("AccountNavigation", { screen: "Signin" });
     } catch (error) {
       setState({ loading: false, error: true });
-      throw new Error(error.message);
     }
   }, [setJwt, setUser]);
 
@@ -72,9 +92,7 @@ export function useUser() {
     try {
       const response = await findOne(id);
       return response.body;
-    } catch (error) {
-      return error;
-    }
+    } catch (error) {}
   }, []);
 
   const addToLibrary = async (id, bookId) => {
@@ -85,7 +103,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -97,7 +114,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -110,7 +126,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -122,7 +137,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -130,6 +144,7 @@ export function useUser() {
     isLogged: Boolean(jwt),
     isLoading: state.loading,
     hasError: state.error,
+    stateMsg: state.message,
     setState,
     register,
     login,

@@ -16,7 +16,7 @@ import { ActivityIndicator } from "react-native";
 
 export default function Signup() {
   const navigation = useNavigation();
-  const { register, isLoading, hasError } = useUser();
+  const { register, isLoading, hasError, stateMsg } = useUser();
 
   const {
     control,
@@ -163,6 +163,21 @@ export default function Signup() {
             }}
           >
             Hubo un error, intentalo mas tarde
+          </Text>
+        )}
+
+        {stateMsg != "" && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 0,
+            }}
+          >
+            {stateMsg}
           </Text>
         )}
 
