@@ -15,27 +15,50 @@ import { Alert } from "react-native";
 
 export function useUser() {
   const { jwt, setJwt, user, setUser } = useContext(Context);
-  const [state, setState] = useState({ loading: false, error: false });
+  const [state, setState] = useState({
+    loading: false,
+    error: false,
+    message: "",
+  });
 
   const navigation = useNavigation();
 
-  const register = useCallback(async () => {
-    try {
-      setState({ loading: true, error: false });
-      const response = await signup(user);
-      setState({ loading: false, error: false });
-      return response;
-    } catch (error) {
-      setState({ loading: false, error: true });
-      return error;
-    }
-  }, [navigation]);
+  const register = useCallback(
+    async (user) => {
+      try {
+        setState({ loading: true, error: false });
+        const response = await signup(user);
+        if (!response.body) {
+          setState({ loading: false, error: true, message: response });
+          return;
+        }
+        setState({
+          loading: false,
+          error: false,
+          message: "Usuario creado correctamente",
+        });
+        Alert.alert("Registro exitoso", "Usuario registrado correctamente");
+        navigation.navigate("AccountNavigation", { screen: "Signin" });
+      } catch (error) {
+        setState({
+          loading: false,
+          error: true,
+          message: "Hubo un error, intentalo mas tarde",
+        });
+      }
+    },
+    [navigation]
+  );
 
   const login = useCallback(
     async (user) => {
       try {
         setState({ loading: true, error: false });
         const response = await signin(user);
+        if (!response.body) {
+          setState({ loading: false, error: true, message: response });
+          return;
+        }
         await AsyncStorage.setItem("user", JSON.stringify(response.body.user));
         await AsyncStorage.setItem("jwt", response.token);
         setJwt(response.token);
@@ -43,10 +66,6 @@ export function useUser() {
         navigation.navigate("LibraryNavigation", { screen: "Library" });
         setState({ loading: false, error: false });
       } catch (error) {
-        Alert.alert(
-          "Credenciales incorrectas",
-          "Email o contraseña incorrecta"
-        );
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
         setState({ loading: false, error: true });
@@ -66,7 +85,6 @@ export function useUser() {
       navigation.navigate("AccountNavigation", { screen: "Signin" });
     } catch (error) {
       setState({ loading: false, error: true });
-      throw new Error(error.message);
     }
   }, [setJwt, setUser]);
 
@@ -74,9 +92,7 @@ export function useUser() {
     try {
       const response = await findOne(id);
       return response.body;
-    } catch (error) {
-      return error;
-    }
+    } catch (error) {}
   }, []);
 
   const addToLibrary = async (id, bookId) => {
@@ -87,8 +103,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-
-      return error;
     }
   };
 
@@ -100,7 +114,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -113,7 +126,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -125,7 +137,6 @@ export function useUser() {
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
-      return error;
     }
   };
 
@@ -133,6 +144,7 @@ export function useUser() {
     isLogged: Boolean(jwt),
     isLoading: state.loading,
     hasError: state.error,
+    stateMsg: state.message,
     setState,
     register,
     login,
