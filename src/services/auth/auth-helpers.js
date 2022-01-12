@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Axios from "axios";
+import axios from "axios";
 const TOKEN_KEY = "jwt";
 
 export async function setToken(token) {
@@ -16,12 +16,30 @@ export async function deleteToken() {
 }
 
 export function initAxiosInterceptors() {
-  console.log("init Axios interceptors");
-  Axios.interceptors.request.use(async function (config) {
+  axios.interceptors.request.use(async function (config) {
     const token = await getToken();
     if (token) {
       config.headers.Authorization = `bearer ${token}`;
     }
     return config;
   });
+
+  axios.interceptors.response.use(
+    function (response) {
+      // Do something with response data
+      return response;
+    },
+    function (error) {
+      // Do something with response error
+
+      if (
+        error.response.data.error === "jwt expired" &&
+        error.response.status === 401
+      ) {
+      }
+      console.log(error.response.data.error);
+      console.log(error.response.status);
+      return Promise.reject(error);
+    }
+  );
 }
