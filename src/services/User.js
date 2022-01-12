@@ -1,5 +1,6 @@
 import axios from "axios";
-const API = `http://192.168.1.64:3080/api/v1/users`;
+import config from "../../config";
+const API = `${config.API_URL}/users`;
 
 export const signup = async (user) => {
   try {

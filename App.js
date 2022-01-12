@@ -1,11 +1,11 @@
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import AppLoading from "expo-app-loading";
-import * as Font from "expo-font";
 import React, { useState } from "react";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { UserContextProvider } from "./src/context/UserContext";
-import Navigator from "./src/navigation/Navigator";
 import { initAxiosInterceptors } from "./src/services/auth/auth-helpers";
+import AppLoading from "expo-app-loading";
+import Navigator from "./src/navigation/Navigator";
+import * as Font from "expo-font";
 
 const fetchFonts = () => {
   return Font.loadAsync({

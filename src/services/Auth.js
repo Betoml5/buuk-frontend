@@ -1,6 +1,7 @@
 import axios from "axios";
-const API = `http://192.168.1.64:3080/api/v1/auth`;
+const API = `${config.API_URL}/auth`;
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
 
 export const getNewToken = async () => {
   const refreshToken = await AsyncStorage.getItem("refres-jwt");
