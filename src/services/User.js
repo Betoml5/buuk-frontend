@@ -13,6 +13,7 @@ export const signup = async (user) => {
 export const signin = async (user) => {
   try {
     const response = await axios.post(`${API}/login`, user);
+
     return response.data.body;
   } catch (error) {
     return error.response.data.error.message;
@@ -42,6 +43,7 @@ export const addToLibraryAPI = async (id, bookId) => {
     const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
     return response.data;
   } catch (error) {
+    console.log("falle en sl api service");
     return error.response.data.error.message;
   }
 };

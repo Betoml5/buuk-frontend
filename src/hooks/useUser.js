@@ -61,6 +61,7 @@ export function useUser() {
         }
         await AsyncStorage.setItem("user", JSON.stringify(response.body.user));
         await AsyncStorage.setItem("jwt", response.token);
+        await AsyncStorage.setItem("refresh-jwt", response.refreshToken);
         setJwt(response.token);
         setUser(response.body.user);
         navigation.navigate("LibraryNavigation", { screen: "Library" });
@@ -68,6 +69,8 @@ export function useUser() {
       } catch (error) {
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
+        await AsyncStorage.removeItem("refresh-jwt", response.refreshToken);
+
         setState({ loading: false, error: true });
       }
     },

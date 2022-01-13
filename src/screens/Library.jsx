@@ -16,6 +16,7 @@ import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Library() {
   const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
