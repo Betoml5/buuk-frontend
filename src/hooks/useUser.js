@@ -128,7 +128,10 @@ export function useUser() {
       navigation.navigate("LibraryNavigation", { screen: "Library" });
       return response.body;
     } catch (error) {
-      setState({ loading: false, error: true });
+      setState({
+        loading: false,
+        error: true,
+      });
     }
   };
 

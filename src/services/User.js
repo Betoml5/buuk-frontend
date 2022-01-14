@@ -63,6 +63,7 @@ export const addItemToTimelineAPI = async (id, item) => {
     const response = await axios.patch(`${API}/timeline/${id}`, { item: item });
     return response.data;
   } catch (error) {
+    console.log(error);
     return error.response.data.error.message;
   }
 };

@@ -8,16 +8,18 @@ export default Context;
 export function UserContextProvider({ children }) {
   const [jwt, setJwt] = useState("");
   const [user, setUser] = useState(null);
-
+  const [refreshToken, setRefreshToken] = useState("");
   const fetchData = async () => {
     try {
       const storageUser = await AsyncStorage.getItem("user");
       const storageJwt = await AsyncStorage.getItem("jwt");
+      const storageRefreshToken = await AsyncStorage.getItem("refresh-jwt");
 
       if (storageUser !== null && storageJwt !== null) {
         let parsedUser = JSON.parse(storageUser);
         setUser(parsedUser);
         setJwt(storageJwt);
+        setRefreshToken(storageRefreshToken);
       }
     } catch (error) {
       console.log(error);
@@ -26,7 +28,13 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     fetchData();
-  }, [jwt, user]);
+
+    return () => {
+      setUser(null);
+      setJwt("");
+      setRefreshToken("");
+    };
+  }, []);
 
   return (
     <Context.Provider

@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#322F4C",
     padding: 24,
     borderRadius: 8,
+    marginTop: 24,
   },
   notReadingText: {
     color: "#fff",
