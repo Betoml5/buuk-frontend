@@ -16,6 +16,7 @@ import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Library() {
   const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
@@ -202,8 +203,10 @@ export default function Library() {
             </View>
             <View style={styles.searchContainer}>
               {user?.library?.length === 0 ? (
-                <View>
-                  <Text>Aun no tienes nada en la biblioteca</Text>
+                <View style={styles.noBooksContainer}>
+                  <Text style={styles.noBooksText}>
+                    Aun no tienes nada en la biblioteca
+                  </Text>
                 </View>
               ) : (
                 <FlatList
@@ -569,5 +572,11 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: "column",
+  },
+  noBooksText: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    marginTop: 20,
+    fontSize: 24,
   },
 });

@@ -1,5 +1,6 @@
 import axios from "axios";
-const API = `http://192.168.1.64:3080/api/v1/users`;
+import config from "../../config";
+const API = `${config.API_URL}/users`;
 
 export const signup = async (user) => {
   try {
@@ -12,6 +13,7 @@ export const signup = async (user) => {
 export const signin = async (user) => {
   try {
     const response = await axios.post(`${API}/login`, user);
+
     return response.data.body;
   } catch (error) {
     return error.response.data.error.message;
@@ -41,6 +43,7 @@ export const addToLibraryAPI = async (id, bookId) => {
     const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
     return response.data;
   } catch (error) {
+    console.log("falle en sl api service");
     return error.response.data.error.message;
   }
 };
@@ -60,6 +63,7 @@ export const addItemToTimelineAPI = async (id, item) => {
     const response = await axios.patch(`${API}/timeline/${id}`, { item: item });
     return response.data;
   } catch (error) {
+    console.log(error);
     return error.response.data.error.message;
   }
 };

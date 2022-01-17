@@ -1,35 +1,62 @@
-import Axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getNewTokenAPI } from "../../services/Auth";
+import axios from "axios";
 const TOKEN_KEY = "jwt";
-const API = `http://192.168.1.64:3080/api/v1`;
 
-export function setToken(token) {
-  window.localStorage.setItem(TOKEN_KEY, token);
+export async function setToken(token) {
+  await AsyncStorage.setItem(TOKEN_KEY, token);
 }
 
-export function getToken() {
-  return window.localStorage.getItem(TOKEN_KEY);
+export async function getToken() {
+  const storageJwt = await AsyncStorage.getItem(TOKEN_KEY);
+  return storageJwt;
 }
 
-export function deleteToken() {
-  window.localStorage.removeItem(TOKEN_KEY);
+export async function deleteToken() {
+  await AsyncStorage.removeItem(TOKEN_KEY);
+}
+
+export async function getRefreshTokenFromStorage() {
+  const storageRefreshToken = await AsyncStorage.getItem("refresh-jwt");
+  return storageRefreshToken;
 }
 
 export function initAxiosInterceptors() {
-  Axios.interceptors.request.use(function (config) {
-    const token = getToken();
+  axios.interceptors.request.use(async function (config) {
+    const token = await getToken();
     if (token) {
       config.headers.Authorization = `bearer ${token}`;
     }
     return config;
   });
-}
 
-export async function authFacebookAPI() {
-  try {
-    const response = await Axios.get(`${API}/auth/facebook`);
+  const getNewToken = async () => {
+    try {
+      const refreshToken = await AsyncStorage.getItem("refresh-jwt");
+      const response = await getNewTokenAPI(refreshToken);
+      const newToken = response.token;
+      const user = response.user;
+      await AsyncStorage.setItem("jwt", newToken);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  axios.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      console.log(error);
+      if (
+        error.response.data.error === "jwt expired" &&
+        error.response.status === 401
+      ) {
+        getNewToken();
+      }
+
+      return Promise.reject(error);
+    }
+  );
 }

@@ -61,6 +61,7 @@ export function useUser() {
         }
         await AsyncStorage.setItem("user", JSON.stringify(response.body.user));
         await AsyncStorage.setItem("jwt", response.token);
+        await AsyncStorage.setItem("refresh-jwt", response.refreshToken);
         setJwt(response.token);
         setUser(response.body.user);
         navigation.navigate("LibraryNavigation", { screen: "Library" });
@@ -68,6 +69,8 @@ export function useUser() {
       } catch (error) {
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
+        await AsyncStorage.removeItem("refresh-jwt", response.refreshToken);
+
         setState({ loading: false, error: true });
       }
     },
@@ -125,7 +128,10 @@ export function useUser() {
       navigation.navigate("LibraryNavigation", { screen: "Library" });
       return response.body;
     } catch (error) {
-      setState({ loading: false, error: true });
+      setState({
+        loading: false,
+        error: true,
+      });
     }
   };
 
@@ -133,10 +139,19 @@ export function useUser() {
     try {
       setState({ loading: true, error: true });
       const response = await updateAPI(id, user);
-      setState({ loading: false, error: false });
-      return response.body;
+      setState({
+        loading: false,
+        error: false,
+        message: "Usuario actualizado correctamente",
+      });
+      setUser(response.body);
+      // return response.body;
     } catch (error) {
-      setState({ loading: false, error: true });
+      setState({
+        loading: false,
+        error: true,
+        message: "Hubo un error, intentalo mas tarde",
+      });
     }
   };
 

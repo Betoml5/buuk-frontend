@@ -57,7 +57,7 @@ export default function AccountHeader() {
         setProgress(0);
       });
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
   return (
@@ -90,23 +90,31 @@ export default function AccountHeader() {
           <Text style={styles.user_name}>{user?.username}</Text>
 
           {view && (
-            <View style={{ flexDirection: "row" }}>
+            <>
+              <View style={{ flexDirection: "row" }}>
+                <Pressable
+                  onPress={pickImage}
+                  style={[styles.logoutBtn, { marginRight: 10 }]}
+                >
+                  <Text style={styles.logoutText}>Escoger imagen</Text>
+                </Pressable>
+                <Pressable
+                  disabled={!image}
+                  style={!image ? styles.btnDisabled : styles.logoutBtn}
+                  onPress={() => {
+                    handleUpload(image, "test-image-2");
+                  }}
+                >
+                  <Text style={styles.logoutText}>Subir imagen</Text>
+                </Pressable>
+              </View>
               <Pressable
-                onPress={pickImage}
-                style={[styles.logoutBtn, { marginRight: 10 }]}
+                style={styles.logoutBtn}
+                onPress={() => setView(false)}
               >
-                <Text style={styles.logoutText}>Escoger imagen</Text>
+                <Text style={styles.logoutText}>Cancelar</Text>
               </Pressable>
-              <Pressable
-                disabled={!image}
-                style={!image ? styles.btnDisabled : styles.logoutBtn}
-                onPress={() => {
-                  handleUpload(image, "test-image-2");
-                }}
-              >
-                <Text style={styles.logoutText}>Subir imagen</Text>
-              </Pressable>
-            </View>
+            </>
           )}
         </View>
         {progress > 0 && (

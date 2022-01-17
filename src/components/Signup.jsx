@@ -181,11 +181,7 @@ export default function Signup() {
           </Text>
         )}
 
-        <Pressable
-          style={styles.btn}
-          onPress={handleSubmit(onSubmit)}
-          android_disableSound={false}
-        >
+        <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Registrarse</Text>
         </Pressable>
 
