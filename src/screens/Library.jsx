@@ -16,10 +16,9 @@ import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Library() {
-  const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
+  const { addToLibrary, removeFromLibrary, user } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [timelineModal, setTimelineModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,19 +40,17 @@ export default function Library() {
 
   const handleAddToLibrary = async (id, bookId) => {
     try {
-      const newUser = await addToLibrary(id, bookId);
-      setUser(newUser);
+      await addToLibrary(id, bookId);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   };
 
   const handleRemoveFromLibrary = async (id, bookId) => {
     try {
-      const newUser = await removeFromLibrary(id, bookId);
-      setUser(newUser);
+      await removeFromLibrary(id, bookId);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   };
 

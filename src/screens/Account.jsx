@@ -6,13 +6,12 @@ import { useNavigation } from "@react-navigation/native";
 import Book from "../components/Book";
 
 export default function Account() {
-  const { user, setUser, removeFromLibrary } = useUser();
+  const { user, removeFromLibrary } = useUser();
   const navigation = useNavigation();
 
   const handleRemoveFromLibrary = async (id, bookId) => {
     try {
-      const response = await removeFromLibrary(id, bookId);
-      setUser(response);
+      await removeFromLibrary(id, bookId);
     } catch (error) {
       throw error;
     }
