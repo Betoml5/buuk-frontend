@@ -45,13 +45,10 @@ export function initAxiosInterceptors() {
 
   axios.interceptors.response.use(
     function (response) {
-      // Do something with response data
-
       return response;
     },
     function (error) {
       console.log(error);
-      // Do something with response error
       if (
         error.response.data.error === "jwt expired" &&
         error.response.status === 401

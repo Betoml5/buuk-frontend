@@ -203,8 +203,10 @@ export default function Library() {
             </View>
             <View style={styles.searchContainer}>
               {user?.library?.length === 0 ? (
-                <View>
-                  <Text>Aun no tienes nada en la biblioteca</Text>
+                <View style={styles.noBooksContainer}>
+                  <Text style={styles.noBooksText}>
+                    Aun no tienes nada en la biblioteca
+                  </Text>
                 </View>
               ) : (
                 <FlatList
@@ -570,5 +572,11 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: "column",
+  },
+  noBooksText: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    marginTop: 20,
+    fontSize: 24,
   },
 });
