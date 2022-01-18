@@ -1,13 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Home from "../screens/Home";
-import Icon from "react-native-vector-icons/FontAwesome5";
 
-import { Image, StyleSheet, TextInput, View } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import Discover from "../screens/Discover";
-import Buuk from "../screens/Buuk";
 import AccountNavigation from "./AccountNavigation";
-import { SafeAreaView } from "react-native-safe-area-context";
 import LibraryNavigation from "./LibraryNavigation";
 
 const Tab = createBottomTabNavigator();

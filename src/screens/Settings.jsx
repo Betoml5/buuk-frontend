@@ -30,7 +30,7 @@ export default function Settings() {
       username: data.username,
       password: data.password,
     };
-    // console.log(data);
+
     update(user._id, userModified);
   };
 

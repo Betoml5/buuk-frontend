@@ -72,7 +72,7 @@ export default function AccountHeader() {
           ) : (
             <Image
               source={
-                !user.image
+                !user?.image
                   ? require("../assets/user.png")
                   : { uri: user?.image }
               }

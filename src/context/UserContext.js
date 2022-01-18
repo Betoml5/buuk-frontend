@@ -22,7 +22,7 @@ export function UserContextProvider({ children }) {
         setRefreshToken(storageRefreshToken);
       }
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
 

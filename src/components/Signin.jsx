@@ -116,7 +116,7 @@ export default function Signin() {
           />
         )}
 
-        {stateMsg !== "" && (
+        {stateMsg === "Contraseña o correo incorrectos" && (
           <Text
             style={{
               color: "#fff",
@@ -133,7 +133,7 @@ export default function Signin() {
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Iniciar sesion</Text>
         </Pressable>
-        {/* <Pressable style={styles.btnFacebook} onPress={onFacebookSubmit}>
+        {/* <Pressable style={styles.btnFacebook}>
           <Icon
             name="facebook"
             size={20}

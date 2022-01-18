@@ -43,7 +43,6 @@ export const addToLibraryAPI = async (id, bookId) => {
     const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
     return response.data;
   } catch (error) {
-    console.log("falle en sl api service");
     return error.response.data.error.message;
   }
 };
@@ -63,7 +62,6 @@ export const addItemToTimelineAPI = async (id, item) => {
     const response = await axios.patch(`${API}/timeline/${id}`, { item: item });
     return response.data;
   } catch (error) {
-    console.log(error);
     return error.response.data.error.message;
   }
 };
