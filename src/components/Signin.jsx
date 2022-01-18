@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Signin() {
   const navigation = useNavigation();
-  const { login, hasError, isLoading } = useUser();
+  const { login, hasError, isLoading, stateMsg } = useUser();
   const {
     control,
     handleSubmit,
@@ -114,6 +114,21 @@ export default function Signin() {
               height: "10%",
             }}
           />
+        )}
+
+        {stateMsg !== "" && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Contraseña o correo incorrectos
+          </Text>
         )}
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Iniciar sesion</Text>

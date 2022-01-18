@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, Pressable, LogBox } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
 import { useUser } from "../hooks/useUser";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
 import storage from "../services/firebase/index";
-LogBox.ignoreLogs(["Setting a timer"]);
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  getStorage,
-} from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function AccountHeader() {
   const { logout, user, update, setUser } = useUser();
@@ -50,8 +44,7 @@ export default function AccountHeader() {
       setImage(null);
       setProgress(0);
 
-      update(user?._id, userModified).then((res) => {
-        setUser(res);
+      update(user?._id, userModified).then(() => {
         setView(false);
         setImage(null);
         setProgress(0);
@@ -66,14 +59,6 @@ export default function AccountHeader() {
         <View style={styles.icons}>
           <View>
             <Icon
-              name="arrow-left"
-              size={25}
-              color="#fff"
-              onPress={() => navigation.goBack()}
-            />
-          </View>
-          <View>
-            <Icon
               name="cog"
               size={25}
               color="#fff"
@@ -85,7 +70,14 @@ export default function AccountHeader() {
           {image ? (
             <Image source={{ uri: image }} style={styles.user_image} />
           ) : (
-            <Image source={{ uri: user?.image }} style={styles.user_image} />
+            <Image
+              source={
+                !user.image
+                  ? require("../assets/user.png")
+                  : { uri: user?.image }
+              }
+              style={styles.user_image}
+            />
           )}
           <Text style={styles.user_name}>{user?.username}</Text>
 
@@ -150,7 +142,7 @@ const styles = StyleSheet.create({
   icons: {
     marginTop: 18,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
   },
   header: {
     backgroundColor: "#242143",

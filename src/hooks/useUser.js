@@ -53,7 +53,7 @@ export function useUser() {
   const login = useCallback(
     async (user) => {
       try {
-        setState({ loading: true, error: false });
+        setState({ loading: true, error: false, message: "Cargando..." });
         const response = await signin(user);
         if (!response.body) {
           setState({ loading: false, error: true, message: response });
@@ -65,13 +65,17 @@ export function useUser() {
         setJwt(response.token);
         setUser(response.body.user);
         navigation.navigate("LibraryNavigation", { screen: "Library" });
-        setState({ loading: false, error: false });
+        setState({ loading: false, error: false, message: "Login exitoso!" });
       } catch (error) {
         await AsyncStorage.removeItem("jwt");
         await AsyncStorage.removeItem("user");
         await AsyncStorage.removeItem("refresh-jwt", response.refreshToken);
 
-        setState({ loading: false, error: true });
+        setState({
+          loading: false,
+          error: true,
+          message: "Hubo un error, intentalo mas tarde",
+        });
       }
     },
     [setJwt, setUser]
@@ -95,13 +99,16 @@ export function useUser() {
     try {
       const response = await findOne(id);
       return response.body;
-    } catch (error) {}
+    } catch (error) {
+      throw Error(error);
+    }
   }, []);
 
   const addToLibrary = async (id, bookId) => {
     try {
       setState({ loading: true, error: false });
       const response = await addToLibraryAPI(id, bookId);
+      setUser(response.body);
       setState({ loading: false, error: false });
       return response.body;
     } catch (error) {
@@ -114,6 +121,7 @@ export function useUser() {
       setState({ loading: true, error: false });
       const response = await removeFromLibraryAPI(id, bookId);
       setState({ loading: true, error: false });
+      setUser(response.body);
       return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
@@ -125,6 +133,7 @@ export function useUser() {
       setState({ loading: true, error: true });
       const response = await addItemToTimelineAPI(id, item);
       setState({ loading: false, error: false });
+      setUser(response.body);
       navigation.navigate("LibraryNavigation", { screen: "Library" });
       return response.body;
     } catch (error) {
@@ -139,12 +148,12 @@ export function useUser() {
     try {
       setState({ loading: true, error: true });
       const response = await updateAPI(id, user);
+      setUser(response.body);
       setState({
         loading: false,
         error: false,
         message: "Usuario actualizado correctamente",
       });
-      setUser(response.body);
       // return response.body;
     } catch (error) {
       setState({
