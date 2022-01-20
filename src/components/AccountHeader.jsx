@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, LogBox } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
 import { useUser } from "../hooks/useUser";
@@ -7,9 +7,9 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
 import storage from "../services/firebase/index";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+LogBox.ignoreLogs(["Setting a timer"]);
 export default function AccountHeader() {
-  const { logout, user, update, setUser } = useUser();
+  const { logout, user, update } = useUser();
   const navigation = useNavigation();
   const handleLogout = async () => logout();
   const [image, setImage] = useState(null);
@@ -23,32 +23,46 @@ export default function AccountHeader() {
       setImage(result.uri);
     }
   };
-  const handleUpload = async (uri, imageName) => {
+  const handleUpload = async (uri) => {
     try {
+      const parts = uri.split("/");
+      const imageName = parts[parts.length - 1];
+
       const response = await fetch(uri);
       const blob = await response.blob();
-      const storageRef = ref(storage, `images/${imageName}`);
+      const storageRef = ref(storage, `/images/${imageName}`);
       const uploadTask = uploadBytesResumable(storageRef, blob);
-      const url = await getDownloadURL(uploadTask.snapshot.ref);
-      const progressData =
-        (uploadTask.snapshot.bytesTransferred /
-          uploadTask.snapshot.totalBytes) *
-        100;
-      setProgress(progressData);
-      const userModified = {
-        ...user,
-        image: url,
-      };
 
-      setView(false);
-      setImage(null);
-      setProgress(0);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progressData =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(progressData);
+        },
+        (err) => console.log(err),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            const userModified = {
+              ...user,
+              image: url,
+            };
+            setView(false);
+            setImage(null);
+            setProgress(0);
 
-      update(user?._id, userModified).then(() => {
-        setView(false);
-        setImage(null);
-        setProgress(0);
-      });
+            update(user?._id, userModified)
+              .then(() => {
+                setView(false);
+                setImage(null);
+                setProgress(0);
+              })
+              .catch((e) => {
+                throw e;
+              });
+          });
+        }
+      );
     } catch (error) {
       throw new Error(error);
     }
@@ -94,7 +108,7 @@ export default function AccountHeader() {
                   disabled={!image}
                   style={!image ? styles.btnDisabled : styles.logoutBtn}
                   onPress={() => {
-                    handleUpload(image, "test-image-2");
+                    handleUpload(image);
                   }}
                 >
                   <Text style={styles.logoutText}>Subir imagen</Text>

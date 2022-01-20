@@ -15,9 +15,10 @@ export const getBestSellers = async () => {
 export const searchBook = async (title) => {
   try {
     const response = await axios.get(`${API}/search?title=${title}`);
+    console.log(response.data);
     return response.data.body;
   } catch (error) {
-    throw new Error(error);
+    return error.response.data.error;
   }
 };
 
@@ -26,6 +27,6 @@ export const searchBooksBySubjectAPI = async (subject) => {
     const response = await axios.get(`${API}/search/subject?q=${subject}`);
     return response.data.body;
   } catch (error) {
-    throw new Error(error);
+    return error.response.data.error;
   }
 };

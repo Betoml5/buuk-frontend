@@ -10,6 +10,7 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import Book from "../components/Book";
 import { ScrollView } from "react-native";
@@ -32,6 +33,13 @@ export default function Library() {
       const books = await searchBook(title);
       setSearchesBooks(books);
       setLoading(false);
+
+      if (books.totalItems === 0) {
+        Alert.alert(
+          "No encontramos resultados",
+          "No encontramos el titulo que buscaste"
+        );
+      }
     } catch (error) {
       setTitle("");
       setSearchesBooks(null);
