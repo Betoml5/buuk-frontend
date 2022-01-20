@@ -24,7 +24,7 @@ export default function Book(props) {
   }
 
   return (
-    <Pressable onPress={() => console.log("book")}>
+    <Pressable>
       <View style={styles.noCover}>
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {props?.info?.title}

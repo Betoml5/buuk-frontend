@@ -19,7 +19,7 @@ export default function Genders({ setBooks }) {
       const response = await searchBooksBySubject(subject);
       setBooks(response);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
   return (
