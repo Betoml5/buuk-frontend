@@ -127,9 +127,9 @@ export default function AccountHeader() {
           <View
             style={{
               width: progress,
-              height: 10,
+              height: 4,
               borderRadius: 999,
-              backgroundColor: "#242143",
+              backgroundColor: "#fff",
             }}
           ></View>
         )}
