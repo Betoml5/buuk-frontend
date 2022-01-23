@@ -32,6 +32,7 @@ export default function Settings() {
     };
 
     update(user._id, userModified);
+    reset();
   };
 
   return (
@@ -110,6 +111,7 @@ export default function Settings() {
               alignContent: "center",
               alignItems: "center",
               justifyContent: "center",
+              marginTop: 20,
               height: "10%",
             }}
           />
