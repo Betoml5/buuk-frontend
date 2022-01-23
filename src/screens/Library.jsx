@@ -46,17 +46,17 @@ export default function Library() {
     }
   };
 
-  const handleAddToLibrary = async (id, bookId) => {
+  const handleAddToLibrary = async (bookId) => {
     try {
-      await addToLibrary(id, bookId);
+      await addToLibrary(bookId);
     } catch (error) {
       throw new Error(error);
     }
   };
 
-  const handleRemoveFromLibrary = async (id, bookId) => {
+  const handleRemoveFromLibrary = async (bookId) => {
     try {
-      await removeFromLibrary(id, bookId);
+      await removeFromLibrary(bookId);
     } catch (error) {
       throw new Error(error);
     }
@@ -160,9 +160,7 @@ export default function Library() {
                             padding: 8,
                             borderRadius: 8,
                           }}
-                          onPress={() =>
-                            handleAddToLibrary(user?._id, item?.id)
-                          }
+                          onPress={() => handleAddToLibrary(item?.id)}
                         >
                           <Text
                             style={{
