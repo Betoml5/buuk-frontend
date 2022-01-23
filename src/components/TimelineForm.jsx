@@ -17,7 +17,7 @@ export default function TimelineForm({
   const { addItemToTimeline, user } = useUser();
   const [counter, setCounter] = useState(0);
 
-  const onPress = async (id) => {
+  const onPress = async () => {
     const item = {
       book: {
         title: book.title,
@@ -28,7 +28,7 @@ export default function TimelineForm({
       date: new Date().getDate(),
     };
     try {
-      await addItemToTimeline(id, item);
+      await addItemToTimeline(item);
     } catch (error) {
       throw new Error(error);
     }
@@ -60,11 +60,7 @@ export default function TimelineForm({
             />
           </Pressable>
         </View>
-        <Pressable
-          onPress={() => onPress(user._id)}
-          style={styles.btn}
-          disabled={!counter}
-        >
+        <Pressable onPress={onPress} style={styles.btn} disabled={!counter}>
           <Text style={styles.btnText}>Agregar al timeline</Text>
         </Pressable>
       </ScrollView>

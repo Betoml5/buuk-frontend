@@ -317,13 +317,17 @@ export default function Library() {
                           >
                             {item?.book?.title}
                           </Text>
-                          <Text
-                            style={styles.bookGender}
-                            ellipsizeMode="tail"
-                            numberOfLines={2}
-                          >
-                            {item.book.category}
-                          </Text>
+                          {!item.book.category ? (
+                            <Text style={styles.bookGender}>Sin categoria</Text>
+                          ) : (
+                            <Text
+                              style={styles.bookGender}
+                              ellipsizeMode="tail"
+                              numberOfLines={2}
+                            >
+                              {item.book.category}
+                            </Text>
+                          )}
                         </View>
                       </View>
                       <View style={styles.numberPagesContainer}>

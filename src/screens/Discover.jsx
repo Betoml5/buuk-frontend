@@ -26,7 +26,7 @@ export default function Discover() {
       setRomanceBooks(romanceResponse);
       setBusinessBooks(businessResponse);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 

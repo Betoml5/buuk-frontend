@@ -17,8 +17,8 @@ export default function Navigator() {
         screenOptions={{
           tabBarStyle: styles.container,
           tabBarHideOnKeyboard: true,
-          tabBarActiveTintColor: "#fff",
-          tabBarInactiveTintColor: "#DDDCDE",
+          tabBarActiveTintColor: "#322F4C",
+          tabBarInactiveTintColor: "#fff",
         }}
       >
         <Tab.Screen

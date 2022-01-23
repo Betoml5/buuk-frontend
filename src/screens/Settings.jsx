@@ -31,7 +31,7 @@ export default function Settings() {
       password: data.password,
     };
 
-    update(user._id, userModified);
+    await update(user._id, userModified);
     reset();
   };
 
