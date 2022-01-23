@@ -38,28 +38,26 @@ export const updateAPI = async (id, user) => {
   }
 };
 
-export const addToLibraryAPI = async (id, bookId) => {
+export const addToLibraryAPI = async (bookId) => {
   try {
-    const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
+    const response = await axios.post(`${API}/library?bookId=${bookId}`);
     return response.data;
   } catch (error) {
     return error.response.data.error.message;
   }
 };
-export const removeFromLibraryAPI = async (id, bookId) => {
+export const removeFromLibraryAPI = async (bookId) => {
   try {
-    const response = await axios.delete(
-      `${API}/library/${id}?bookId=${bookId}`
-    );
+    const response = await axios.delete(`${API}/library?bookId=${bookId}`);
     return response.data;
   } catch (error) {
     return error.response.data.error.message;
   }
 };
 
-export const addItemToTimelineAPI = async (id, item) => {
+export const addItemToTimelineAPI = async (item) => {
   try {
-    const response = await axios.patch(`${API}/timeline/${id}`, { item: item });
+    const response = await axios.patch(`${API}/timeline`, { item: item });
     return response.data;
   } catch (error) {
     return error.response.data.error.message;
