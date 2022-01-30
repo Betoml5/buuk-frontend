@@ -104,10 +104,10 @@ export function useUser() {
     }
   }, []);
 
-  const addToLibrary = async (id, bookId) => {
+  const addToLibrary = async (bookId) => {
     try {
       setState({ loading: true, error: false });
-      const response = await addToLibraryAPI(id, bookId);
+      const response = await addToLibraryAPI(bookId);
       setUser(response.body);
       setState({ loading: false, error: false });
       return response.body;
@@ -116,26 +116,24 @@ export function useUser() {
     }
   };
 
-  const removeFromLibrary = async (id, bookId) => {
+  const removeFromLibrary = async (bookId) => {
     try {
       setState({ loading: true, error: false });
-      const response = await removeFromLibraryAPI(id, bookId);
+      const response = await removeFromLibraryAPI(bookId);
       setState({ loading: true, error: false });
       setUser(response.body);
-      return response.body;
     } catch (error) {
       setState({ loading: false, error: true });
     }
   };
 
-  const addItemToTimeline = async (id, item) => {
+  const addItemToTimeline = async (item) => {
     try {
       setState({ loading: true, error: true });
-      const response = await addItemToTimelineAPI(id, item);
+      const response = await addItemToTimelineAPI(item);
       setState({ loading: false, error: false });
       setUser(response.body);
       navigation.navigate("LibraryNavigation", { screen: "Library" });
-      return response.body;
     } catch (error) {
       setState({
         loading: false,

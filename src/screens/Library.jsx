@@ -10,6 +10,7 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import Book from "../components/Book";
 import { ScrollView } from "react-native";
@@ -32,23 +33,30 @@ export default function Library() {
       const books = await searchBook(title);
       setSearchesBooks(books);
       setLoading(false);
+
+      if (books.totalItems === 0) {
+        Alert.alert(
+          "No encontramos resultados",
+          "No encontramos el titulo que buscaste"
+        );
+      }
     } catch (error) {
       setTitle("");
       setSearchesBooks(null);
     }
   };
 
-  const handleAddToLibrary = async (id, bookId) => {
+  const handleAddToLibrary = async (bookId) => {
     try {
-      await addToLibrary(id, bookId);
+      await addToLibrary(bookId);
     } catch (error) {
       throw new Error(error);
     }
   };
 
-  const handleRemoveFromLibrary = async (id, bookId) => {
+  const handleRemoveFromLibrary = async (bookId) => {
     try {
-      await removeFromLibrary(id, bookId);
+      await removeFromLibrary(bookId);
     } catch (error) {
       throw new Error(error);
     }
@@ -152,9 +160,7 @@ export default function Library() {
                             padding: 8,
                             borderRadius: 8,
                           }}
-                          onPress={() =>
-                            handleAddToLibrary(user?._id, item?.id)
-                          }
+                          onPress={() => handleAddToLibrary(item?.id)}
                         >
                           <Text
                             style={{
@@ -311,13 +317,17 @@ export default function Library() {
                           >
                             {item?.book?.title}
                           </Text>
-                          <Text
-                            style={styles.bookGender}
-                            ellipsizeMode="tail"
-                            numberOfLines={2}
-                          >
-                            {item.book.category}
-                          </Text>
+                          {!item.book.category ? (
+                            <Text style={styles.bookGender}>Sin categoria</Text>
+                          ) : (
+                            <Text
+                              style={styles.bookGender}
+                              ellipsizeMode="tail"
+                              numberOfLines={2}
+                            >
+                              {item.book.category}
+                            </Text>
+                          )}
                         </View>
                       </View>
                       <View style={styles.numberPagesContainer}>

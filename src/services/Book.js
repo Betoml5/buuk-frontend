@@ -17,7 +17,7 @@ export const searchBook = async (title) => {
     const response = await axios.get(`${API}/search?title=${title}`);
     return response.data.body;
   } catch (error) {
-    throw new Error(error);
+    return error.response.data.error;
   }
 };
 
@@ -26,6 +26,6 @@ export const searchBooksBySubjectAPI = async (subject) => {
     const response = await axios.get(`${API}/search/subject?q=${subject}`);
     return response.data.body;
   } catch (error) {
-    throw new Error(error);
+    return error.response.data.error;
   }
 };

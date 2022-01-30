@@ -31,7 +31,8 @@ export default function Settings() {
       password: data.password,
     };
 
-    update(user._id, userModified);
+    await update(user._id, userModified);
+    reset();
   };
 
   return (
@@ -110,6 +111,7 @@ export default function Settings() {
               alignContent: "center",
               alignItems: "center",
               justifyContent: "center",
+              marginTop: 20,
               height: "10%",
             }}
           />
