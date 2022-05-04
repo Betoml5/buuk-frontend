@@ -17,7 +17,7 @@ export default function Navigator() {
         screenOptions={{
           tabBarStyle: styles.container,
           tabBarHideOnKeyboard: true,
-          tabBarActiveTintColor: "#322F4C",
+          tabBarActiveTintColor: "#ccc",
           tabBarInactiveTintColor: "#fff",
         }}
       >
@@ -26,23 +26,6 @@ export default function Navigator() {
           name="Home"
           options={{
             tabBarLabel: "Inicio",
-            // headerStyle: {
-            //   backgroundColor: "#242143",
-            //   borderBottomLeftRadius: 24,
-            //   borderBottomRightRadius: 24,
-            //   height: 100,
-            // },
-            // header: () => (
-            //   <SafeAreaView style={styles.header}>
-            //     <View style={[styles.header_container]}>
-            //       <Icon name="search" size={18} style={styles.icon} />
-            //       <TextInput
-            //         placeholder="Titulos, autores o temas"
-            //         style={styles.input}
-            //       />
-            //     </View>
-            //   </SafeAreaView>
-            // ),
             tabBarIcon: () => renderHome(),
             headerShown: false,
           }}

@@ -133,15 +133,6 @@ export default function Signin() {
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Iniciar sesion</Text>
         </Pressable>
-        {/* <Pressable style={styles.btnFacebook}>
-          <Icon
-            name="facebook"
-            size={20}
-            color="#fff"
-            style={{ marginRight: 10 }}
-          />
-          <Text style={styles.btnText}>Continuar con Facebook</Text>
-        </Pressable> */}
 
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>
