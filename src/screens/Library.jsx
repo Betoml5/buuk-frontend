@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -10,54 +10,61 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
+import Book from "../components/Book";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "../hooks/useUser";
 import { searchBook } from "../services/Book";
 
 export default function Library() {
-  const { addToLibrary, removeFromLibrary, user, setUser } = useUser();
+  const { addToLibrary, removeFromLibrary, user } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const [timelineModal, setTimelineModal] = useState(false);
-  const [searchedBooks, setSearchesBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchedBooks, setSearchesBooks] = useState([]);
   const [title, setTitle] = useState("");
 
-  const navigatior = useNavigation();
+  const navigation = useNavigation();
   const handleSearch = async (title) => {
     try {
       setLoading(true);
       const books = await searchBook(title);
       setSearchesBooks(books);
       setLoading(false);
+
+      if (books.totalItems === 0) {
+        Alert.alert(
+          "No encontramos resultados",
+          "No encontramos el titulo que buscaste"
+        );
+      }
     } catch (error) {
       setTitle("");
       setSearchesBooks(null);
     }
   };
 
-  const handleAddToLibrary = async (id, bookId) => {
+  const handleAddToLibrary = async (bookId) => {
     try {
-      const newUser = await addToLibrary(id, bookId);
-      setUser(newUser);
+      await addToLibrary(bookId);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   };
 
-  const handleRemoveFromLibrary = async (id, bookId) => {
+  const handleRemoveFromLibrary = async (bookId) => {
     try {
-      const newUser = await removeFromLibrary(id, bookId);
-      setUser(newUser);
+      await removeFromLibrary(bookId);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -114,23 +121,15 @@ export default function Library() {
                 />
               ) : (
                 <FlatList
+                  nestedScrollEnabled
                   style={{ marginTop: 20 }}
                   data={searchedBooks}
                   keyExtractor={(item) => item.id}
-                  renderItem={({ item }) => (
+                  renderItem={({ item, index }) => (
                     <View key={item.id} style={{ marginRight: 12 }}>
-                      <Image
-                        source={{ uri: item.cover }}
-                        style={{
-                          width: 150,
-                          height: 230,
-                          borderRadius: 8,
-                          resizeMode: "cover",
-                        }}
-                      />
-                      {user?.library?.find(
-                        (book) => book.id === item.work_id
-                      ) ? (
+                      <Book image={item.images?.thumbnail} info={item} />
+
+                      {user?.library?.find((book) => book.id === item.id) ? (
                         <Pressable
                           style={{
                             marginTop: 10,
@@ -139,7 +138,7 @@ export default function Library() {
                             borderRadius: 8,
                           }}
                           onPress={() =>
-                            handleRemoveFromLibrary(user?._id, item?.work_id)
+                            handleRemoveFromLibrary(user?._id, item?.id)
                           }
                         >
                           <Text
@@ -161,9 +160,7 @@ export default function Library() {
                             padding: 8,
                             borderRadius: 8,
                           }}
-                          onPress={() =>
-                            handleAddToLibrary(user?._id, item?.work_id)
-                          }
+                          onPress={() => handleAddToLibrary(item?.id)}
                         >
                           <Text
                             style={{
@@ -208,12 +205,12 @@ export default function Library() {
               <Text style={styles.modalTitle}>Agregar al hilo</Text>
             </View>
             <View style={styles.searchContainer}>
-              {loading ? (
-                <ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  style={{ marginTop: 50 }}
-                />
+              {user?.library?.length === 0 ? (
+                <View style={styles.noBooksContainer}>
+                  <Text style={styles.noBooksText}>
+                    Aun no tienes nada en la biblioteca
+                  </Text>
+                </View>
               ) : (
                 <FlatList
                   showsHorizontalScrollIndicator={false}
@@ -222,20 +219,12 @@ export default function Library() {
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => (
                     <View key={item.id} style={{ marginRight: 12 }}>
-                      <Image
-                        source={{ uri: item.cover }}
-                        style={{
-                          width: 150,
-                          height: 230,
-                          borderRadius: 8,
-                          resizeMode: "cover",
-                        }}
-                      />
+                      <Book image={item.images.thumbnail} info={item} />
                       <Pressable
                         style={styles.btn}
                         onPress={() => {
                           setTimelineModal(false);
-                          navigatior.navigate("LibraryNavigation", {
+                          navigation.navigate("LibraryNavigation", {
                             screen: "TimelineForm",
                             params: { book: item },
                           });
@@ -284,7 +273,7 @@ export default function Library() {
         </View>
         <View style={styles.crud}>
           <Pressable
-            onPress={() => setModalVisible(true)}
+            onPress={() => setModalVisible(!modalVisible)}
             style={styles.crudIconContainer}
           >
             <Image
@@ -294,7 +283,7 @@ export default function Library() {
           </Pressable>
           <Pressable
             style={styles.crudIconContainer}
-            onPress={() => setTimelineModal(true)}
+            onPress={() => setTimelineModal(!modalVisible)}
           >
             <Image
               source={require("../assets/add.png")}
@@ -302,31 +291,43 @@ export default function Library() {
             />
           </Pressable>
         </View>
+
         {user?.timeline?.length > 0 ? (
           <View style={styles.containerTimeline}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              nestedScrollEnabled
-              data={user?.timeline}
-              keyExtractor={(item, index) => `key-${index}`}
-              renderItem={({ item, index }) => (
-                <View style={styles.timelineItem} key={index}>
-                  <View style={styles.datetime}>
-                    <Text style={styles.date}>{item.date}</Text>
-                    <Text style={styles.day}>{item.fulldate}</Text>
-                  </View>
+            {user?.timeline.map((item, index) => (
+              <View style={styles.timelineItem} key={index}>
+                <View style={styles.datetime}>
+                  <Text style={styles.date}>{item.date}</Text>
+                  <Text style={styles.day}>{item.fullDate}</Text>
+                </View>
 
-                  <View style={styles.booksContainer}>
+                {item?.items?.map((item, index) => (
+                  <View style={styles.booksContainer} key={index}>
                     <View style={styles.booksWrapper}>
                       <View style={styles.bookInfo}>
                         <Image
-                          source={{ uri: item.book.cover }}
+                          source={{ uri: item?.book?.cover }}
                           style={styles.book}
                         />
                         <View style={styles.bookDescription}>
-                          <Text style={styles.bookName}>{item.book.title}</Text>
-                          <Text style={styles.bookGender}>Ficción</Text>
+                          <Text
+                            style={styles.bookName}
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                          >
+                            {item?.book?.title}
+                          </Text>
+                          {!item.book.category ? (
+                            <Text style={styles.bookGender}>Sin categoria</Text>
+                          ) : (
+                            <Text
+                              style={styles.bookGender}
+                              ellipsizeMode="tail"
+                              numberOfLines={2}
+                            >
+                              {item.book.category}
+                            </Text>
+                          )}
                         </View>
                       </View>
                       <View style={styles.numberPagesContainer}>
@@ -335,41 +336,40 @@ export default function Library() {
                           style={styles.bookPagesIcon}
                         />
                         <Text style={styles.numberPagesDay}>
-                          {item.book.numberPages}
+                          {item?.book?.numberPages}
                         </Text>
                       </View>
                     </View>
                   </View>
-                </View>
-              )}
-            />
+                ))}
+              </View>
+            ))}
           </View>
         ) : (
-          <View style={styles.containerTimeline}>
+          <View
+            style={{
+              backgroundColor: "#322F4C",
+              marginTop: 20,
+              borderRadius: 8,
+              padding: 20,
+            }}
+          >
+            <Text style={styles.title}>
+              Hey, aun no tienes ningun libro en el hilo
+            </Text>
             <Text
-              style={{
-                fontFamily: "poppins-semi",
-                color: "#fff",
-                lineHeight: 26,
-                textAlign: "center",
-              }}
+              onPress={() => setTimelineModal(true)}
+              style={[
+                {
+                  color: "#fff",
+                  fontFamily: "poppins-semi",
+                  fontSize: 18,
+                  textAlign: "center",
+                },
+                styles.btn,
+              ]}
             >
-              Aún no tienes ningun avance{" "}
-              <Pressable
-                onPress={() => setTimelineModal(true)}
-                style={styles.btn}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontFamily: "poppins-semi",
-                    textAlign: "center",
-                  }}
-                >
-                  {" "}
-                  Agregar
-                </Text>
-              </Pressable>
+              Agregar
             </Text>
           </View>
         )}
@@ -380,7 +380,9 @@ export default function Library() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
+    marginTop: 20,
   },
   title: {
     color: "#fff",
@@ -445,10 +447,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   date: {
+    textAlign: "center",
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
     padding: 12,
+    width: 40,
+    height: 40,
     borderRadius: 8,
     backgroundColor: "#fff",
     fontSize: 12,
@@ -464,7 +469,6 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderColor: "#3F3D58",
     marginLeft: 18,
-    marginTop: 10,
   },
   book: {
     width: 63,
@@ -490,6 +494,8 @@ const styles = StyleSheet.create({
   bookGender: {
     color: "#888797",
     fontFamily: "poppins-light",
+    fontSize: 12,
+    marginTop: 4,
   },
   booksWrapper: {
     flexDirection: "row",
@@ -573,5 +579,11 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: "column",
+  },
+  noBooksText: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    marginTop: 20,
+    fontSize: 24,
   },
 });

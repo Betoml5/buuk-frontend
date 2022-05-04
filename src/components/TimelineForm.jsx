@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useUser } from "../hooks/useUser";
 export default function TimelineForm({
@@ -8,21 +14,21 @@ export default function TimelineForm({
     params: { book },
   },
 }) {
-  const { addItemToTimeline, setUser, user } = useUser();
+  const { addItemToTimeline, user } = useUser();
   const [counter, setCounter] = useState(0);
 
-  const onPress = async (id) => {
+  const onPress = async () => {
     const item = {
       book: {
         title: book.title,
-        cover: book.cover,
+        cover: book.images.thumbnail,
+        category: book.category,
         numberPages: counter,
       },
       date: new Date().getDate(),
     };
     try {
-      const response = await addItemToTimeline(id, item);
-      setUser(response);
+      await addItemToTimeline(item);
     } catch (error) {
       throw error;
     }
@@ -30,33 +36,34 @@ export default function TimelineForm({
 
   return (
     <View style={styles.container}>
-      <View style={styles.bookContainer}>
-        <Text style={styles.bookTitle}>{book.title}</Text>
-        <Image source={{ uri: book.cover }} style={styles.bookImage} />
-      </View>
-      <View style={styles.counter}>
-        <Pressable onPress={() => setCounter(counter + 1)}>
-          <Icon name="plus" size={18} color="#fff" />
-        </Pressable>
-        <Text style={styles.counterText}>{counter}</Text>
-        <Pressable>
-          <Icon
-            name="minus"
-            size={18}
-            color="#fff"
-            onPress={() =>
-              counter < 0 ? setCounter(0) : setCounter(counter - 1)
-            }
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.bookContainer}>
+          <Text style={styles.bookTitle}>{book.title}</Text>
+          <Image
+            source={{ uri: book.images.thumbnail }}
+            style={styles.bookImage}
           />
+        </View>
+        <View style={styles.counter}>
+          <Pressable onPress={() => setCounter(counter + 1)}>
+            <Icon name="plus" size={18} color="#fff" />
+          </Pressable>
+          <Text style={styles.counterText}>{counter}</Text>
+          <Pressable>
+            <Icon
+              name="minus"
+              size={18}
+              color="#fff"
+              onPress={() =>
+                counter < 0 ? setCounter(0) : setCounter(counter - 1)
+              }
+            />
+          </Pressable>
+        </View>
+        <Pressable onPress={onPress} style={styles.btn} disabled={!counter}>
+          <Text style={styles.btnText}>Agregar al timeline</Text>
         </Pressable>
-      </View>
-      <Pressable
-        onPress={() => onPress(user._id)}
-        style={styles.btn}
-        disabled={!counter}
-      >
-        <Text style={styles.btnText}>Agregar al timeline</Text>
-      </Pressable>
+      </ScrollView>
     </View>
   );
 }
@@ -89,6 +96,7 @@ const styles = StyleSheet.create({
   counter: {
     flexDirection: "row",
     justifyContent: "space-evenly",
+    alignSelf: "center",
     width: "60%",
     alignItems: "center",
     backgroundColor: "#3F3D58",
@@ -102,6 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   btn: {
+    alignSelf: "center",
     backgroundColor: "#3F3D58",
     padding: 12,
     marginTop: 10,

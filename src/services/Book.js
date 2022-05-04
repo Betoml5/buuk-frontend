@@ -1,5 +1,6 @@
 import axios from "axios";
-const API = `http://192.168.1.70:3080/api/v1/books`;
+import config from "../../config";
+const API = `${config.API_URL}/books`;
 
 export const getBestSellers = async () => {
   try {
@@ -7,7 +8,7 @@ export const getBestSellers = async () => {
     const { body } = await response.json();
     return body[0]?.books;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -16,7 +17,7 @@ export const searchBook = async (title) => {
     const response = await axios.get(`${API}/search?title=${title}`);
     return response.data.body;
   } catch (error) {
-    throw error;
+    return error.response.data.error;
   }
 };
 
@@ -25,6 +26,6 @@ export const searchBooksBySubjectAPI = async (subject) => {
     const response = await axios.get(`${API}/search/subject?q=${subject}`);
     return response.data.body;
   } catch (error) {
-    throw error;
+    return error.response.data.error;
   }
 };

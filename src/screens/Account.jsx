@@ -1,20 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { FlatList } from "react-native";
 import { useUser } from "../hooks/useUser";
+import { useNavigation } from "@react-navigation/native";
+import Book from "../components/Book";
 
 export default function Account() {
-  const { user, jwt } = useUser();
+  const { user, removeFromLibrary } = useUser();
+  const navigation = useNavigation();
+
+  const handleRemoveFromLibrary = async (id, bookId) => {
+    try {
+      await removeFromLibrary(id, bookId);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
         {user?.library?.length > 0 ? (
           <>
             <Text style={styles.reading_title}>Leyendo</Text>
-
             <FlatList
               renderItem={({ item }) => (
-                <Image source={{ uri: item?.cover }} style={styles.book} />
+                <View>
+                  <Book image={item.images.thumbnail} info={item} />
+                  <Pressable
+                    style={styles.btn}
+                    onPress={() => handleRemoveFromLibrary(user?._id, item.id)}
+                  >
+                    <Text style={styles.btnText}>Eliminar</Text>
+                  </Pressable>
+                </View>
               )}
               horizontal={true}
               data={user?.library}
@@ -23,7 +42,17 @@ export default function Account() {
             />
           </>
         ) : (
-          <Text>Aun no estas leyendo nada :(</Text>
+          <View style={styles.notReadingContainter}>
+            <Text style={styles.notReadingText}>Aun no estas leyendo nada</Text>
+            <Pressable
+              style={[{ backgroundColor: "#242143" }]}
+              onPress={() => {
+                navigation.navigate("LibraryNavigation", { screen: "Library" });
+              }}
+            >
+              <Text style={styles.notReadingText}>Agregar un libro</Text>
+            </Pressable>
+          </View>
         )}
       </ScrollView>
     </View>
@@ -33,7 +62,8 @@ export default function Account() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 
   reading_title: {
@@ -43,11 +73,31 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-
-  book: {
-    width: 100,
-    height: 160,
+  notReadingContainter: {
+    backgroundColor: "#322F4C",
+    padding: 24,
     borderRadius: 8,
-    marginRight: 10,
+    marginTop: 24,
+  },
+  notReadingText: {
+    color: "#fff",
+    fontFamily: "poppins-semi",
+    fontSize: 18,
+    padding: 8,
+    textAlign: "center",
+    borderRadius: 8,
+  },
+  btn: {
+    backgroundColor: "#322F4C",
+    padding: 8,
+    borderRadius: 8,
+    marginTop: 10,
+    width: "80%",
+    alignSelf: "center",
+  },
+  btnText: {
+    textAlign: "center",
+    color: "#fff",
+    fontFamily: "poppins-light",
   },
 });

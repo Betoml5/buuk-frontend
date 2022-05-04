@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  View,
   ActivityIndicator,
 } from "react-native";
+import Book from "../components/Book";
 import Genders from "../components/Genders";
 import { useBook } from "../hooks/useBook";
-import { useUser } from "../hooks/useUser";
 
 export default function Discover() {
   const { searchBooksBySubject } = useBook();
-  const { isLoading } = useUser();
-
   const [books, setBooks] = useState([]);
   const [fictionBooks, setFictionBooks] = useState([]);
   const [romanceBooks, setRomanceBooks] = useState([]);
@@ -23,19 +19,25 @@ export default function Discover() {
 
   const getData = async () => {
     try {
-      const fictionResponse = await searchBooksBySubject("fiction");
+      const fictionResponse = await searchBooksBySubject("ficcion");
       const romanceResponse = await searchBooksBySubject("romance");
-      const businessResponse = await searchBooksBySubject("education");
+      const businessResponse = await searchBooksBySubject("business");
       setFictionBooks(fictionResponse);
       setRomanceBooks(romanceResponse);
       setBusinessBooks(businessResponse);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
   useEffect(() => {
     getData();
+
+    return () => {
+      setFictionBooks([]);
+      setRomanceBooks([]);
+      setBusinessBooks([]);
+    };
   }, []);
 
   if (
@@ -51,7 +53,7 @@ export default function Discover() {
           alignContent: "center",
           alignItems: "center",
           justifyContent: "center",
-          height: "10%",
+          height: "100%",
         }}
       />
     );
@@ -67,9 +69,12 @@ export default function Discover() {
             data={books}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View key={item.key} style={styles.bookContainer}>
-                <Image source={{ uri: item.cover }} style={styles.bookImage} />
-              </View>
+              <Book
+                key={item.id}
+                image={item.images?.thumbnail}
+                title={item?.title}
+                info={item}
+              />
             )}
           />
         </>
@@ -78,33 +83,42 @@ export default function Discover() {
       <FlatList
         horizontal={true}
         data={fictionBooks}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View key={item.key} style={styles.bookContainer}>
-            <Image source={{ uri: item.cover }} style={styles.bookImage} />
-          </View>
+          <Book
+            key={item.id}
+            image={item.images?.thumbnail}
+            title={item?.title}
+            info={item}
+          />
         )}
       />
       <Text style={styles.title}>Romance</Text>
       <FlatList
         horizontal={true}
         data={romanceBooks}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View key={item.key} style={styles.bookContainer}>
-            <Image source={{ uri: item.cover }} style={styles.bookImage} />
-          </View>
+          <Book
+            key={item.id}
+            image={item.images?.thumbnail}
+            title={item?.title}
+            info={item}
+          />
         )}
       />
       <Text style={styles.title}>Negocios</Text>
       <FlatList
         horizontal={true}
         data={businessBooks}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View key={item.key} style={styles.bookContainer}>
-            <Image source={{ uri: item.cover }} style={styles.bookImage} />
-          </View>
+          <Book
+            key={item.id}
+            image={item.images?.thumbnail}
+            title={item?.title}
+            info={item}
+          />
         )}
       />
     </ScrollView>

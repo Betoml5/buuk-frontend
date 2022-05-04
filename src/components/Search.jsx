@@ -9,7 +9,6 @@ export default function Search({ state, setState }) {
       ...state,
       [e.target.name]: e.target.value,
     });
-    console.log(state);
   };
 
   return (

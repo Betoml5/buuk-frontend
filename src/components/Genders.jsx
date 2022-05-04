@@ -18,9 +18,8 @@ export default function Genders({ setBooks }) {
     try {
       const response = await searchBooksBySubject(subject);
       setBooks(response);
-      console.log(subject);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
   return (
@@ -31,11 +30,11 @@ export default function Genders({ setBooks }) {
           keyExtractor={(item) => item.id}
           numColumns={Math.ceil(genders.length / 2)}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <Pressable
               style={styles.item}
               onPress={() => onPress(item.name)}
-              key={"#"}
+              key={`#-${index}`}
             >
               <View style={styles.imageContainer}>
                 <Image source={item.image} style={{ width: 14, height: 14 }} />

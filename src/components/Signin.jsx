@@ -9,14 +9,16 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
+// import Icon from "react-native-vector-icons/FontAwesome5";
+
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { useUser } from "../hooks/useUser";
 import { ScrollView } from "react-native-gesture-handler";
+import { useUser } from "../hooks/useUser";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Signin() {
   const navigation = useNavigation();
-  const { login, hasError, isLoading, user } = useUser();
+  const { login, hasError, isLoading, stateMsg } = useUser();
   const {
     control,
     handleSubmit,
@@ -113,9 +115,33 @@ export default function Signin() {
             }}
           />
         )}
+
+        {stateMsg === "Contraseña o correo incorrectos" && (
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-light",
+              fontSize: 12,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              marginTop: 10,
+            }}
+          >
+            Contraseña o correo incorrectos
+          </Text>
+        )}
         <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.btnText}>Iniciar sesion</Text>
         </Pressable>
+        {/* <Pressable style={styles.btnFacebook}>
+          <Icon
+            name="facebook"
+            size={20}
+            color="#fff"
+            style={{ marginRight: 10 }}
+          />
+          <Text style={styles.btnText}>Continuar con Facebook</Text>
+        </Pressable> */}
 
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>
@@ -175,7 +201,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#fff",
     fontFamily: "poppins-semi",
-
     fontSize: 16,
   },
   image: {
@@ -191,5 +216,15 @@ const styles = StyleSheet.create({
   signupText: {
     color: "#fff",
     fontFamily: "poppins-semi",
+  },
+  btnFacebook: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4267B2",
+    padding: 8,
+    marginTop: 10,
+    width: "100%",
+    justifyContent: "center",
+    borderRadius: 8,
   },
 });

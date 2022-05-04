@@ -1,20 +1,22 @@
 import axios from "axios";
-const API = `http://192.168.1.70:3080/api/v1/users`;
+import config from "../../config";
+const API = `${config.API_URL}/users`;
 
 export const signup = async (user) => {
   try {
-    const response = await axios.post(`${API}/create`, user);
-    return response;
+    const response = await axios.post(`${API}/create`, { user: user });
+    return response.data;
   } catch (error) {
-    return error;
+    return error.response.data.error.message;
   }
 };
 export const signin = async (user) => {
   try {
     const response = await axios.post(`${API}/login`, user);
+
     return response.data.body;
   } catch (error) {
-    return error;
+    return error.response.data.error.message;
   }
 };
 
@@ -23,39 +25,41 @@ export const findOne = async (id) => {
     const response = await axios.get(`${API}/user/${id}`);
     return response.data;
   } catch (error) {
-    return error;
+    return error.response.data.error.message;
   }
 };
 
-export const addToLibraryAPI = async (id, bookId) => {
+export const updateAPI = async (id, user) => {
   try {
-    const response = await axios.post(`${API}/library/${id}?bookId=${bookId}`);
+    const response = await axios.put(`${API}/update/${id}`, { user: user });
     return response.data;
   } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
-export const removeFromLibraryAPI = async (id, bookId) => {
-  try {
-    const response = await axios.delete(
-      `${API}/library/${id}?bookId=${bookId}`
-    );
-    return response.data;
-  } catch (error) {
-    return error;
+    return error.response.data.error.message;
   }
 };
 
-export const addItemToTimelineAPI = async (id, item) => {
+export const addToLibraryAPI = async (bookId) => {
   try {
-    const response = await axios.patch(`${API}/timeline/${id}`, { item: item });
-    console.log(response);
+    const response = await axios.post(`${API}/library?bookId=${bookId}`);
     return response.data;
   } catch (error) {
-    console.log(error);
-    return error;
+    return error.response.data.error.message;
+  }
+};
+export const removeFromLibraryAPI = async (bookId) => {
+  try {
+    const response = await axios.delete(`${API}/library?bookId=${bookId}`);
+    return response.data;
+  } catch (error) {
+    return error.response.data.error.message;
   }
 };
 
-export const addObjetive = async () => { };
+export const addItemToTimelineAPI = async (item) => {
+  try {
+    const response = await axios.patch(`${API}/timeline`, { item: item });
+    return response.data;
+  } catch (error) {
+    return error.response.data.error.message;
+  }
+};
