@@ -10,7 +10,6 @@ export default function TimelineForm({
 }) {
   const { addItemToTimeline, setUser, user } = useUser();
   const [counter, setCounter] = useState(0);
-  console.log(user);
 
   const onPress = async (id) => {
     const item = {
@@ -25,7 +24,7 @@ export default function TimelineForm({
       const response = await addItemToTimeline(id, item);
       setUser(response);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
