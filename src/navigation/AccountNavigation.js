@@ -7,6 +7,7 @@ import AccountHeader from "../components/AccountHeader";
 import { useUser } from "../hooks/useUser";
 import Signin from "../components/Signin";
 import Signup from "../components/Signup";
+import ForgotPassword from "../components/ForgotPassword";
 const Stack = createStackNavigator();
 
 export default function AccountNavigation() {
@@ -40,6 +41,9 @@ export default function AccountNavigation() {
             }} />
             <Stack.Screen name="Signup" component={Signup} options={{
               headerShown: false,
+            }} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
+              headerShown: false
             }} />
           </>
       }

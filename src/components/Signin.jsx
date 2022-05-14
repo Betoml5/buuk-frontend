@@ -153,6 +153,19 @@ export default function Signin() {
               Registrate
             </Text>
           </Text>
+          <Text
+            onPress={() =>
+              navigation.navigate("AccountNavigation", {
+                screen: "ForgotPassword",
+              })
+            }
+            style={[
+              styles.signupLink,
+              { textAlign: "center", fontWeight: "bold" },
+            ]}
+          >
+            Olvide mi contraseña
+          </Text>
         </View>
       </SafeAreaView>
     </ScrollView>
