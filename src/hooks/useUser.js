@@ -45,6 +45,7 @@ export function useUser() {
           error: true,
           message: "Hubo un error, intentalo mas tarde",
         });
+        throw error;
       }
     },
     [navigation]

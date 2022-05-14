@@ -13,3 +13,11 @@ export const getNewTokenAPI = async (refreshToken) => {
     throw new Error(error);
   }
 };
+
+export const sendRecoveryEmailAPI = async (email) => {
+  try {
+    const response = await axios.post(`${API}/forgot-password`)
+  } catch (error) {
+
+  }
+}

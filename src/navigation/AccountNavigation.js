@@ -43,7 +43,11 @@ export default function AccountNavigation() {
               headerShown: false,
             }} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
-              headerShown: false
+              title: "Recuperación",
+              headerShadowVisible: false,
+              headerTintColor: "#fff",
+              headerTitleStyle: { color: "#fff" },
+              headerStyle: { backgroundColor: "#1A1736" },
             }} />
           </>
       }
