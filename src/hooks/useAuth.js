@@ -1,11 +1,8 @@
 import { sendRecoveryEmailAPI } from "../services/Auth";
 import { authFacebookAPI } from "../services/auth/auth-helpers";
-import { useState } from "react"
-
-
+import { useState } from "react";
 
 export function useAuth() {
-
   const [state, setState] = useState({
     loading: false,
     error: false,
@@ -34,7 +31,6 @@ export function useAuth() {
         error: false,
         message: "Verifica tu correo electronico",
       });
-
     } catch (error) {
       setState({
         loading: false,
@@ -43,11 +39,11 @@ export function useAuth() {
       });
       throw error;
     }
-  }
+  };
 
   return {
     authFacebook,
-    sendRecoveryEmail
+    sendRecoveryEmail,
+    state,
   };
 }
-

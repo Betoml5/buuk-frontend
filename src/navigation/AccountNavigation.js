@@ -43,6 +43,20 @@ export default function AccountNavigation() {
       ) : (
         <>
           <Stack.Screen
+            name="Signin"
+            component={Signin}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
             name="ForgotPassword"
             component={ForgotPassword}
             options={{
@@ -60,21 +74,6 @@ export default function AccountNavigation() {
               headerTintColor: "#fff",
               headerTitleStyle: { color: "#fff" },
               headerStyle: { backgroundColor: "#1A1736" },
-            }}
-          />
-
-          <Stack.Screen
-            name="Signin"
-            component={Signin}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={Signup}
-            options={{
-              headerShown: false,
             }}
           />
         </>

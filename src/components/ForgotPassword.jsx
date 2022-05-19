@@ -1,6 +1,11 @@
 import React from "react";
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-gesture-handler";
 import { useAuth } from "../hooks/useAuth";
@@ -10,14 +15,18 @@ export default function ForgotPassword() {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const { sendRecoveryEmail } = useAuth();
+  const { sendRecoveryEmail, state } = useAuth();
 
-  const onSubmit = async (data) => await sendRecoveryEmail(data.email);
+  const onSubmit = async (data) => {
+    await sendRecoveryEmail(data.email);
+    reset();
+  };
 
   return (
-    <SafeAreaView>
+    <View>
       <View style={styles.container}>
         <Text style={styles.title}>Recupera tu contraseña</Text>
         <View>
@@ -52,12 +61,28 @@ export default function ForgotPassword() {
               Este campo es obligatorio
             </Text>
           )}
+          <Text style={{ color: "#4caf50", fontWeight: "bold", marginTop: 10 }}>
+            {state.message && "Verifica tu correo electronico"}
+          </Text>
           <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.btnText}>Enviar email</Text>
+            {state.loading ? (
+              <ActivityIndicator
+                size="large"
+                color="#fff"
+                style={{
+                  alignContent: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "10%",
+                }}
+              />
+            ) : (
+              <Text style={styles.btnText}>Enviar email</Text>
+            )}
           </Pressable>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -84,7 +109,7 @@ const styles = StyleSheet.create({
   btn: {
     marginTop: 12,
     backgroundColor: "#242143",
-    padding: 12,
+    padding: 18,
     borderRadius: 8,
     width: "100%",
   },
