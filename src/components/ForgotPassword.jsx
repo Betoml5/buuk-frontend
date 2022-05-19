@@ -53,7 +53,7 @@ export default function ForgotPassword() {
             </Text>
           )}
           <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.btnText}>Iniciar sesion</Text>
+            <Text style={styles.btnText}>Enviar email</Text>
           </Pressable>
         </View>
       </View>
