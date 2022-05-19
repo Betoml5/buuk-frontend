@@ -2,7 +2,6 @@ import { sendRecoveryEmailAPI } from "../services/Auth";
 import { authFacebookAPI } from "../services/auth/auth-helpers";
 import { useState } from "react"
 
-import Context from "../context/UserContext"
 
 
 export function useAuth() {
@@ -30,7 +29,6 @@ export function useAuth() {
         setState({ loading: false, error: true, message: response });
         return;
       }
-
       setState({
         loading: false,
         error: false,

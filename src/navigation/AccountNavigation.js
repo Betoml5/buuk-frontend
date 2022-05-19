@@ -8,10 +8,16 @@ import { useUser } from "../hooks/useUser";
 import Signin from "../components/Signin";
 import Signup from "../components/Signup";
 import ForgotPassword from "../components/ForgotPassword";
+
+import { Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Button, Text } from "react-native";
 const Stack = createStackNavigator();
 
 export default function AccountNavigation() {
   const { isLogged } = useUser();
+
+  const navigation = useNavigation();
   return (
     <Stack.Navigator>
       {
@@ -36,21 +42,29 @@ export default function AccountNavigation() {
           </>
           :
           <>
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
+              headerTitle: "Olvide mi contraseña",
+              headerShadowVisible: true,
+              headerShown: true,
+              headerTintColor: "#fff",
+              headerStyle: {
+                backgroundColor: "#1A1736",
+                height: 100,
+              },
+
+            }} />
+
             <Stack.Screen name="Signin" component={Signin} options={{
               headerShown: false,
             }} />
             <Stack.Screen name="Signup" component={Signup} options={{
               headerShown: false,
             }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
-              title: "Recuperación",
-              headerShadowVisible: false,
-              headerTintColor: "#fff",
-              headerTitleStyle: { color: "#fff" },
-              headerStyle: { backgroundColor: "#1A1736" },
-            }} />
+
           </>
       }
     </Stack.Navigator>
   );
 }
+
+

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-gesture-handler";
+import { useAuth } from "../hooks/useAuth";
 
 export default function ForgotPassword() {
   const {
@@ -11,11 +12,9 @@ export default function ForgotPassword() {
     formState: { errors },
   } = useForm();
 
-  const {} = use;
+  const { sendRecoveryEmail } = useAuth();
 
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
+  const onSubmit = async (data) => await sendRecoveryEmail(data.email);
 
   return (
     <SafeAreaView>
