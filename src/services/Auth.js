@@ -21,6 +21,7 @@ export const sendRecoveryEmailAPI = async (email) => {
     });
     return response.data.body;
   } catch (error) {
+    console.log(error.response.data);
     return error.response.data.error;
   }
 };
