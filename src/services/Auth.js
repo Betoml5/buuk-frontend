@@ -10,6 +10,18 @@ export const getNewTokenAPI = async (refreshToken) => {
 
     return response.data.body;
   } catch (error) {
-    throw new Error(error);
+    throw error;
+  }
+};
+
+export const sendRecoveryEmailAPI = async (email) => {
+  try {
+    const response = await axios.post(`${API}/forgot-password`, {
+      email: email,
+    });
+    return response.data.body;
+  } catch (error) {
+    console.log(error.response.data);
+    return error.response.data.error;
   }
 };

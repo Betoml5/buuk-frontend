@@ -30,7 +30,7 @@ export default function TimelineForm({
     try {
       await addItemToTimeline(item);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 

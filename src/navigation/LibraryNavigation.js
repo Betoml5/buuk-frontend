@@ -67,7 +67,6 @@ export default function LibraryNavigation() {
               headerTintColor: "#fff",
               headerStyle: {
                 backgroundColor: "#242143",
-
                 height: 100,
               },
             }}
