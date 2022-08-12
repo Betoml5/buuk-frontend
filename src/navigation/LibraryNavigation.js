@@ -7,6 +7,7 @@ import Library from "../screens/Library";
 import { Image } from "react-native";
 import TimelineForm from "../components/TimelineForm";
 import BookDetail from "../components/BookDetail";
+import Goals from "../screens/Goals";
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,20 @@ export default function LibraryNavigation() {
             component={BookDetail}
             options={{
               headerTitle: "",
+              headerShadowVisible: false,
+              headerShown: true,
+              headerTintColor: "#fff",
+              headerStyle: {
+                backgroundColor: "#242143",
+                height: 100,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Goals"
+            component={Goals}
+            options={{
+              headerTitle: "Objetivos de lectura",
               headerShadowVisible: false,
               headerShown: true,
               headerTintColor: "#fff",

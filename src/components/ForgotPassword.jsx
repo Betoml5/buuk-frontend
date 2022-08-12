@@ -62,7 +62,7 @@ export default function ForgotPassword() {
             </Text>
           )}
           <Text style={{ color: "#4caf50", fontWeight: "bold", marginTop: 10 }}>
-            {state.message && "Verifica tu correo electronico"}
+            {state.message && "Verifica tu bandeja de entrada."}
           </Text>
           <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
             {state.loading ? (

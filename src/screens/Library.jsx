@@ -250,46 +250,64 @@ export default function Library() {
           </SafeAreaView>
         </Modal>
         <Text style={styles.title}>Objetivos de biblioteca</Text>
-        <View style={styles.goals_container}>
-          <View style={styles.pages}>
-            <Image
-              source={require("../assets/pages.png")}
-              style={{ width: 50, height: 50 }}
-            />
-            <Text style={styles.number_pages}>{user?.pagescount}</Text>
-            <Text style={styles.number_pages_text}>
-              Paginas leidas este mes
-            </Text>
-          </View>
+        <View style={{ width: "100%" }}>
+          <View style={styles.goals_container}>
+            <View style={styles.pages}>
+              <Image
+                source={require("../assets/pages.png")}
+                style={{ width: 50, height: 50 }}
+              />
+              <Text style={styles.number_pages}>{user?.pagescount}</Text>
+              <Text style={styles.number_pages_text}>Paginas leidas</Text>
+            </View>
 
-          <View style={styles.books}>
-            <Image
-              source={require("../assets/bookreads.png")}
-              style={{ width: 50, height: 50, padding: 0, margin: 0 }}
-            />
-            <Text style={styles.number_books}>{user?.library?.length}</Text>
-            <Text style={styles.number_books_text}>Libros leidos este mes</Text>
+            <View style={styles.books}>
+              <Image
+                source={require("../assets/bookreads.png")}
+                style={{ width: 50, height: 50, padding: 0, margin: 0 }}
+              />
+              <Text style={styles.number_books}>{user?.library?.length}</Text>
+              <Text style={styles.number_books_text}>Libros leidos</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.crud}>
-          <Pressable
-            onPress={() => setModalVisible(!modalVisible)}
-            style={styles.crudIconContainer}
-          >
-            <Image
-              source={require("../assets/addbook.png")}
-              style={styles.crudIcon}
-            />
-          </Pressable>
-          <Pressable
-            style={styles.crudIconContainer}
-            onPress={() => setTimelineModal(!modalVisible)}
-          >
-            <Image
-              source={require("../assets/add.png")}
-              style={styles.crudIcon}
-            />
-          </Pressable>
+          <View style={styles.crud}>
+            <View style={{ flexDirection: "row", width: "50%" }}>
+              <Pressable
+                onPress={() => setModalVisible(!modalVisible)}
+                style={[
+                  styles.crudIconContainer,
+                  { width: "44%", marginRight: 4 },
+                ]}
+              >
+                <Image
+                  source={require("../assets/addbook.png")}
+                  style={styles.crudIcon}
+                />
+              </Pressable>
+              <Pressable
+                style={[styles.crudIconContainer, { width: "45%" }]}
+                onPress={() => setTimelineModal(!modalVisible)}
+              >
+                <Image
+                  source={require("../assets/add.png")}
+                  style={styles.crudIcon}
+                />
+              </Pressable>
+            </View>
+            <Pressable
+              style={[styles.crudIconContainer, { width: "45%" }]}
+              onPress={() =>
+                navigation.navigate("LibraryNavigation", {
+                  screen: "Goals",
+                })
+              }
+            >
+              <Image
+                source={require("../assets/bar-chart.png")}
+                style={styles.crudIcon}
+              />
+            </Pressable>
+          </View>
         </View>
 
         {user?.timeline?.length > 0 ? (
@@ -394,7 +412,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     padding: 20,
-    width: 150,
+    width: "45%",
     borderRadius: 8,
     backgroundColor: "#312C44",
     marginRight: 20,
@@ -416,7 +434,7 @@ const styles = StyleSheet.create({
     opacity: 20,
     borderRadius: 8,
     padding: 20,
-    width: 150,
+    width: "45%",
   },
   number_books: {
     marginTop: 10,
@@ -432,6 +450,7 @@ const styles = StyleSheet.create({
   },
   goals_container: {
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   containerTimeline: {
     padding: 20,
@@ -527,6 +546,7 @@ const styles = StyleSheet.create({
   },
   crud: {
     flexDirection: "row",
+    justifyContent: "space-between",
     borderRadius: 8,
     marginTop: 10,
   },
@@ -552,13 +572,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   crudIconContainer: {
-    textAlign: "center",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-around",
     backgroundColor: "#322F4C",
     padding: 20,
-    marginRight: 12,
+
     borderRadius: 8,
   },
   inputText: {
