@@ -4,7 +4,6 @@ import { useUser } from "../hooks/useUser";
 
 export default function Goals() {
   const { user } = useUser();
-  console.log(user.timeline);
 
   return (
     <View style={styles.container}>
@@ -13,8 +12,47 @@ export default function Goals() {
 
       <View styles={styles.goalsContainer}>
         <View style={styles.goal}>
-          <Text style={styles.goalTitle}>Leido</Text>
-          <Image source={user.timeline.items} />
+          <Text
+            style={{
+              color: "#fff",
+              fontFamily: "poppins-semi",
+              fontSize: 18,
+              marginBottom: 10,
+            }}
+          >
+            Leido
+          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Image
+              source={{ uri: user?.timeline[0].items[0]?.book?.cover }}
+              style={{
+                width: 100,
+                height: 150,
+                resizeMode: "contain",
+                borderRadius: 2,
+              }}
+            />
+            <Image
+              source={{ uri: user?.timeline[1]?.items[0]?.book?.cover }}
+              style={{
+                width: 100,
+                height: 150,
+                resizeMode: "contain",
+                marginLeft: -70,
+                borderRadius: 2,
+              }}
+            />
+            <Image
+              source={{ uri: user?.timeline[0]?.items[0]?.book?.cover }}
+              style={{
+                width: 100,
+                height: 150,
+                resizeMode: "contain",
+                borderRadius: 2,
+                marginLeft: -70,
+              }}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -40,7 +78,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#fff",
     marginTop: 10,
-    marginBottom: 0,
+    marginBottom: 20,
     marginRight: "auto",
     marginLeft: "auto",
   },
